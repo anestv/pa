@@ -1,0 +1,123 @@
+html {height:100%;}
+
+body {background: radial-gradient(#e0f5fd, #5099e9);}
+
+#success, #fail {
+  width: 15em;
+  margin: auto;
+  padding: 0.9em 0.4em;
+  border-radius: 10px;
+  font: 1.5em sans-serif;
+  text-align: center;
+}
+.aloneInPage{margin-top:5em !important;}
+#fail span, #success span {
+  background: rgba(245, 245, 245, 0.5);
+  color: darkslategrey;
+  padding: 3px;
+  border-radius: 5px;
+  font: 1.5em "Times New Roman", serif;
+}
+#success {
+  background: radial-gradient(#D3D3D3, #94EC88);
+  color: darkslateblue;
+}
+#fail {
+  background: radial-gradient(#D33F2B, #440906);
+  color: lightyellow;
+}
+#fail a {color:lightblue;/*gia na fainetai*/}
+
+form {
+  zoom:1.4;
+  text-align:center;
+  margin:auto;
+}
+input[type=number]{width:2em;}
+input:valid, textarea:valid{outline-color:green;}
+input:invalid, textarea:invalid{outline-color:red;}
+textarea {
+  color:black;/*gia na fainetai to keimeno*/
+  width:400px;
+  height:50px;
+  resize:vertical;
+  margin:0;
+}
+form.ask #askControls {
+  max-width:400px;
+  margin:auto;
+  overflow:hidden;
+  padding:2px;
+  border-radius:5px;
+}
+form img {
+  vertical-align: middle;
+  width: 20px;
+  cursor:help;
+}
+#askControls div{float:left;}
+#askControls input[type=submit]{float:right;}
+
+.question {
+  background: aliceblue;
+  padding: 5px;
+  margin: 7px;
+  border-radius:10px;
+  max-width:980px;
+}
+.question div.links {float: right;}
+.question .links a {
+  float:right;
+  padding:1px;
+}
+#qContainer {
+  max-width:1000px;
+  margin:auto;
+}
+#qContainer #noQs{
+  text-align: center;
+  max-width: 400px;
+  margin: auto;
+}
+
+output ul{
+  text-align:left;
+  list-style-image: url('res/del.svg');
+  display:inline-block;/*gia na pianei mono oso xwro xreiazetai*/
+  padding:1em;/*gia na mhn einai perissotero apo aristera*/
+}
+output ul li:hover {
+  cursor:pointer;
+  color:red;
+  text-decoration:underline;
+}
+
+.red {
+  color:white;
+  background:red;
+  font-weight:bold;
+}
+.orange {
+  color:black;
+  background:orange;
+}
+a.date {
+  color:gray;
+  font-size:0.8em;
+}
+a.date:hover {color:#555;}
+
+header {
+  min-width:700px;
+  max-width:900px;
+  display:table;
+  margin:auto;
+  border-radius:3em;
+  background:royalblue;
+  color:floralwhite;
+}
+header h1{
+  display:inline-block;
+  margin:.7em;
+  
+}
