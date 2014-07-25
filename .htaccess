@@ -1,0 +1,10 @@
+RewriteEngine On
+
+#gia ta relative links apo tis selides /question/ kai /user/
+#isws de xreiazetai logw tou <base> tag sta arxeia
+#RewriteRule ^(question|user)\/(\w+[\./]\w+)$ /pa/$2 [R]
+
+RewriteRule ^user/(\w{5,20})$ profile.php?user=$1
+RewriteRule ^question/(\d+)$ viewq.php?qid=$1
+
+#RewriteRule ^(question|user)/(\w+\.(css|js|php))$ ./$2 [R]

@@ -23,6 +23,6 @@ if ($owner === null) termin('This user does not exist or has deleted their accou
   font-family: '<?=$owner['textfont']?>', Calibri, Arial, sans-serif;
 }
 
-header, .question, button, #noQs, #askControls, #askControls input {
+header, .question, button, #noQs, .warn, #askControls, #askControls input {
   background-color: <?=$owner['backcolor']?>;
 }

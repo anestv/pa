@@ -58,6 +58,16 @@ form img {
 #askControls div{float:left;}
 #askControls input[type=submit]{float:right;}
 
+.warn {
+    max-width: 400px;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 0.7em auto;
+    padding: 5px;
+    border: 2px solid red;
+    border-radius: 8px;
+}
+
 .question {
   background: aliceblue;
   padding: 5px;
@@ -78,6 +88,13 @@ form img {
   text-align: center;
   max-width: 400px;
   margin: auto;
+}
+button#showMore {
+  min-width: 180px;
+  font-size: 1.1em;
+  margin: auto;
+  display: block;
+  max-width: 260px;
 }
 
 output ul{

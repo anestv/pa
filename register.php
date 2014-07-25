@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Registration - PrivateAsk</title>
 <link rel="stylesheet" type="text/css" href="general.css">
@@ -57,7 +57,7 @@ if(! empty($_SESSION['user'])){
   
   
   $query = "INSERT INTO users(username, hs_pass, realname) VALUES ('$user', '$passDB', '$realN')";
-  //$result = mysqli_query($con, $query);
+  $result = mysqli_query($con, $query);
   
   if (!$result)
     terminate("Due to an unknown error your account was not created", 500);

@@ -18,7 +18,7 @@ if (empty($_GET['user']))
   terminate('Required parameters were not provided', 400);
 
 $ownerName = mysqli_real_escape_string($con, $_GET['user']);
-$owner = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `users` WHERE `username` = '$ownerName';"));
+$owner = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM users WHERE username = '$ownerName';"));
 if ($owner === null) terminate('This user does not exist or has deleted their account', 404);
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
@@ -36,9 +36,11 @@ echo '<header><h1>'.$owner['realname']. "</h1><span>Username: $ownerName</span><
 
 
 if (empty($user) and $ask !== 'all')
-  echo 'You must log in to ask a question';
+  echo '<div class="warn">You must <a href="login.php">'.
+      'log in</a> to ask a question</div>';
 else if ($ask === 'friends' and !in_array($user, $ownerFr))
-  echo 'Sorry, you do not have the right to ask a question';
+  echo '<div class="warn">Sorry, you do not have'.
+      ' the right to ask a question</div>';
 else
   echo '<form method="post" class="ask" name="askForm" action="sent.php">
 <textarea name="question" placeholder="Ask a question" required maxlength="200">
@@ -49,7 +51,8 @@ else
 
 
 if (empty($user) and $see !== 'all')
-  echo 'You must <a href="login.php">log in</a> to view this user&#39;s question'; //TODO die h ma kapoio tropo mh proxwrhseis
+  die('<div class="warn">You must <a href="login.php">'.
+      'log in</a> to view this user&#39;s question<div>'); //TODO die h ma kapoio tropo mh proxwrhseis
 else if ($see === 'friends' and !in_array($user, $ownerFr))
   die();
 
