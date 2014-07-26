@@ -1,8 +1,8 @@
-PrivateAsk Source
+﻿PrivateAsk Source
 ===
 
 This project is currently in development.
-Bugs and error may occur frequently
+Bugs and errors may occur frequently
 
 - **Looking for where to start?**
 Why not go to [index.php](index.php)

@@ -8,13 +8,13 @@
 
 <?php
 
-if(! empty($_SESSION['user'])){
+if(! empty($user)){
   echo "You are already logged in";
   //TODO maybe redirect to home
 } else if ($_SERVER["REQUEST_METHOD"] === "POST"){
 
 
-  if (!isset($_POST["equation"]) or !isset($_SESSION["equation"])){
+  if (!(isset($_POST["equation"]) and isset($_SESSION["equation"]))){
     header("HTTP/1.1 418 I'm a teapot");
     die();
   } else if ($_POST["equation"] !== $_SESSION["equation"])

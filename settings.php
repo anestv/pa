@@ -7,10 +7,10 @@
 <body>
 
 <?php
-if (empty($_SESSION['user']))
+if (empty($user))
   terminate('You must be logged in to change your settings <br><a href="login.php">Log in</a>', 401);
 
-$settings = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `users` WHERE `username` = '$user';"));
+$settings = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM users WHERE username = '$user';"));
 
 if (empty($settings['username']))
   terminate("Your accont does not seem to exist.", 403);

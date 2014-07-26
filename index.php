@@ -6,12 +6,11 @@
 
 <?php
 
-if(empty($_SESSION['user'])) {
+if(empty($user)) {
   include_once("notLoggedIn.html");
   die();
 }
 
-$user = $_SESSION['user'];
 echo "Hello, $user!";
 
 ?>

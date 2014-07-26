@@ -20,10 +20,15 @@ if (empty($user))
 
 $question = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM questions WHERE id = $qid;"));
 
+
 if (empty($question['touser']))
   terminate("The question you have requested does not exist or has been deleted.", 404);
-$ownerName = $question['touser'];
 
+if (empty($question['answer']))
+  terminate('This question has not been answered yet.');
+
+
+$ownerName = $question['touser'];
 $owner = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM users WHERE username = '$ownerName';"));
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
@@ -36,16 +41,13 @@ $whosees = $owner['whosees'];
 if ($whosees === 'friends' and !in_array($user, $ownerFr))
   terminate('Sorry, you do not have the right to see this question', 403);
 
-if (empty($question['answer']))
-  terminate('This question has not been answered yet.');
-
 
 if ($_SERVER["REQUEST_METHOD"] === "POST"){
   if (empty($_POST['reason']))
     terminate("You did not tell us why you report this question");
   $reason = mysqli_real_escape_string($con, $_POST['reason']);
   
-  if (!in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'other')))
+  if (!in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
     terminate("Select one of the listed reasons", 400);
 
   
@@ -79,8 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
 
 
 if ($user === $ownerName)
-  echo 'This question was asked to you, so we suggest you 
-<a href="deleteq.php?qid='.$qid.'">delete this question</a> if it offends or annoys you';
+  echo 'This question was asked to you, so we suggest you <a href="deleteq.php?qid='.
+      .$qid . '">delete this question</a> if it offends or annoys you';
 else 
   echo '
 <form method="post">
@@ -93,8 +95,10 @@ else
 <label for="ri3">It violates the site&#39;s <a href="terms.html">Terms of Service</a></label><br>
 <input type="radio" id="ri4" name="reason" value="porn">
 <label for="ri4">It contains or links to porn</label><br>
-<input type="radio" id="ri5" name="reason" value="other">
-<label for="ri5">Something else</label><br>
+<input type="radio" id="ri5" name="reason" value="copyright">
+<label for="ri5">It contains copyrighted material</label><br>
+<input type="radio" id="ri6" name="reason" value="other">
+<label for="ri6">Something else</label><br>
 <input type="submit"></form>
 ';
 
