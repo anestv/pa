@@ -17,8 +17,8 @@
 if (empty($_GET['user']))
   terminate('Required parameters were not provided', 400);
 
-$ownerName = mysqli_real_escape_string($con, $_GET['user']);
-$owner = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM users WHERE username = '$ownerName';"));
+$ownerName = $con->real_escape_string($_GET['user']);
+$owner = mysqli_fetch_array($con->query("SELECT * FROM users WHERE username = '$ownerName';"));
 if ($owner === null) terminate('This user does not exist or has deleted their account', 404);
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
@@ -31,7 +31,6 @@ $see = $owner['whosees'];
 $ask = $owner['whoasks'];
 
 
-//TODO header with username and real name
 echo '<header><h1>'.$owner['realname']. "</h1><span>Username: $ownerName</span></header>";
 
 
@@ -50,11 +49,7 @@ else
 </div>').'<input type="submit" name="inpSubmit"></div></form>';
 
 
-if (empty($user) and $see !== 'all')
-  die('<div class="warn">You must <a href="login.php">'.
-      'log in</a> to view this user&#39;s question<div>'); //TODO die h ma kapoio tropo mh proxwrhseis
-else if ($see === 'friends' and !in_array($user, $ownerFr))
-  die();
+
 
 
 echo '<div id="qContainer">';

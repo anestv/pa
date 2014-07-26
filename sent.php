@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_POST['question']) and trim($_POST['question']))
-  $question=mysqli_real_escape_string($con, htmlspecialchars($_POST["question"]));
+  $question=$con->real_escape_string(htmlspecialchars($_POST["question"]));
 else terminate('You did not enter a question', 400);
 
 if (empty($_POST['pubAsk']) or $_POST['pubAsk'] != '1')
@@ -11,8 +11,8 @@ else $pubAsk = 1;
 if (empty($_POST['to']))
   terminate('Required parameters were not provided', 400);
 
-$ownerName = mysqli_real_escape_string($con, $_POST['to']);
-$owner = mysqli_fetch_array(mysqli_query($con,
+$ownerName = $con->real_escape_string($_POST['to']);
+$owner = mysqli_fetch_array($con->query(
     "SELECT * FROM users WHERE username = '$ownerName';"));
 if ($owner === null)
   terminate('This user does not exist or has deleted their account', 404);
@@ -45,7 +45,7 @@ if ($user === $ownerName) //TODO something better
 $query = "INSERT INTO questions (fromuser, touser, question, publicasker)".
   "VALUES ('$user', '$ownerName', '$question', $pubAsk);";
 
-$result = mysqli_query($con, $query);
+$result = $con->query($query);
 
 if ($result) echo "Your question has been submitted";
 else terminate("Due to an unknown error your question was not submitted", 500);

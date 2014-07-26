@@ -10,7 +10,7 @@
 if (empty($user))
   terminate('You must be logged in to change your settings <br><a href="login.php">Log in</a>', 401);
 
-$settings = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM users WHERE username = '$user';"));
+$settings = mysqli_fetch_array($con->query("SELECT * FROM users WHERE username = '$user';"));
 
 if (empty($settings['username']))
   terminate("Your accont does not seem to exist.", 403);
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
     terminate('Choose one of the shown privacy settings',400);
   
   if (isset($_POST['real']) and trim($_POST['real']))
-    $real= mysqli_real_escape_string($con, htmlspecialchars($_POST['real']));
+    $real= $con->real_escape_string(htmlspecialchars($_POST['real']));
   else terminate ("Please enter your real name", 400);
 
   if (isset($_POST['fontfamily']) and in_array($_POST['fontfamily'],$fonts))
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
       "whoasks = '$ask', backcolor = '$bcolor', textcolor = '$tcolor', ".
       "textfont = '$fontf' WHERE username = '$user';";
   echo $query;//
-$result = mysqli_query($con, $query);
+$result = $con->query($query);
   
   if (!$result) terminate("Due to an unknown error your settings were not changed", 500);
   else echo "Your settings have been changed!"; //TODO sth better

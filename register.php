@@ -21,7 +21,7 @@ if(! empty($user)){
     terminate("Wrong answer, seems you are not good at maths", 418);
   
   if (isset($_POST["username"]) and trim($_POST["username"]))
-    $user = mysqli_real_escape_string($con, $_POST["username"]);
+    $user = $con->real_escape_string($_POST["username"]);
   else terminate("A username was not given", 400);
 
   if (isset($_POST["password"]) and trim($_POST["password"]))
@@ -30,7 +30,7 @@ if(! empty($user)){
   
   
   if (isset($_POST["real"]) and trim($_POST["real"]))
-  	$realN = mysqli_real_escape_string($con, $_POST["real"]);
+  	$realN = $con->real_escape_string($_POST["real"]);
   else terminate("You did not enter your real name", 400);
   
   if($user != strip_tags($user))
@@ -39,11 +39,10 @@ if(! empty($user)){
     terminate('Please enter a password up to 100 characters');
   
   
-  $users_raw = mysqli_query($con, "SELECT username FROM users;");
-  while($row = mysqli_fetch_array($users_raw)) {
-    if ($user === $row['username'])
-      terminate('This username already exists', 400);
-  }
+  $user_exist_res = $con->query("SELECT username FROM users WHERE username LIKE '$user';");
+  if (!$user_exist_res or $user_exist_res->num_rows !== 0)
+    terminate('This username already exists', 409);
+  
   if ($user === 'deleteduser' or $user === 'anonymous')
     terminate("Do not use '$user' as a username, as it has a special meaning for the server");
   
@@ -53,11 +52,11 @@ if(! empty($user)){
   $alataki = base_convert($hexrand, 16, 30) . $_POST['rand'];
   $cr_arr = array('salt'=> $alataki, 'cost'=> 10);
   $hspass = password_hash($pass, PASSWORD_DEFAULT, $cr_arr);
-  $passDB = mysqli_real_escape_string($con, $hspass);
+  $passDB = $con->real_escape_string($hspass);
   
   
   $query = "INSERT INTO users(username, hs_pass, realname) VALUES ('$user', '$passDB', '$realN')";
-  $result = mysqli_query($con, $query);
+  $result = $con->query($query);
   
   if (!$result)
     terminate("Due to an unknown error your account was not created", 500);

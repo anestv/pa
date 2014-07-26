@@ -18,17 +18,16 @@ if (empty($user))
   terminate('You must log in to continue<br><a href="login.php">Log in</a>', 401);
 
 
-$question = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `questions` WHERE `id` = $qid;"));
+$question = mysqli_fetch_array($con->query("SELECT touser FROM questions WHERE id = $qid;"));
 
 if (empty($question['touser']))
   terminate("The question you have requested does not exist or has been deleted.", 404);
-$owner = $question['touser'];
 
 
-if ($owner !== $user)
+if ($question['touser'] !== $user)
   terminate('You cannot delete this question', 403);
 
-$del = mysqli_query($con, "DELETE FROM `questions` WHERE `id` = $qid;");
+$del = $con->query("DELETE FROM questions WHERE id = $qid;");
 if ($del) echo 'You have successfully deleted this question';
 else terminate('The question could not be deleted', 500);
 

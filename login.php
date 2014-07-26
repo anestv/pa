@@ -5,19 +5,7 @@
 </head>
 <body>
 
-
 <?php
-
-function get_post_prop($property, $return_escaped = true){
-  global $con;
-  
-  if (!(isset($_POST[$property]) and trim($_POST[$property])))
-    terminate("Parameter $property was not given", 400);
-  else if ($return_escaped)
-    return mysqli_real_escape_string($con, $_POST[$property]);
-  else return true;
-}
-
 
 if(! empty($_REQUEST['logout'])){ //thelei na aposundethei
   if(session_destroy())
@@ -33,7 +21,7 @@ if(! empty($_REQUEST['logout'])){ //thelei na aposundethei
 } else if ($_SERVER["REQUEST_METHOD"] === "POST"){ //thelei na sundethei
   
   if (isset($_POST["user"]) and trim($_POST["user"]))
-    $user = mysqli_real_escape_string($con, $_POST["user"]);
+    $user = $con->real_escape_string($_POST["user"]);
   else terminate("You did not specify a username", 400);
   
   if (isset($_POST['pass']) and trim($_POST['pass']))
@@ -41,7 +29,7 @@ if(! empty($_REQUEST['logout'])){ //thelei na aposundethei
   else terminate('You did not enter a password', 400);
   
   
-  $user_dbraw = mysqli_query($con, "SELECT username , hs_pass FROM users WHERE username = '$user';");
+  $user_dbraw = $con->query("SELECT username , hs_pass FROM users WHERE username = '$user';");
   if (! $user_dbraw) terminate("Querying database failed", 500);
   $user_db = mysqli_fetch_array($user_dbraw);
   
@@ -53,7 +41,7 @@ if(! empty($_REQUEST['logout'])){ //thelei na aposundethei
   	  terminate('The password you entered is incorrect');
   	
     //apotroph diagrafhs
-    mysqli_query($con,"UPDATE `users` SET `deleteon` = NULL WHERE `username` = '$user';");
+    $con->query("UPDATE users SET deleteon = NULL WHERE username = '$user';");
     if (mysqli_affected_rows($con) > 0)
       echo 'Your account has been recovered! Welcome back!';//den tha to diavasei giati tha ginei redirect
 
@@ -69,13 +57,10 @@ if(! empty($_REQUEST['logout'])){ //thelei na aposundethei
 ?>
 
 <form method="post" action="?"><!-- to ? einai gia na mhn ksanapaei sto ?logout=1 -->
-<input required name="user" type="text" placeholder="Username" autofocus>
-<br>
-<input required name="pass" type="password" placeholder="Password">
-<br>
+<input required name="user" type="text" placeholder="Username" autofocus><br>
+<input required name="pass" type="password" placeholder="Password"><br>
 <input type="checkbox" name="keep" id="keep">
-<label for="keep">Stay logged in</label>
-<br>
+<label for="keep">Stay logged in</label><br>
 <input type="submit">
 </form>
 

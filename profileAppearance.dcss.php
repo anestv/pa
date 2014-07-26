@@ -7,15 +7,12 @@ function termin($reason = '', $code = 0){
   die("/* Fatal error: $reason */");
 }
 
-
 if (empty($_GET['user']))
   termin('You did not specify a user', 400);
 
-$ownerName = mysqli_real_escape_string($con, $_GET['user']);
-$owner = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM users WHERE username = '$ownerName';"));
+$ownerName = $con->real_escape_string($_GET['user']);
+$owner = mysqli_fetch_array($con->query("SELECT * FROM users WHERE username = '$ownerName';"));
 if ($owner === null) termin('This user does not exist or has deleted their account', 404);
-
-
 ?>
 
 * {

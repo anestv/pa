@@ -18,7 +18,7 @@ if (empty($user))
   terminate('You must log in to continue<br><a href="login.php">Log in</a>', 401);
 
 
-$question = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM questions WHERE id = $qid;"));
+$question = mysqli_fetch_array($con->query("SELECT * FROM questions WHERE id = $qid;"));
 
 
 if (empty($question['touser']))
@@ -29,7 +29,7 @@ if (empty($question['answer']))
 
 
 $ownerName = $question['touser'];
-$owner = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM users WHERE username = '$ownerName';"));
+$owner = mysqli_fetch_array($con->query("SELECT * FROM users WHERE username = '$ownerName';"));
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
 array_push($ownerFr, $ownerName);
@@ -45,7 +45,7 @@ if ($whosees === 'friends' and !in_array($user, $ownerFr))
 if ($_SERVER["REQUEST_METHOD"] === "POST"){
   if (empty($_POST['reason']))
     terminate("You did not tell us why you report this question");
-  $reason = mysqli_real_escape_string($con, $_POST['reason']);
+  $reason = $con->real_escape_string($_POST['reason']);
   
   if (!in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
     terminate("Select one of the listed reasons", 400);
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
   //TODO other checks an xreiazetai
   
   $query = "INSERT INTO question_reports (qid, reporter, reason) VALUES ($qid, '$user', '$reason');";
-  $res = mysqli_query($con, $query);
+  $res = $con->query($query);
   if ($res) echo 'You have successfully reported this question';
   else terminate('This question could not be reported', 500);
 

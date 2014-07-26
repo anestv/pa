@@ -16,14 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){ //thelei na to diagrapsei
   	$pass = $_POST['pass'];
   else terminate('You did not enter a password', 400);
   
-  $userobj = mysqli_fetch_array(mysqli_query($con, "SELECT username , hs_pass FROM users WHERE username = '$user';"));
+  $userobj = mysqli_fetch_array($con->query("SELECT username , hs_pass FROM users WHERE username = '$user';"));
   
   if (!password_verify($pass, $userobj['hs_pass']))
   	terminate('The password you entered is incorrect');
   
 
   $query = "UPDATE users SET deleteon = CURRENT_DATE + INTERVAL 7 DAY WHERE username = '$user';"; //TODO where password=...
-  $res = mysqli_query($con, $query);
+  $res = $con->query($query);
   
   if (!$res) terminate('A server error occurred', 500);
   else {

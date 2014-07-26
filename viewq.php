@@ -17,13 +17,13 @@ if ((!is_numeric($_GET['qid'])) or ($_GET['qid'] <= 0))
 $qid = intval($_GET['qid']);
 
 
-$q = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `questions` WHERE `id` = $qid;"));
+$q = mysqli_fetch_array($con->query("SELECT * FROM `questions` WHERE `id` = $qid;"));
 
 if (empty($q['touser']))
   terminate("The question you have requested does not exist or has been deleted.", 404);
 $ownerName = $q['touser'];
 
-$owner = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `users` WHERE `username` = '$ownerName';"));
+$owner = mysqli_fetch_array($con->query("SELECT * FROM `users` WHERE `username` = '$ownerName';"));
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
 array_push($ownerFr, $ownerName);

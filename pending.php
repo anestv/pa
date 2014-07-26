@@ -3,18 +3,10 @@
 if(empty($user))
   terminate('You are not logged in <a href="login.php">Log in</a>', 401);
 
-
 $query = "SELECT * FROM questions WHERE touser = '$user' AND answer IS NULL ;";
-$questions_raw = mysqli_query($con, $query);
+$questions_raw = $con->query($query);
 
 if(!$questions_raw) terminate('A server error has occurred', 500);
-
-$questions = array();
-while($row = mysqli_fetch_array($questions_raw)) {
-  $curr = array('id'=> intval($row['id']), 'que'=>$row['question'], 'time'=> $row['timeasked']);
-  array_push($questions, $curr);
-}
-
 ?>
 
 <html>
@@ -26,16 +18,14 @@ while($row = mysqli_fetch_array($questions_raw)) {
 
 Hello, <?=$user?>
 
-<div id="qcont">
+<div id="qContainer">
 
 <?php
-foreach ($questions as $curr){
-  echo '<div class="question"><div class="links"><a href="answer.php?qid='. $curr['id']. '">Answer</a>';
-  echo '<br><a class="red" href="delquest.php?qid='. $curr['id']. '">Delete</a></div>';
-  echo '<span class="date">Asked: '. $curr['time'] .'</span><h3>'. $curr['que'] .'</h3></div>';
-
+while($row = mysqli_fetch_array($questions_raw)) {
+  echo '<div class="question"><div class="links"><a href="answer.php?qid='. $row['id']. '">Answer</a>';
+  echo '<br><a class="red" href="delquest.php?qid='. $row['id']. '">Delete</a></div>';
+  echo '<span class="date">Asked: '. $row['timeasked'] .'</span><h3>'. $row['question'] .'</h3></div>';
 }
-echo 'done!';
 ?>
 
 </div>
