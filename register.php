@@ -84,7 +84,7 @@ if(! empty($user)){
 
 ?>
 
-<form method="post" autocomplete="off" accept-charset="ASCII">
+<form method="post" autocomplete="off">
 <input type="text" maxlength="20" required name="username" placeholder="Username" pattern="\w{5,20}">
 <img src="res/info.svg" height="20" title="English letters and numbers allowed, 5-20 characters">
 <br>
