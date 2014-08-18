@@ -52,8 +52,8 @@ function doUserSearch() {
 <tbody>
   
   <?php 
-  while ($row = mysqli_fetch_array($res))
-    echo '<tr><td>'.$row['username'].'</td><td>'.$row['realname'].'</td></tr>';
+  while ($row = $res->fetch_array())
+    echo '<tr><td>'.$row['username'].'<td>'.$row['realname'];
   ?>
   
 </tbody>
@@ -86,7 +86,7 @@ if (!empty($_GET['lookfor'])){
   switch ($subj) {
     case 'u':  doUserSearch(); break;
     case 'qa': doQASearch(); break;
-    default:   terminate('Invalid search terms',400);
+    default: terminate('Invalid search terms',400);
   }
 }
 ?>

@@ -8,8 +8,8 @@
 
 <?php
 
-if(! empty($user)){
-  echo "You are already logged in";
+if($user){
+  echo "Hello $user, you are already logged in";
   //TODO maybe redirect to home
 } else if ($_SERVER["REQUEST_METHOD"] === "POST"){
 
@@ -35,11 +35,13 @@ if(! empty($user)){
   
   if($user != strip_tags($user))
     terminate("Do not include html special characters in your username", 400);
+  if (strlen($pass) < 6)
+    terminate('Please enter a password of more than 6 characters');
   if (strlen($pass) > 100)
     terminate('Please enter a password up to 100 characters');
   
   
-  $user_exist_res = $con->query("SELECT username FROM users WHERE username LIKE '$user';");
+  $user_exist_res = $con->query("SELECT username FROM users WHERE username = '$user';");
   if (!$user_exist_res or $user_exist_res->num_rows !== 0)
     terminate('This username already exists', 409);
   
@@ -49,7 +51,8 @@ if(! empty($user)){
   
   //tou kwdikou tou krufou to mperdema kai alatiasma (hash 'n' salt)
   $hexrand = bin2hex(openssl_random_pseudo_bytes(10));
-  $alataki = base_convert($hexrand, 16, 30) . $_POST['rand'];
+  $thirand = base_convert($hexrand, 16, 30);
+  $alataki = $thirand. $_POST['rand']. $thirand;
   $cr_arr = array('salt'=> $alataki, 'cost'=> 10);
   $hspass = password_hash($pass, PASSWORD_DEFAULT, $cr_arr);
   $passDB = $con->real_escape_string($hspass);

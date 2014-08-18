@@ -7,10 +7,10 @@
 <body>
 
 <?php
-if (empty($user))
+if (!$user)
   terminate('You must be logged in to change your settings <br><a href="login.php">Log in</a>', 401);
 
-$settings = mysqli_fetch_array($con->query("SELECT * FROM users WHERE username = '$user';"));
+$settings = $con->query("SELECT * FROM users WHERE username = '$user';")->fetch_array();
 
 if (empty($settings['username']))
   terminate("Your accont does not seem to exist.", 403);
@@ -46,11 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
   $query = "UPDATE users SET realname = '$real', whosees = '$see', ".
       "whoasks = '$ask', backcolor = '$bcolor', textcolor = '$tcolor', ".
       "textfont = '$fontf' WHERE username = '$user';";
-  echo $query;//
-$result = $con->query($query);
   
-  if (!$result) terminate("Due to an unknown error your settings were not changed", 500);
-  else echo "Your settings have been changed!"; //TODO sth better
+  $result = $con->query($query);
+  
+  if ($result) echo "Your settings have been changed!"; //TODO sth better
+  else echo "Your settings were not changed". $con->error;
   
   //xreiazontai gia na fainontai swsta ta
   //ta selected options meta apo update
@@ -91,8 +91,7 @@ Text color: <input type="color" name="tcolor" required value="<?=$settings['text
 Text font family: <select name="fontfamily" required>
  <?php
   foreach($fonts as $curr)
-    echo '<option'. ($settings['textfont']===$curr ? ' selected':'') .
-        ">$curr</option>";
+    echo '<option'.($settings['textfont']===$curr?' selected':'').">$curr</option>";
  ?>
 </select>
 
@@ -105,6 +104,7 @@ Who can ask you questions?
 <?=getLists('whoasks')?>
 
 <br><a href="friends.php">Manage your friends</a><br>
+<a href="changepass.php">Change your password</a><br>
 <a href="deleteacc.php" class="red">DELETE your account</a>
 
 <br><br>

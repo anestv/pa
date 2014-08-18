@@ -7,16 +7,13 @@
 
 <?php
 
-if(! empty($_REQUEST['logout'])){ //thelei na aposundethei
-  if(session_destroy())
-    echo "You have been successfully logged out";
-  else terminate("The current session could not be destroyed", 500);
-
-} else if(!empty($user)) { //hdh sundedemenos
-  echo "Hello $user, you are already logged in";
+if(! empty($_REQUEST['loggedOut'])) //came from logout.php
+  echo "You have been successfully logged out";
   
-  //TODO redirect or show message better
+else if($user) { //hdh sundedemenos
   
+  echo '<meta http-equiv="refresh" content="4;url=index.php">';
+  die("Hello $user, you are already logged in");
   
 } else if ($_SERVER["REQUEST_METHOD"] === "POST"){ //thelei na sundethei
   
@@ -30,8 +27,8 @@ if(! empty($_REQUEST['logout'])){ //thelei na aposundethei
   
   
   $user_dbraw = $con->query("SELECT username , hs_pass FROM users WHERE username = '$user';");
-  if (! $user_dbraw) terminate("Querying database failed", 500);
-  $user_db = mysqli_fetch_array($user_dbraw);
+  if (! $user_dbraw) terminate("Querying database failed: ".$con->error, 500);
+  $user_db = $user_dbraw->fetch_array();
   
   if($user_db['username'] == "")
     terminate('This user does not exist. Maybe you should <a hreg="register.php">register</a>');
@@ -42,7 +39,7 @@ if(! empty($_REQUEST['logout'])){ //thelei na aposundethei
   	
     //apotroph diagrafhs
     $con->query("UPDATE users SET deleteon = NULL WHERE username = '$user';");
-    if (mysqli_affected_rows($con) > 0)
+    if ($con->affected_rows > 0)
       echo 'Your account has been recovered! Welcome back!';//den tha to diavasei giati tha ginei redirect
 
     if (!empty($_POST["keep"]))

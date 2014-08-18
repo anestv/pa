@@ -1,10 +1,19 @@
+#enation XSS attacks
+#Header add Content-Security-Policy "default-src 'self'; report-uri /csp-report.php"
+
+#na xrhsimopoiei httpS gia 1 mhna
+#kelisto mexri na uparxei pistopitiko https
+#Header add Strict-Transport-Security "max-age=2592000"
+
+Header add P3P "policyref=\"/p3p.xml\", CP=\"OTI DSP COR CURa ADMa DEVi OUR IND COM NAV CNT\""
+
+#MUST be set HERE and NOT in php.ini
+#sto php.ini bainei se KATHE selida, dhaldh kai
+#tou phpmyadmin kai prokalei tromera provlimata
+php_value auto_prepend_file "prepend.php"
+
+
 RewriteEngine On
-
-#gia ta relative links apo tis selides /question/ kai /user/
-#isws de xreiazetai logw tou <base> tag sta arxeia
-#RewriteRule ^(question|user)\/(\w+[\./]\w+)$ /pa/$2 [R]
-
 RewriteRule ^user/(\w{5,20})$ profile.php?user=$1
 RewriteRule ^question/(\d+)$ viewq.php?qid=$1
-
 #RewriteRule ^(question|user)/(\w+\.(css|js|php))$ ./$2 [R]

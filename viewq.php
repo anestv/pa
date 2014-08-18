@@ -17,13 +17,13 @@ if ((!is_numeric($_GET['qid'])) or ($_GET['qid'] <= 0))
 $qid = intval($_GET['qid']);
 
 
-$q = mysqli_fetch_array($con->query("SELECT * FROM `questions` WHERE `id` = $qid;"));
+$q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
 
 if (empty($q['touser']))
   terminate("The question you have requested does not exist or has been deleted.", 404);
 $ownerName = $q['touser'];
 
-$owner = mysqli_fetch_array($con->query("SELECT * FROM `users` WHERE `username` = '$ownerName';"));
+$owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
 array_push($ownerFr, $ownerName);
@@ -51,6 +51,11 @@ function printDate($prop){
   $res .= date('G:i \o\n l j/n/y', $time) .'</span>';
   return $res;
 }
+
+function printUser($prop){
+  global $q;
+  echo '<a href="user/'.$q[$prop].'">'.$q[$prop].'</a><br>';
+}
 ?>
 
 <div class="question">
@@ -61,9 +66,9 @@ function printDate($prop){
   echo '<a class="red" href="deleteq.php?qid='.$qid .'">Delete this question</a>';
 ?></div>
 
-To: <a href="user/<?=$q['touser']?>"><?=$q['touser']?></a><br>
+To: <?=printUser('touser')?>
 <?php if ($q['publicasker'] and $q['fromuser'] !== 'deleteduser')
-  echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] ."</a><br>"; ?>
+  printUser('fromuser'); ?>
 Asked: <?=printDate('timeasked')?><br>
 Answered: <?=printDate('timeanswered')?><br>
 

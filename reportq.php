@@ -18,7 +18,7 @@ if (empty($user))
   terminate('You must log in to continue<br><a href="login.php">Log in</a>', 401);
 
 
-$question = mysqli_fetch_array($con->query("SELECT * FROM questions WHERE id = $qid;"));
+$question = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
 
 
 if (empty($question['touser']))
@@ -29,7 +29,7 @@ if (empty($question['answer']))
 
 
 $ownerName = $question['touser'];
-$owner = mysqli_fetch_array($con->query("SELECT * FROM users WHERE username = '$ownerName';"));
+$owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
 array_push($ownerFr, $ownerName);
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
   $query = "INSERT INTO question_reports (qid, reporter, reason) VALUES ($qid, '$user', '$reason');";
   $res = $con->query($query);
   if ($res) echo 'You have successfully reported this question';
-  else terminate('This question could not be reported', 500);
+  else 'This question could not be reported' . $con->error;
 
 } else { //dhladh einai GET
   
@@ -72,19 +72,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
     return $res;
   }
   
-  echo 'To: '.$question['touser'].'<br>';
+  echo '<div class="question">To: '.$question['touser'].'<br>';
   if ($question['publicasker'] and $question['fromuser'] !== 'deleteduser')
     echo "From: ".$question['fromuser'] ."<br>";
   echo 'Answered: '. printDate('timeanswered').'<br><h2>';
-  echo $question['question'].'</h2><p>'. $question['answer'] .'</p>';
+  echo $question['question'].'</h2><p>'. $question['answer'] .'</p></div>';
 }
 
 
 if ($user === $ownerName)
   echo 'This question was asked to you, so we suggest you <a href="deleteq.php?qid='.
-      .$qid . '">delete this question</a> if it offends or annoys you';
-else 
-  echo '
+      $qid .'">delete this question</a> if it offends or annoys you';
+else {
+?>
+
 <form method="post">
 <h3>What is wrong with this question / answer?</h3>
 <input type="radio" id="ri1" name="reason" value="illegal" required><!--one of all is required-->
@@ -100,9 +101,8 @@ else
 <input type="radio" id="ri6" name="reason" value="other">
 <label for="ri6">Something else</label><br>
 <input type="submit"></form>
-';
 
-?>
+<?php } ?>
 
 </body>
 </html>
