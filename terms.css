@@ -1,0 +1,30 @@
+body {
+    max-width: 900px;
+    background: aliceblue;
+    margin: auto;
+    padding: .5em;
+}
+
+h1 {
+    font-family: Bookman Old Style, Garamond, serif;
+    text-align: center;
+    color: #092437;
+}
+
+h2 {
+    font: bold 1.6em calibri, tahoma, sans-serif;
+    color: #510;
+}
+
+h3 {
+    color: #444044;
+    font: bold 1.3em Candara, Tahoma, sans-serif;
+}
+
+h4 {
+  font-size: 1.1em;
+}
+
+p {
+    text-align: justify;
+}

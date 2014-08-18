@@ -19,7 +19,7 @@ $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
 array_push($ownerFr, $ownerName);
 if ($owner['deleteon'] !== null)
-	terminate('This user has deactivated their account.');
+  terminate('This user has deactivated their account.');
 $see = $owner['whosees'];
 
 if (empty($user) and $see !== 'all')
@@ -55,12 +55,12 @@ $query = "SELECT * FROM questions WHERE timeanswered IS NOT NULL AND touser = '$
 ORDER BY timeanswered DESC LIMIT 11 OFFSET $offset ;";
 $res = $con->query($query);
 if (!$res) echo 'A server error has occurred';
-else if (mysqli_num_rows($res) === 0)
+else if ($res->num_rows === 0)
   http_response_code(204); //No content
 else {
-  $num = mysqli_num_rows($res);
+  $num = $res->num_rows;
   $i = 1;
-  while(($row = mysqli_fetch_array($res)) and $i !== 11) 
+  while(($row = $res->fetch_array()) and $i !== 11) 
     printQ($row, ($isLast = ($num === $i++))); //dhladh an auto einai to teleutaio
   
 }

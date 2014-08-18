@@ -12,7 +12,8 @@ xhrb.onreadystatechange = function(){
   } else if (xhrb.readyState === 4){ //Ready state 4 means the request is done
     if (xhrb.status === 204 || 
         xhrb.responseText.indexOf('data-last="1"') !== -1) //an den uparxei allo
-      showMore.remove() // showMore.onclick = null; //mhn ksanaakouseis to koumpi
+      showMore.remove();
+    else showMore.disabled = false;
     qContainer.innerHTML += xhrb.responseText;
     offset += 10;
   }
@@ -40,7 +41,6 @@ xhrf.onreadystatechange = function(){
       alert('Your question was not submitted. ' + descr);
     } else document.askForm.outerHTML = '<div id="success">Your question has '+
         'been submitted! <a href="user/'+ owner +'">Ask another one</a></div>';
-    
     
   }
 }

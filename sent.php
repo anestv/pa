@@ -32,8 +32,8 @@ else if ($ask === 'friends' and !in_array($user, $ownerFr))
 
 
 if (empty($user)) {
-	$user = 'anonymous';
-	$pubAsk = 0;
+  $user = 'anonymous';
+  $pubAsk = 0;
 }
 
 
