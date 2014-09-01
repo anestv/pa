@@ -97,13 +97,13 @@ button#showMore {
   max-width: 260px;
 }
 
-output ul{
+ul#friendList{
   text-align:left;
   list-style-image: url('res/del.svg');
   display:inline-block;/*gia na pianei mono oso xwro xreiazetai*/
   padding:1em;/*gia na mhn einai perissotero apo aristera*/
 }
-output ul li:hover {
+ul#friendList li:hover{
   cursor:pointer;
   color:red;
   text-decoration:underline;

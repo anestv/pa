@@ -18,7 +18,7 @@ if (empty($_GET['user']))
   terminate('Required parameters were not provided', 400);
 
 $ownerName = $con->real_escape_string($_GET['user']);
-$owner = mysqli_fetch_array($con->query("SELECT * FROM users WHERE username = '$ownerName';"));
+$owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
 if ($owner === null) terminate('This user does not exist or has deleted their account', 404);
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
@@ -66,6 +66,7 @@ if (!$isLast)
 
 ?>
 
-<script src="profile.js"></script>
+<script src="js/jquery2.min.js"></script>
+<script src="js/profile.js"></script>
 </body>
 </html>

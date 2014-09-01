@@ -18,9 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
   
   
   $users_raw = $con->query("SELECT username FROM users ;");
-  if(!$users_raw) terminate("An unknown server error has occurred", 500);
+  if(!$users_raw) terminate("An error has occurred".$con->error, 500);
   $users = array();
-  while($row = mysqli_fetch_array($users_raw))
+  while($row = $users_raw->fetch_array())
     array_push($users, $row['username']);
   
   
@@ -48,34 +48,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
   $result = $con->query($query);
   
   if (!$result)
-    terminate("Due to an unknown error your friends could not be changed", 500);
+    terminate("Your friends could not be changed ".$con->error, 500);
   else echo 'Your friends have been changed'; //TODO better
 } 
 
 $friends_raw = $con->query("SELECT friends FROM users WHERE username = '$user';");
-if (! $friends_raw) terminate("Querying database failed", 500);
-$friends_json = mysqli_fetch_array($friends_raw)['friends']; //in JSON
+if (! $friends_raw) terminate("Querying database failed ".$con->error, 500);
+$friends_json = $friends_raw->fetch_array()['friends']; //in JSON
 if (empty($friends)) $friends = json_decode($friends_json);
-
 
 ?>
 <noscript>JavaScript is required for this page</noscript>
 
-<form method="post" name="af">
+<form method="post">
 <input type="hidden" name="friends" value="<?=htmlspecialchars($friends_json)?>"><br>
 <input type="text" id="friendInput" name="friendInput" placeholder="Friends">
-<button type="button" name="addFr">+</button><br>
+<button type="button" id="addFriend">+</button><br>
+<!-- must be type=button or it will submit the form-->
 
-<output name="friendList"><ul>
+<ul id="friendList">
 <?php 
 foreach ($friends as $curr)
-  echo '<li>'. htmlspecialchars($curr);
+  echo "<li>$curr";
 ?>
 </ul>
-</output><br>
+<br>
 <input type="submit">
 </form>
-<script src="friends.js"></script>
+<script src="js/jquery2.min.js"></script>
+<script src="js/friends.js"></script>
 
 </body>
 </html>
