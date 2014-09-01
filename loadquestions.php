@@ -13,7 +13,7 @@ if (empty($ownerName)){
 
 
 //check if can view the content
-$owner = mysqli_fetch_array($con->query("SELECT * FROM users WHERE username = '$ownerName';"));
+$owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
 if ($owner === null) terminate('This user does not exist or has deleted their account', 404);
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
@@ -24,23 +24,22 @@ $see = $owner['whosees'];
 
 if (empty($user) and $see !== 'all')
   die('<div class="warn">You must <a href="login.php">'.
-    'log in</a> to view this user&#39;s question<div>');
+    'log in</a> to view this user&#39;s questions<div>');
 else if ($see === 'friends' and !in_array($user, $ownerFr))
   die();
 
 
 function printDate($q, $prop){
   $time = strtotime($q[$prop]);
-  $res = '<span title="'. date('r', $time) . '">';
-  $res .= date('G:i \o\n l j/n/y', $time) .'</span>';
-  return $res;
+  $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
+  return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
 }
-function printQ($q, $isLast){//TODO isLast
+function printQ($q){
   global $user, $ownerName;
-  echo '<div class="question"'. ($isLast? ' data-last="1"':'').'><div class="links">';
+  echo '<div class="question"><div class="links">';
   echo '<a class="orange" href="reportq.php?qid='. $q['id'] .'">Flag</a>';
   if ($ownerName === $user)
-    echo '<br><a class="red" href="deleteq.php?qid='. $q['id'] .'">Delete</a>';
+    echo '<br><a class="red deleteq" href="deleteq.php?qid='. $q['id'] .'">Delete</a>';
   echo '</div>';
   if ($q['publicasker'] and ($q['fromuser'] !== 'deleteduser'))
     echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] ."</a><br>";
@@ -54,15 +53,17 @@ function printQ($q, $isLast){//TODO isLast
 $query = "SELECT * FROM questions WHERE timeanswered IS NOT NULL AND touser = '$ownerName' 
 ORDER BY timeanswered DESC LIMIT 11 OFFSET $offset ;";
 $res = $con->query($query);
-if (!$res) echo 'A server error has occurred';
+if (!$res) echo 'A server error has occurred '.$con->error;
 else if ($res->num_rows === 0)
   http_response_code(204); //No content
 else {
-  $num = $res->num_rows;
-  $i = 1;
-  while(($row = $res->fetch_array()) and $i !== 11) 
-    printQ($row, ($isLast = ($num === $i++))); //dhladh an auto einai to teleutaio
   
+  $i = 1;
+  while(($row = $res->fetch_array()) and $i++ !== 11) 
+    printQ($row);
+  
+  if ($isLast = ($res->num_rows < 11))
+    echo '<div data-last="1"></div>';
 }
 
 ?>

@@ -1,5 +1,8 @@
 #enation XSS attacks
 #Header add Content-Security-Policy "default-src 'self'; report-uri /csp-report.php"
+Header add X-Content-Type-Options "nosniff"
+Header add X-Frame-Options "SAMEORIGIN"
+Header add X-XSS-Protection "1"
 
 #na xrhsimopoiei httpS gia 1 mhna
 #kelisto mexri na uparxei pistopitiko https
