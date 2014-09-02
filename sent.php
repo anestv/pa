@@ -4,7 +4,7 @@ if (isset($_POST['question']) and trim($_POST['question']))
   $question=$con->real_escape_string(htmlspecialchars($_POST["question"]));
 else terminate('You did not enter a question', 400);
 
-if (empty($_POST['pubAsk']) or $_POST['pubAsk'] != '1')
+if (empty($_POST['pubAsk']))
   $pubAsk = 0;
 else $pubAsk = 1;
 
@@ -12,15 +12,15 @@ if (empty($_POST['to']))
   terminate('Required parameters were not provided', 400);
 
 $ownerName = $con->real_escape_string($_POST['to']);
-$owner = mysqli_fetch_array($con->query(
-    "SELECT * FROM users WHERE username = '$ownerName';"));
+$owner = $con->query("SELECT * FROM users WHERE ".
+  "username = '$ownerName';")->fetch_array();
 if ($owner === null)
   terminate('This user does not exist or has deleted their account', 404);
 $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
 array_push($ownerFr, $ownerName);
 if ($owner['deleteon'] !== null)
-  terminate('This user has deactivated their account.');
+  terminate('This user has deactivated their account.', 404);
 
 $ask = $owner['whoasks'];
 
@@ -47,7 +47,7 @@ $query = "INSERT INTO questions (fromuser, touser, question, publicasker)".
 
 $result = $con->query($query);
 
-if ($result) echo "Your question has been submitted";
-else terminate("Due to an unknown error your question was not submitted", 500);
+if ($result) echo '<div id="success">Your question has been submitted</div>';
+else terminate("Your question was not submitted ".$con->error , 500);
 
 ?>

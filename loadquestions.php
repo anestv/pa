@@ -1,12 +1,20 @@
 <?php
 
+function termin($descr, $code, $diemsg = null){
+  if ($diemsg === null) $diemsg = $descr;
+  header("X-Error-Descr: $descr", true, $code);
+  die($diemsg);
+}
+
 if (empty($ownerName)){
   if (empty($_GET['user']) or !isset($_GET['offset']))
     terminate('Required parameters were not provided', 400);
   
   $ownerName = $con->real_escape_string($_GET['user']);
+  if (empty($_GET['offset']))
+    terminate('Required parameters were not provided', 400);
   if ((!is_numeric($_GET['offset'])) or ($_GET['offset'] < 0))
-    terminate('The question id is not of correct type.', 400);
+    terminate('The offset is not of correct type.', 400);
   $offset = intval($_GET['offset']);
 } else
   if (empty($offset)) $offset = 0;
@@ -19,14 +27,14 @@ $ownerFr = json_decode($owner['friends']);
 if ($ownerFr === null) terminate('A server error has occurred.', 500);
 array_push($ownerFr, $ownerName);
 if ($owner['deleteon'] !== null)
-  terminate('This user has deactivated their account.');
+  terminate('This user has deactivated their account.', 404);
 $see = $owner['whosees'];
 
 if (empty($user) and $see !== 'all')
-  die('<div class="warn">You must <a href="login.php">'.
-    'log in</a> to view this user&#39;s questions<div>');
+  termin('You must log in', 401, '<div class="warn">You must <a href='.
+    '"login.php">log in</a> to view this user&#39;s questions<div>');
 else if ($see === 'friends' and !in_array($user, $ownerFr))
-  die();
+  termin("You are not allowed to view this user's questions", 403,'');
 
 
 function printDate($q, $prop){
@@ -46,14 +54,14 @@ function printQ($q){
   echo '<a class="date" href="question/'. $q['id'] .'">Answered: ';
   echo printDate($q, 'timeanswered') .'</a><br><h2>';
   echo $q['question'] .'</h2><p>'.$q['answer'] .'</p></div>';
-  
 }
 
 
-$query = "SELECT * FROM questions WHERE timeanswered IS NOT NULL AND touser = '$ownerName' 
-ORDER BY timeanswered DESC LIMIT 11 OFFSET $offset ;";
+$query = "SELECT * FROM questions WHERE timeanswered IS NOT NULL AND touser".
+  " = '$ownerName' ORDER BY timeanswered DESC LIMIT 11 OFFSET $offset ;";
 $res = $con->query($query);
-if (!$res) echo 'A server error has occurred '.$con->error;
+if (!$res)
+  termin('Server error: '.$con->error, 500);
 else if ($res->num_rows === 0)
   http_response_code(204); //No content
 else {

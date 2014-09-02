@@ -30,7 +30,7 @@ function addFriend(){
   $('#friendInput').val('');
   
   if (friendName.trim() == '') {
-	  return alert("Enter a friend name");
+    return alert("Enter a friend name");
   }
   if (friends.indexOf(friendName) !== -1)
     return alert("You have already entered this friend");
@@ -48,6 +48,6 @@ function addFriend(){
 function removeFriend(){
   var index = friends.indexOf(this.innerHTML);
   if (index !== -1) friends.splice(index, 1);
-  console.log(index+this.innerHTML)
+  
   this.remove();
 }

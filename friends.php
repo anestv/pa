@@ -21,16 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
   if(!$users_raw) terminate("An error has occurred".$con->error, 500);
   $users = array();
   while($row = $users_raw->fetch_array())
-    array_push($users, $row['username']);
+    $users[] = $row['username']; //push to array
   
   
   $friends = json_decode($_POST["friends"]); //isws epikinduno alla to friends_str anti " exei \"
   if (! ($friends and is_array($friends)))
     terminate("Your friends were not provided as a correct JSON", 400);
   
-  if ($friends != array_unique($friends))
-    $friends = array_unique($friends);
-  
+  $friends = array_unique($friends);
   
   //mhpws exi ton eauto tou
   $userinfriends = array_search($user, $friends);
