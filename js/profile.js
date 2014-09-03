@@ -1,58 +1,43 @@
 $(document).ready(function() {
 
-
-var xhrb = new XMLHttpRequest();
-var xhrf = new XMLHttpRequest();
-var xhrd = new XMLHttpRequest();
-var qContainer = $('#qContainer');//document.getElementById('qContainer');
-var showMore = $('#showMore');// document.getElementById('showMore');
+var qContainer = $('#qContainer');
+var showMore = $('#showMore');
+var butSubmit = $('form.ask input[type="submit"]');
 var owner = document.body.getAttribute('data-owner');
 var offset = 10;
 
 
 //handle show more button
 
-xhrb.onreadystatechange = function(){
-  if (xhrb.readyState === 4){ //Ready state 4 means the request is done
-    if (xhrb.status === 204 || 
-        xhrb.responseText.indexOf('data-last="1"') !== -1) //an den uparxei allo
-      showMore.remove();
-    else {
-      showMore.prop({disabled: false});
-      showMore.html('Show More');
-    }
-    qContainer.append(xhrb.responseText);
-    offset += 10;
-  }
+function showMoreOK(data, status){
+  if (status ==='nocontent'||data.indexOf('<div data-last')!==-1)
+    showMore.remove();
+  else
+    showMore.prop('disabled', false).html('Show More');
+  
+  qContainer.append(data);
+  offset += 10;
 }
 
-if (showMore) showMore.click(function(){
-  showMore.prop({disabled: true});
-  showMore.html('Loading');
+showMore.click(function(){
+  showMore.prop('disabled', true).html('Loading...');
   
-  var page = 'loadquestions.php?user=' + owner + 
-      '&offset=' + offset;
-  xhrb.open('GET', page, true);
-  xhrb.send();
+  var page = 'loadquestions.php?user=' +
+      owner + '&offset=' + offset;
+  $.get(page, showMoreOK);
 });
 
 
 //handle form submitting
 
-xhrf.onreadystatechange = function(){
-  var butSubmit = document.askForm.inpSubmit;
-  if (xhrf.readyState === 4){ //Ready state 4 means the request is done
-    butSubmit.disabled = false;
-    butSubmit.value = null; //browser default
-    
-    if (xhrf.status !== 200 || xhrf.getResponseHeader('x-error-descr')){
-      descr = xhrf.getResponseHeader('x-error-descr');
-      alert('Your question was not submitted. ' + descr);
-    } else 
-      document.askForm.outerHTML = '<div id="success">Your question has '+
-      'been submitted! <a href="user/'+ owner +'">Ask another one</a></div>';
-      //TODO maybe overlay and then hide the top layer to avoid reloading
-  }
+function askOK(){
+  butSubmit.prop('disabled', false).html('Submit');
+  
+  document.askForm.reset();
+  
+  document.askForm.outerHTML = '<div id="success">Your question has '+
+  'been submitted! <a href="user/'+ owner +'">Ask another one</a></div>';
+  //TODO maybe overlay and then hide the top layer to avoid reloading
 }
 
 if (document.askForm) document.askForm.onsubmit = function(){
@@ -60,47 +45,55 @@ if (document.askForm) document.askForm.onsubmit = function(){
     alert('Please enter your question');
     return false;
   }
-  var question = encodeURIComponent(this.question.value);
-  var publicasker =(this.pubAsk && this.pubAsk.checked)? 1:'';
-  var touser = encodeURIComponent(owner);
   
+  butSubmit.prop('disabled', true).html('Submitting...');
   
-  butSubmit.disabled = true;
-  butSubmit.value = 'Loading';
-  
-  xhrf.open('POST', 'sent.php', true);
-  xhrf.setRequestHeader("Content-type",
-      "application/x-www-form-urlencoded");
-  xhrf.send("question=" + question + '&to=' +
-      touser + '&pubAsk=' + publicasker);
-
-  return false; //mhn upobaleis kanonika
+  $.post('sent.php', $('form.ask').serialize(), askOK);
+  return false;
 }
 
 
 //handle delete links
 
-xhrd.onreadystatechange = function(){
-  if (xhrd.readyState === 4){ //Ready state 4 means the request is done
-    
-    if (xhrd.status !== 200 || xhrd.getResponseHeader('x-error-descr')){
-      descr = xhrd.getResponseHeader('x-error-descr');
-      alert('The question was not deleted. ' + descr);
-    } else if(xhrd.responseText.indexOf('<div id="success">') !== -1)
-      alert('The question was deleted successfully!');
-  }
+function deleteOK(data, status, xhr){
+  
+  if (data.indexOf('<div id="success">') !== -1){
+    //alert('The question was deleted successfully!'); 
+    //is it obvious enough to omit the alert?
+    xhr.question.slideUp();
+  } else
+    alert("Something went wrong, the question was not deleted. That's all we know");
 }
-
 
 if ($('.deleteq').length)
   $('#qContainer').on('click', 'a.deleteq', function(e){
     if (!confirm('Delete this question?')) return false;
     
+    var qElement = $(this).parents('.question');
     var page = this.href + '&del=1';
-    xhrd.open('GET', page, true);
-    xhrd.send();
+    
+    $.get(page, deleteOK).question = qElement;
     
     return false;
+  });
+
+
+//error listener for all XHRs
+$(document).ajaxError(function(event, xhr, settings){
+  
+  var errorType;
+  if (settings.type === 'POST')
+    errorType = 'submit your question';
+  else if (settings.url.indexOf('?user=') !==-1)
+    errorType = 'load more questions';
+  else
+    errorType = 'delete this question';
+  
+  var errorMsg = 'Unfortynately we could not ' + errorType +
+    '. ' + xhr.getResponseHeader('X-Error-Descr');
+  
+  alert(errorMsg);
+  console.warn(xhr.getResponseHeader('X-Error-Descr'));
 });
 
 
