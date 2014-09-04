@@ -87,7 +87,9 @@ form img {
 #qContainer #noQs{
   text-align: center;
   max-width: 400px;
-  margin: auto;
+  margin: 0.5em auto;
+  font-size: large;
+  border-radius: 10px;
 }
 button#showMore {
   min-width: 180px;
@@ -136,5 +138,4 @@ header {
 header h1{
   display:inline-block;
   margin:.7em;
-  
 }
