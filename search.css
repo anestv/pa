@@ -1,4 +1,29 @@
 form {
-  border: 3px double black;
-  background: lime;
+  text-align: left;
+}
+
+aside {
+  top: 0.5em;
+  right: 0.5em;
+  bottom: 0.5em;
+  background: rgba(212, 240, 234, 0.45);
+  position: fixed;
+  overflow-y: auto;
+  padding: 0.4em;
+  border-radius: 1em;
+  width: 300px;
+}
+
+aside h4 {
+  display: inline;
+  font-size: 1em;
+}
+
+aside span.small{
+  font-size: 0.8em;
+}
+
+main {
+  margin: 1em;
+  padding-right: 310px;
 }
