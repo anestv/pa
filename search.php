@@ -96,51 +96,69 @@ function doUserSearch() {
   
 }
 
+function printDate($q, $prop){
+  $time = strtotime($q[$prop]);
+  $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
+  return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
+}
+function printQ($q){
+	echo '<div class="question"><div class="links">';
+	echo '<a class="orange" href="reportq.php?qid='. $q['id'] .'">Flag</a>';
+	echo '</div>To: <a href="user/'.$q['touser'].'">'.$q['touser'] ."</a>";
+	if ($q['publicasker'] and ($q['fromuser'] !== 'deleteduser'))
+		echo ' From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser']."</a>";
+	echo '<br><a class="date" href="question/'. $q['id'] .'">Answered: ';
+	echo printDate($q, 'timeanswered') .'</a><br><h2>';
+	echo $q['question'] .'</h2><p>'.$q['answer'] .'</p></div>';
+}
+
 function doQASearch() {
   global $con, $user;
+
+  $query = "SELECT * FROM questions WHERE answer IS NOT NULL";
   
-  if (empty($_GET['query']))
-    $textQ = '';
-  else {
+  if (!empty($_GET['query'])){
     if (strlen(trim($_GET['query'])) < 5)
       terminate('Please enter at least five characters as a query', 400);
     
     $escapedQuery = $con->real_escape_string($_GET['query']);
-    $textQ = " AND MATCH(question, answer) AGAINST ('$escapedQuery')";
+    $query .= " AND MATCH(question, answer) AGAINST ('$escapedQuery')";
   }
   
   
-  if (empty($_GET['fromuser']))
-    $fromuser = '';
-  else if (preg_match('/^\w{0,20}$/', $_GET['fromuser']) === 1)
+  if (empty($_GET['fromuser'])) $fromuser = '';
+  else if (preg_match('/^\w{5,20}$/', $_GET['fromuser']) === 1){
     $fromuser = $_GET['fromuser'];
-  else terminate("Enter a valid username at field 'From user'", 400);
+    if ($fromuser === 'deleteduser') $fromuser = '-';
+    // - is not a valid username, so no results will return
+  } else terminate("Enter a valid username at field 'From user'", 400);
   
-  if (empty($_GET['touser']))
-  	$touser = '';
-  else if (preg_match('/^\w{0,20}$/', $_GET['touser']) === 1)
+  if (empty($_GET['touser'])) $touser = '';
+  else if (preg_match('/^\w{5,20}$/', $_GET['touser']) === 1)
   	$touser = $_GET['touser'];
   else terminate("Enter a valid username at field 'To user'", 400);
   
-  if (empty($_GET['timeanswered']))
-    $dateQ = "";
-  else if (preg_match("/^(1|2)\\d{3}-(0[1-9]|10|11|12)$/", $_GET['timeanswered']) === 1){
-    $date = $_GET['timeanswered'] . '-01';
-    $dateQ = " AND timeanswered BETWEEN '$date' AND '$date' + INTERVAL 1 MONTH - INTERVAL 1 DAY";
-  } else terminate('Enter the month in the format yyyy-mm', 400);
+  if (!empty($_GET['timeanswered'])){
+    if (preg_match("/^(1|2)\\d{3}-(0[1-9]|10|11|12)$/", $_GET['timeanswered']) === 1){
+      $date = $_GET['timeanswered'] . '-01';
+      $query .= " AND timeanswered BETWEEN '$date' AND '$date' + INTERVAL 1 MONTH - INTERVAL 1 DAY";
+    } else terminate('Enter the month in the format yyyy-mm', 400);
+  }
   
-  $query = "SELECT * FROM questions WHERE
-    answer IS NOT NULL AND
-    fromuser LIKE '$fromuser%' AND
-    touser LIKE '$touser%' AND
-    touser IN (SELECT username FROM users WHERE deleteon IS NULL)";
-      //TODO SOS!! username may contain _ which means match any one character.
-      //it must be escaped: \_
+  if ($fromuser) $query .= " AND fromuser = '$fromuser'";
+  if ($touser) $query .= " AND touser = '$touser'";
+  
+  $query .= " AND touser IN (SELECT username FROM users WHERE deleteon IS NULL AND (";
+  if ($user){ //takes care of privacy
+    $query .= "whosees = 'users' OR friends LIKE '%\"";
+    $query .= escape($user)."\"%' OR username = '$user' OR ";
+  }
+  $query .= "whosees = 'all'))";
   
   if ($fromuser and $fromuser !== $user)
     $query .= ' AND publicasker = 1';
   
-  $query .= $textQ . $dateQ . ' LIMIT 100;';
+  $query .= " LIMIT 50;"; //maybe do something about the limit in the future
   
   $res = $con->query($query);
   
@@ -148,14 +166,16 @@ function doQASearch() {
   
   
   echo '<h2>Question search</h2>';
-  // TODO add qContainer, printQ() etc...
-  //var_dump($res);
-  //echo '<br><br>';
-  while ($row = $res->fetch_assoc()){
-    var_dump($row);
-    echo '<br>';
-  }
+  echo 'Found '.$res->num_rows .($res->num_rows === 1 ? ' result':' results');
+  echo '<div id="qContainer">';
   
+  if ($res->num_rows === 0)
+    echo '<div id="noQs">There are no questions matching your criteria</div>';
+  else 
+    while ($row = $res->fetch_assoc())
+      printQ($row);
+  
+  echo '</div>';
 }
 
 
