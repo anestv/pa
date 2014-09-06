@@ -1,6 +1,6 @@
 html {height:100%;}
 
-body {background: radial-gradient(#e0f5fd, #5099e9);}
+body {background: radial-gradient(#e0f5fd, #5099e9) fixed;}
 
 #success, #fail {
   width: 15em;

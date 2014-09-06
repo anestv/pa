@@ -1,5 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta name="application-name" content="PrivateAsk">
 <title>PrivateAsk</title>
 </head>
 <body>

@@ -28,17 +28,17 @@ if($user){
     $pass = $_POST["password"]; //no escaping because it will be hashed anyway
   else terminate("A password was not given", 400);
   
-  
   if (isset($_POST["real"]) and trim($_POST["real"]))
-  	$realN = $con->real_escape_string($_POST["real"]);
+    $realN = $con->real_escape_string($_POST["real"]);
   else terminate("You did not enter your real name", 400);
   
-  if($user != strip_tags($user))
-    terminate("Do not include html special characters in your username", 400);
+  
+  if (preg_match('/^\w{5,20}$/', $user) !== 1)
+    terminate('Enter 5-20 English letters and numbers as username', 400);
   if (strlen($pass) < 6)
-    terminate('Please enter a password of more than 6 characters');
+    terminate('Please enter a password of more than 6 characters', 400);
   if (strlen($pass) > 100)
-    terminate('Please enter a password up to 100 characters');
+    terminate('Please enter a password up to 100 characters', 400);
   
   
   $user_exist_res = $con->query("SELECT username FROM users WHERE username = '$user';");
@@ -46,7 +46,7 @@ if($user){
     terminate('This username already exists', 409);
   
   if ($user === 'deleteduser' or $user === 'anonymous')
-    terminate("Do not use '$user' as a username, as it has a special meaning for the server");
+    terminate("Do not use '$user' as a username, as it has a special meaning for the server", 400);
   
   
   //tou kwdikou tou krufou to mperdema kai alatiasma (hash 'n' salt)
@@ -62,7 +62,7 @@ if($user){
   $result = $con->query($query);
   
   if (!$result)
-    terminate("Due to an unknown error your account was not created", 500);
+    terminate("Your account was not created ". $con->error, 500);
   
   http_response_code(201); //created
   session_regenerate_id(true);
@@ -106,7 +106,6 @@ if($user){
 
 <input type="submit">
 </form>
-
 
 </body>
 </html>

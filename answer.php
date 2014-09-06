@@ -18,7 +18,7 @@ else
   $qid = intval($_GET['qid']);
 
 
-$q = mysqli_fetch_array($con->query("SELECT * FROM questions WHERE id = $qid;"));
+$q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
 
 if(empty($q['touser']))
   terminate("The question you have requested does not exist or has been deleted.", 404);
@@ -42,12 +42,9 @@ if(isset($_POST['answer']) and trim($_POST['answer'])) {
 
 function printDate($prop){
   global $q;
-  if (null === $q[$prop])
-    terminate("A strange error regarding $prop occured", 500);
   $time = strtotime($q[$prop]);
-  $res = '<span title="'. date('r', $time) . '">';
-  $res .= date('G:i \o\n l j/n/y', $time) .'</span>';
-  return $res;
+  $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
+  return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
 }
 
 ?>
@@ -66,7 +63,7 @@ Asked: <?=printDate('timeasked')?><br>
 </div>
 <br>
 <form method="post">
-<textarea name="answer" placeholder="Your answer" required maxlength="200"></textarea>
+<textarea name="answer" placeholder="Your answer" required autofocus maxlength="200"></textarea>
 <br><input type="submit">
 </form>
 
