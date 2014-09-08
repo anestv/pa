@@ -12,8 +12,8 @@ if (empty($_POST['to']))
   terminate('Required parameters were not provided', 400);
 
 $ownerName = $con->real_escape_string($_POST['to']);
-$owner = $con->query("SELECT * FROM users WHERE ".
-  "username = '$ownerName';")->fetch_array();
+$owner = $con->query("SELECT whoasks, friends, deleteon FROM users".
+  " WHERE username = '$ownerName';")->fetch_array();
 if ($owner === null)
   terminate('This user does not exist or has deleted their account', 404);
 $ownerFr = json_decode($owner['friends']);
@@ -34,12 +34,8 @@ else if ($ask === 'friends' and !in_array($user, $ownerFr))
 if (empty($user)) {
   $user = 'anonymous';
   $pubAsk = 0;
-}
-
-
-if ($user === $ownerName) //TODO something better
-  terminate('Are you problematic? Or do you have Down Syndrome? '.
-      'Ask yourself please, why would you ask yourself?', 418);
+} else if ($user === $ownerName)
+  $pubAsk = 1;
 
 
 $query = "INSERT INTO questions (fromuser, touser, question, publicasker)".

@@ -57,6 +57,7 @@ form img {
 }
 #askControls div{float:left;}
 #askControls input[type=submit]{float:right;}
+#askControls i {font-size: 0.7em;}
 
 .warn {
     max-width: 400px;

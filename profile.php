@@ -37,11 +37,8 @@ prokalei kuklous otan den einai auto ths selidas -->
 
 <?php
 
-
-
 $see = $owner['whosees'];
 $ask = $owner['whoasks'];
-
 
 echo '<header><h1>'.$owner['realname']. "</h1><span>Username: $ownerName</span></header>";
 
@@ -52,15 +49,21 @@ if (empty($user) and $ask !== 'all')
 else if ($ask === 'friends' and !in_array($user, $ownerFr))
   echo '<div class="warn">Sorry, you do not have'.
       ' the right to ask a question</div>';
-else
-  echo '<form method="post" class="ask" name="askForm" action="sent.php">
-<input type="hidden" name="to" value="'.$ownerName.'"><textarea 
+else {
+?>
+<form method="post" class="ask" name="askForm" action="sent.php">
+<input type="hidden" name="to" value="<?=$ownerName?>"><textarea 
 name="question" placeholder="Ask a question" required maxlength="200">
-</textarea><div id="askControls">'. (empty($user)? '': '<div>
-<input type="checkbox" name="pubAsk" id="publicaskcheckbox">
-<label for="publicaskcheckbox">Show that I asked this question</label>
-</div>').'<input type="submit" value="Submit"></div></form>';
-
+</textarea><div id="askControls">
+<?php 
+  if ($user === $ownerName)
+    echo "<i>Others will <u>see that you asked</u> this question</i>";
+  else if ($user)
+    echo '<div><input type="checkbox" name="pubAsk" id="publicaskcheckbox">
+    <label for="publicaskcheckbox">Show that I asked this question</label></div>';
+  
+  echo '<input type="submit" value="Submit"></div></form>';
+}
 
 echo '<div id="qContainer">';
 include("loadquestions.php");
