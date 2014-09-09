@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<img src="res/logo.svg" alt="PrivateAsk logo" height="100">
+
 <?php
 
 if(empty($user)) {
