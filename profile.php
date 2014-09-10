@@ -23,6 +23,7 @@ if ($owner['deleteon'] !== null)
 <link rel="stylesheet" type="text/css" href="general.css">
 <link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
 <link rel="stylesheet" type="text/css" href="profileAppearance.dcss.php?user=<?=$ownerName?>">
+<link rel="stylesheet" type="text/css" href="semantic.min.css">
 <meta charset="UTF-8"><!-- an exei elhnika -->
 
 <meta property="og:type" content="profile">
@@ -51,18 +52,21 @@ else if ($ask === 'friends' and !in_array($user, $ownerFr))
       ' the right to ask a question</div>';
 else {
 ?>
-<form method="post" class="ask" name="askForm" action="sent.php">
-<input type="hidden" name="to" value="<?=$ownerName?>"><textarea 
-name="question" placeholder="Ask a question" required maxlength="200">
+<form method="post" class="ask ui dimmable" action="sent.php">
+
+<div class="ui dimmer"><div class="content"><div class="center">
+Your question has been submitted!<br>Ask another one?
+</div></div></div><input type="hidden" name="to" value="<?=$ownerName?>">
+<textarea name="question" placeholder="Ask a question" required maxlength="200">
 </textarea><div id="askControls">
 <?php 
   if ($user === $ownerName)
     echo "<i>Others will <u>see that you asked</u> this question</i>";
   else if ($user)
-    echo '<div><input type="checkbox" name="pubAsk" id="publicaskcheckbox">
-    <label for="publicaskcheckbox">Show that I asked this question</label></div>';
+    echo '<label for="publicaskcheckbox"><input type="checkbox" name="pubAsk"
+    id="publicaskcheckbox">Show that I asked this question</label>';
   
-  echo '<input type="submit" value="Submit"></div></form>';
+  echo '<button type="submit">Ask</button></div></form>';
 }
 
 echo '<div id="qContainer">';
@@ -77,9 +81,13 @@ echo '</div>';
 if (!$isLast)
   echo '<button id="showMore">Show More</button>';
 
+if ($res->num_rows > 4)
+  echo '<div id="scrollTop"><i class="up arrow large icon"></i></div>';
+
 ?>
 
 <script src="js/jquery2.min.js"></script>
 <script src="js/profile.js"></script>
+<script src="js/semantic.min.js"></script>
 </body>
 </html>

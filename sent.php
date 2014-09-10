@@ -43,7 +43,15 @@ $query = "INSERT INTO questions (fromuser, touser, question, publicasker)".
 
 $result = $con->query($query);
 
-if ($result) echo '<div id="success">Your question has been submitted</div>';
+$reqestAJAX = isset(apache_request_headers()['X-Requested-With']) and 
+    apache_request_headers()['X-Requested-With'] === "XMLHttpRequest";
+
+if (!$reqestAJAX)
+  echo '<!DOCTYPE html><html><head><title>Ask a question - PrivateAsk</title>
+<link rel="stylesheet" type="text/css" href="general.css"></head><body>';
+
+if ($result) echo '<div id="success" class="aloneInPage">Your question has been submitted</div>';
 else terminate("Your question was not submitted ".$con->error , 500);
 
+if (!$reqestAJAX) echo '</body></html>';
 ?>

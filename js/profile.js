@@ -1,10 +1,25 @@
-$(document).ready(function() {
+$(function() {
 
 var qContainer = $('#qContainer');
-var showMore = $('#showMore');
-var butSubmit = $('form.ask input[type="submit"]');
-var owner = document.body.getAttribute('data-owner');
+var showMore = $('button#showMore');
+var butSubmit = $('form.ask #askControls button');
+var owner = $('body').data('owner');
 var offset = 10;
+
+
+//handle go to top button
+$(window).scroll(function (){
+  if ($(this).scrollTop() > 400) 
+    $('#scrollTop').fadeIn();
+  else 
+    $('#scrollTop').fadeOut();
+});
+
+$('#scrollTop').click(function (){
+  $("html, body").animate({scrollTop: 0}, 600);
+  return false;
+});
+
 
 
 //handle show more button
@@ -31,16 +46,12 @@ showMore.click(function(){
 //handle form submitting
 
 function askOK(){
-  butSubmit.prop('disabled', false).html('Submit');
+  butSubmit.prop('disabled', false).html('Ask');
   
-  document.askForm.reset();
-  
-  document.askForm.outerHTML = '<div id="success">Your question has '+
-  'been submitted! <a href="user/'+ owner +'">Ask another one</a></div>';
-  //TODO maybe overlay and then hide the top layer to avoid reloading
+  $('form.ask').trigger('reset').dimmer('show');
 }
 
-if (document.askForm) document.askForm.onsubmit = function(){
+$('form.ask').submit(function(){
   if (!this.question.value.trim()){
     alert('Please enter your question');
     return false;
@@ -48,9 +59,9 @@ if (document.askForm) document.askForm.onsubmit = function(){
   
   butSubmit.prop('disabled', true).html('Submitting...');
   
-  $.post('sent.php', $('form.ask').serialize(), askOK);
+  $.post('sent.php', $(this).serialize(), askOK);
   return false;
-}
+});
 
 
 //handle delete links
@@ -89,12 +100,20 @@ $(document).ajaxError(function(event, xhr, settings){
   else
     errorType = 'delete this question';
   
-  var errorMsg = 'Unfortynately we could not ' + errorType +
+  var errorMsg = 'Unfortunately we could not ' + errorType +
     '. ' + xhr.getResponseHeader('X-Error-Descr');
   
   alert(errorMsg);
   console.warn(xhr.getResponseHeader('X-Error-Descr'));
+  
+  var ce = xhr.status < 500; //if it's a client error
+  if (settings.type === "POST")
+    ce ? butSubmit.fadeOut(300) : butSubmit.prop('disabled', false).html('Ask');
+  else if (settings.url.indexOf('?user=') !==-1)
+    ce ? showMore.fadeOut(300) : showMore.prop('disabled', false).html('Show More');
+  else
+    ce ? $('#qContainer').off('click', 'a.deleteq') : null;
+  
 });
-
 
 });

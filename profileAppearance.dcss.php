@@ -23,6 +23,6 @@ if ($owner === null)
   font-family: '<?=$owner['textfont']?>', Calibri, Arial, sans-serif;
 }
 
-header, .question, button, #noQs, .warn, #askControls, #askControls input {
+header, .question, button, #noQs, .warn, #askControls {
   background-color: <?=$owner['backcolor']?>;
 }
