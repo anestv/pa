@@ -29,7 +29,6 @@ body {background: radial-gradient(#e0f5fd, #5099e9) fixed;}
 #fail a {color:lightblue;/*gia na fainetai*/}
 
 form {
-  zoom:1.4;
   text-align:center;
   margin:auto;
 }
@@ -70,15 +69,15 @@ form img {
     border-radius: 8px;
 }
 
-.question {
+div.question:not(.icon) {
   background: aliceblue;
   padding: 5px;
   margin: 7px;
   border-radius:10px;
   max-width:980px;
 }
-.question div.links {float: right;}
-.question .links a {
+div.question div.links {float: right;}
+div.question .links a {
   float:right;
   padding:1px;
 }
@@ -126,12 +125,12 @@ ul#friendList li:hover{
   text-decoration:underline;
 }
 
-.red {
+.red:not(.icon,.ui) {
   color:white;
   background:red;
   font-weight:bold;
 }
-.orange {
+.orange:not(.icon,.ui) {
   color:black;
   background:orange;
 }

@@ -1,10 +1,39 @@
 <!-- no <html <head> <body> tags here as this is made to be included in index.php when a user is not logged in -->
 
-<h1>Welcome to PrivateAsk!</h1>
-<h3>Like Ask, but private!</h3>
-<p>You control who can ask you and who can see what you answer!</p>
-<p>Please understand that the site is currently being developed, so bugs may exist and errors may frequently occur.</p>
-<p>You may now want to <a href="login.php">Log in</a> or <a href="register.php">Register a new account</a></p>
+<h1 class="ui black huge block header" style="
+    font-family: segoe ui,trebuchet ms,tahoma,sans-serif;
+    font-weight: 100;
+">
+<div class="content">Welcome to PrivateAsk!
+<h3 class="sub header">Like Ask, but private!</h3></div></h1>
+
+
+<p class="ui floating info message">You control who can ask you and who can see what you answer!</p>
+<p class="ui floating warning message">Please understand that the site is currently being developed, 
+so bugs may exist and errors may frequently occur.</p>
+
+<div class="ui two column middle aligned relaxed grid segment">
+  <div class="column"><h3 class="ui top attached header">Log in</h3>
+    <form action="login.php" method="POST" class="ui bottom attached form segment">
+      <div class="ui left labeled field icon input">
+          <input name="user" required type="text" placeholder="Username">
+          <i class="user icon"></i>
+          <div class="ui corner label"><i class="red asterisk icon"></i></div>
+        </div>
+      <div class="ui left labeled field icon input">
+          <input name="pass" required type="password" placeholder="Password">
+          <i class="lock icon"></i>
+          <div class="ui corner label"><i class="red asterisk icon"></i></div>
+        </div>
+      <button type="submit" class="ui blue button">Log in</button>
+  </form></div>
+  <div class="center aligned column">
+    <a class="huge green ui labeled icon button" href="register.php">
+      <i class="signup icon"></i>Register
+    </a>
+  </div>
+  <div class="ui vertical divider">Or</div>
+</div>
 
 </body>
 </html>

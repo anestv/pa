@@ -46,7 +46,10 @@ else if($user) { //hdh sundedemenos
       session_set_cookie_params(60*60*24*7); //1 evdomada
     session_regenerate_id(true);
     $_SESSION['user'] = $user;
-    echo '<meta http-equiv="refresh" content="0;url=index.php">';
+    
+    if (isset($_SERVER['HTTP_REFERER']) and substr($_SERVER['HTTP_REFERER'], -4) === '/pa/')
+      header("Location: http://".$_SERVER['HTTP_HOST']."/pa/", true, 302);
+    else echo '<meta http-equiv="refresh" content="0;url=index.php">';
   }
   
 }

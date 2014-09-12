@@ -11,3 +11,6 @@ If you would like to do so, you must get an express permission from me.
 The content of this project is provided **"AS IS"**, without any guarantees 
 or promises. Use it at your own responsibility. Under no circumstances am I 
 liable for any damage resulted from using the contents of this project.
+
+Note: this licence **does not apply** to external libraries or dependancies 
+that may be used, such as jQuery or Semantic UI.
