@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
 <meta name="application-name" content="PrivateAsk">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="semantic.min.css">
+<link rel="stylesheet" type="text/css" href="index.css">
 <title>PrivateAsk</title>
 </head>
 <body>
-
-<img src="res/logo.svg" alt="PrivateAsk logo" height="100" style="
-    right: 30px;
-    position: absolute;
-">
 
 <?php
 
@@ -19,18 +16,30 @@ if (!$user) {
   die();
 }
 
-echo "Hello, $user!";
-
+function writeUnseen(){
+  global $con, $user;
+  
+  $query = "SELECT COUNT(*) FROM questions WHERE touser = '$user' AND answer IS NULL;";
+  $res = $con->query($query);
+  $unseen = intval($res->fetch_array()[0]);
+  if ($unseen > 99) $unseen = '99+';
+  
+  if ($unseen)
+    return ' <div class="ui red label" id="unansweredCount">'.$unseen .'</div>';
+  else return '';
+}
 ?>
 
-<div class="ui buttons">
-<a class="ui blue button" href="user/<?=$user?>"><i class="user icon"></i>Your profile</a>
-<a class="ui teal button" href="search.php"><i class="search icon"></i>Search</a>
-<a class="ui green button" href="pending.php"><i class="question icon"></i>Pending questions</a>
-<a class="ui purple button" href="settings.php"><i class="setting icon"></i>Settings</a>
-<a class="ui vk button" href="help.html" rel="help"><i class="help icon"></i>Help - FAQ</a>
-<a class="ui button" href="logout.php"><i class="sign out icon"></i>Log out</a>
-</div>
+<nav class="ui seven item inverted fluid menu">
+<img class="item" src="res/logo.svg" alt="PrivateAsk logo" height="50">
+<a class="item" href="user/<?=$user?>"><i class="user icon"></i>Your profile</a>
+<a class="item" href="search.php"><i class="search icon"></i> Search</a>
+<a class="item" href="pending.php"><i class="question icon"></i>
+Pending questions<?=writeUnseen()?></a>
+<a class="item" href="settings.php"><i class="setting icon"></i>Settings</a>
+<a class="item" href="help.html" rel="help"><i class="help icon"></i>Help - FAQ</a>
+<a class="item" href="logout.php"><i class="sign out icon"></i>Log out</a>
+</nav>
 
 </body>
 </html>
