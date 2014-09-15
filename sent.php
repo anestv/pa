@@ -39,7 +39,7 @@ if (empty($user)) {
 
 
 $query = "INSERT INTO questions (fromuser, touser, question, publicasker)".
-  "VALUES ('$user', '$ownerName', '$question', $pubAsk);";
+ " VALUES ('$user', '$ownerName', '$question', $pubAsk);";
 
 $result = $con->query($query);
 

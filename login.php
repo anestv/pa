@@ -7,7 +7,7 @@
 
 <?php
 
-if(! empty($_REQUEST['loggedOut'])) //came from logout.php
+if(!empty($_REQUEST['loggedOut']) and empty($user)) //came from logout.php
   echo "You have been successfully logged out";
   
 else if($user) { //hdh sundedemenos
@@ -31,7 +31,7 @@ else if($user) { //hdh sundedemenos
   $user_db = $user_dbraw->fetch_array();
   
   if($user_db['username'] == "")
-    terminate('This user does not exist. Maybe you should <a hreg="register.php">register</a>');
+    terminate('This user does not exist. Maybe you should <a href="register.php">register</a>');
   
   if ($user === $user_db['username']){
   	if (!password_verify($pass, $user_db['hs_pass']))
