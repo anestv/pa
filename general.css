@@ -42,7 +42,7 @@ textarea {
   resize:vertical;
   margin:0;
 }
-form.ask {max-width: 420px;}
+form.ask.ui.form {max-width: 420px;}
 form.ask #askControls {
   max-width:400px;
   margin:auto;
@@ -57,30 +57,44 @@ form img {
 }
 #askControls label{float:left;}
 #askControls button{float:right;}
-#askControls i {font-size: 0.7em;}
 
 .warn {
-    max-width: 400px;
-    font-weight: bold;
-    font-size: 1.2em;
-    margin: 0.7em auto;
-    padding: 5px;
-    border: 2px solid red;
-    border-radius: 8px;
+  max-width: 400px;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 0.7em auto;
+  padding: 5px;
+  border: 2px solid red;
+  border-radius: 8px;
 }
 
 div.question:not(.icon) {
-  background: aliceblue;
-  padding: 5px;
-  margin: 7px;
-  border-radius:10px;
-  max-width:980px;
+  margin: 1em 0;
+  max-width: 980px;
 }
+
+div.question>.ui.header {
+  background-color: #F8981F;
+  color: #FFF;
+}
+div.question>.ui.header > a {color:#EEE;}
+div.question>.ui.header > a:hover {color:#FFF;}
+div.question>.ui.header:after {
+  content: '';
+  display: block;
+  clear: both;
+  height:0;
+}
+div.question a.date {float: right;}
 div.question div.links {float: right;}
-div.question .links a {
-  float:right;
-  padding:1px;
+div.question div.links a {
+  text-decoration: none;
+  padding: 1px;
 }
+div.question .ui.segment > h3.header {
+  margin-top: 0;
+}
+
 #qContainer {
   max-width:1000px;
   margin:auto;
@@ -103,14 +117,8 @@ button#showMore {
 #scrollTop {
   display: none;
   position: fixed;
-  background: rgba(20, 20, 20, 0.7);
-  cursor: pointer;
-  right: 7em;
+  right: 5em;
   bottom: 2em;
-  width: 30px;
-  height: 28px;
-  padding: 4px 2px 2px;
-  border-radius: 20%;
 }
 
 ul#friendList{
@@ -125,12 +133,12 @@ ul#friendList li:hover{
   text-decoration:underline;
 }
 
-.red:not(.icon,.ui) {
+.red:not(.icon):not(.ui) {
   color:white;
   background:red;
   font-weight:bold;
 }
-.orange:not(.icon,.ui) {
+.orange:not(.icon):not(.ui) {
   color:black;
   background:orange;
 }
@@ -149,7 +157,8 @@ header {
   background:royalblue;
   color:floralwhite;
 }
-header h1{
+header h1 {
   display:inline-block;
   margin:.7em;
 }
+header i.user.icon {vertical-align: initial;}

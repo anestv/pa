@@ -44,16 +44,20 @@ function printDate($q, $prop){
 }
 function printQ($q){
   global $user, $ownerName;
-  echo '<div class="question"><div class="links">';
-  echo '<a class="orange" href="reportq.php?qid='. $q['id'] .'">Flag</a>';
-  if ($ownerName === $user)
-    echo '<br><a class="red deleteq" href="deleteq.php?qid='. $q['id'] .'">Delete</a>';
-  echo '</div>';
+  
+  echo '<div class="question"><div class="ui top attached tiny header">';
   if ($q['publicasker'] and ($q['fromuser'] !== 'deleteduser'))
-    echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] ."</a><br>";
+  	echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] .'</a>';
   echo '<a class="date" href="question/'. $q['id'] .'">Answered: ';
-  echo printDate($q, 'timeanswered') .'</a><br><h2>';
-  echo $q['question'] .'</h2><p>'.$q['answer'] .'</p></div>';
+  echo printDate($q, 'timeanswered') . '</a></div>';
+  echo '<div class="ui piled bottom attached segment"><div class="links">';
+  echo '<a href="reportq.php?qid='.$q['id'].'"><i class="red flag link icon"></i></a>';
+  if ($ownerName === $user) {
+  	echo '<br><a class="deleteq" href="deleteq.php?qid=';
+    echo $q['id'] .'"><i class="red trash link icon"></i></a>';
+  }
+  echo '</div><h3 class="ui header">' . $q['question'] . '</h3>';
+  echo '<p>'. $q['answer'] . '</p></div></div>';
 }
 
 

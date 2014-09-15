@@ -22,7 +22,7 @@ if ($owner['deleteon'] !== null)
 <title><?=$ownerName?> - PrivateAsk</title>
 <link rel="stylesheet" type="text/css" href="general.css">
 <link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
-<link rel="stylesheet" type="text/css" href="profileAppearance.dcss.php?user=<?=$ownerName?>">
+<!-- <link rel="stylesheet" type="text/css" href="profileAppearance.dcss.php?user=<?=$ownerName?>"> -->
 <link rel="stylesheet" type="text/css" href="semantic.min.css">
 <meta charset="UTF-8"><!-- an exei elhnika -->
 
@@ -41,7 +41,8 @@ prokalei kuklous otan den einai auto ths selidas -->
 $see = $owner['whosees'];
 $ask = $owner['whoasks'];
 
-echo '<header><h1>'.$owner['realname']. "</h1><span>Username: $ownerName</span></header>";
+echo '<header><i class="user big circular icon"></i><h1>';
+echo $owner['realname']. "</h1><span>Username: $ownerName</span></header>";
 
 
 if (empty($user) and $ask !== 'all')
@@ -52,7 +53,7 @@ else if ($ask === 'friends' and !in_array($user, $ownerFr))
       ' the right to ask a question</div>';
 else {
 ?>
-<form method="post" class="ask ui dimmable" action="sent.php">
+<form method="post" class="ask ui dimmable form" action="sent.php">
 
 <div class="ui dimmer"><div class="content"><div class="center">
 Your question has been submitted!<br>Ask another one?
@@ -82,7 +83,7 @@ if (!$isLast)
   echo '<button id="showMore">Show More</button>';
 
 if ($res->num_rows > 4)
-  echo '<div id="scrollTop"><i class="up arrow large icon"></i></div>';
+  echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';
 
 ?>
 
