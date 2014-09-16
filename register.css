@@ -1,0 +1,25 @@
+h1.ui.inverted.block.header {
+  background-color: #f98f00;
+  font-family: segoe ui, trebuchet ms, tahoma, sans-serif;
+  font-weight: 100;
+}
+
+h1.ui.inverted.block.header i.home.icon {
+  float: left;
+  margin-left: 1em;
+  margin-right: -1em;
+  color: #FFF;
+  text-decoration: none;
+}
+
+#mperdevoBots {
+  width: 0;
+  opacity: 0.1;
+  left: -100em;
+  position: absolute;
+}
+
+.ui.pointing.below.label, .ui.pointing.below.label:before {
+  background-color: #4bf;
+  color: #FFF;
+}
