@@ -22,7 +22,7 @@
 function get($prop){
   echo 'name="'. $prop .'"';
   if (!empty($_GET[$prop]))
-    echo '" value="'.$_GET[$prop].'"';
+    echo ' value="'.$_GET[$prop].'"';
 }
 ?>
 
@@ -91,24 +91,34 @@ function doUserSearch() {
       escape($username)."%' AND realname LIKE '".escape($realname)."%';";
   $res = $con->query($query);
   if (!$res) terminate('An error occured '.$con->error, 500);
-  
-  echo '<h2>User search</h2>';
-  echo 'Found '.$res->num_rows . ($res->num_rows === 1 ? ' result' : ' results');
 ?>
+<h2>User search</h2>
 
-<table id="userList"><!-- TODO maybe with SemanticUI animated list -->
+<table id="userList" class="ui collapsing padded table segment">
 <thead><tr>
   <th>Username</th>
   <th>Real Name</th>
+  <th>Link</th>
 </tr></thead>
 <tbody>
   
   <?php 
-  while ($row = $res->fetch_array())
-    echo '<tr><td><a href="user/'.$row['username'].'">'.$row['username'].'</a><td>'.$row['realname'];
-  ?>
+  while ($row = $res->fetch_array()){
+    echo '<tr><td>'.$row['username'].'</a><td>'.$row['realname'];
+    echo '<td><a href="user/'.$row['username'].'"><i class="url teal link icon"></i></a>';
+  }?>
   
 </tbody>
+<tfoot><tr>
+  <?php 
+  if ($res->num_rows > 0){
+    echo '<th colspan="3" class="ui info message"><i class="checkmark icon"></i>Found ';
+    echo $res->num_rows .' result'. ($res->num_rows === 1 ? '':'s') . '</th>';
+  } else {
+    echo '<th colspan="3" class="ui warning message">';
+    echo '<i class="warning icon"></i>Did not find any results</th>';
+  }?>
+</tr></tfoot>
 </table>
   <?php 
   
@@ -120,14 +130,17 @@ function printDate($q, $prop){
   return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
 }
 function printQ($q){
-	echo '<div class="question"><div class="links">';
-	echo '<a class="orange" href="reportq.php?qid='. $q['id'] .'">Flag</a>';
-	echo '</div>To: <a href="user/'.$q['touser'].'">'.$q['touser'] ."</a>";
-	if ($q['publicasker'] and ($q['fromuser'] !== 'deleteduser'))
-		echo ' From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser']."</a>";
-	echo '<br><a class="date" href="question/'. $q['id'] .'">Answered: ';
-	echo printDate($q, 'timeanswered') .'</a><br><h2>';
-	echo $q['question'] .'</h2><p>'.$q['answer'] .'</p></div>';
+  echo '<div class="question"><div class="ui top attached tiny header">';
+  echo 'To: <a href="user/'. $q['touser'].'">'. $q['touser'] .'</a>&emsp;';
+  if ($q['publicasker'] and ($q['fromuser'] !== 'deleteduser'))
+    echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] .'</a>';
+  echo '<a class="date" href="question/'. $q['id'] .'">Answered: ';
+  echo printDate($q, 'timeanswered') . '</a></div>';
+  echo '<div class="ui piled bottom attached segment"><div class="links">';
+  echo '<a href="reportq.php?qid='.$q['id'].'"><i class="red flag link icon"></i></a>';
+  
+  echo '</div><h3 class="ui header">' . $q['question'] .'</h3>';
+  echo '<p>'. $q['answer'] . '</p></div></div>';
 }
 
 function doQASearch() {
@@ -179,21 +192,21 @@ function doQASearch() {
   $query .= " LIMIT 50;"; //maybe do something about the limit in the future
   
   $res = $con->query($query);
-  
   if (!$res) terminate('Server error '.$con->error, 400);
   
-  
   echo '<h2>Question search</h2>';
-  echo 'Found '.$res->num_rows .($res->num_rows === 1 ? ' result':' results');
-  echo '<div id="qContainer">';
   
-  if ($res->num_rows === 0)
-    echo '<div id="noQs">There are no questions matching your criteria</div>';
-  else 
+  if ($res->num_rows === 0){
+    echo '<div class="ui warning message"><i class="warning icon">';
+    echo '</i>There are no questions matching your criteria</div>';
+  } else {
+    echo '<div class="ui info message"><i class="checkmark icon"></i>Found ';
+    echo $res->num_rows .' result'. ($res->num_rows === 1 ? '':'s') .'</div>';
+    echo '<div id="qContainer">';
     while ($row = $res->fetch_assoc())
       printQ($row);
-  
-  echo '</div>';
+    echo '</div>';
+  }
 }
 
 
