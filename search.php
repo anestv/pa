@@ -3,8 +3,13 @@
 <head>
 <title>Search - PrivateAsk</title>
 <link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="semantic.min.css">
 <link rel="stylesheet" type="text/css" href="search.css">
 <meta charset="utf-8">
+<noscript><style>
+   aside .ui.tab {display: initial;}
+  .ui.tabular.menu {display:none;}
+</style></noscript>
 </head>
 <body>
 
@@ -15,35 +20,47 @@
 
 <?php
 function get($prop){
-  if (isset($_GET[$prop]))
-    return 'value="'.$_GET[$prop].'"';
-  else return '';
+  echo 'name="'. $prop .'"';
+  if (!empty($_GET[$prop]))
+    echo '" value="'.$_GET[$prop].'"';
 }
 ?>
 
 <!-- bar with search options -->
 <aside>
-  <form name="user">
+  <div class="ui tabular menu">
+    <a class="active item" data-tab="users">Users</a>
+    <a class="item" data-tab="qa">Questions</a>
+  </div>
+  <!-- name attribute for inputs is inserted by get() -->
+  
+  <form name="user" class="ui form active tab" autocomplete="off" data-tab="users">
     <input type="hidden" name="lookfor" value="u">
-    <h4>Search for users</h4>
-    <br>
-    <input type="text" name="username" maxlength="20" placeholder="Username" <?=get('username')?>><br>
-    <input type="text" name="realname" maxlength="40" placeholder="Real name" <?=get('realname')?>><br>
-    <input type="submit">
+    <h4 class="ui header"><i class="users icon"></i>Search for users</h4>
+    <input type="text" maxlength="20" placeholder="Username" <?=get('username')?>>
+    <input type="text" maxlength="40" placeholder="Real name" <?=get('realname')?>>
+    <button class="ui animated button">
+      <div class="visible content">Search</div>
+      <div class="hidden content"><i class="search icon"></i></div>
+    </button>
   </form>
-  <hr><!-- TODO use tabs, if it is easy and better, but looks good anyway -->
-  <form name="qa">
+  
+  <form name="qa" class="ui form tab" autocomplete="off" data-tab="qa">
     <input type="hidden" name="lookfor" value="qa">
-    <h4>Search for questions / answers</h4>
-    <br>
-    <input type="text" name="fromuser" maxlength="20" placeholder="From who" <?=get('fromuser')?>>
-    <img src="res/warning.svg" title="Unless you search for questions you 
-    asked, only eponymously asked questions will show up"><br>
-    <input type="text" name="touser" maxlength="20" placeholder="To who" <?=get('touser')?>><br>
-    <input type="text" name="query" placeholder="Text to look for" <?=get('query')?>><br>
-    <span class="small">When was the question answered?</span><br>
-    <input type="month" name="timeanswered" placeholder="In format yyyy-mm" <?=get('timeanswered')?>><br>
-    <input type="submit">
+    <h4 class="ui header"><i class="question icon"></i>Search for questions / answers</h4>
+    <div class="ui labeled input">
+      <input type="text" maxlength="20" placeholder="From who" <?=get('fromuser')?>>
+      <div class="ui orange corner label" title="Unless you search for questions you asked,
+ only eponymously asked questions will show up"><i class="warning icon"></i></div>
+    </div>
+    <input type="text" maxlength="20" placeholder="To who" <?=get('touser')?>>
+    <input type="text" placeholder="Text to look for" <?=get('query')?>>
+    <span class="small">When was the question answered?</span>
+    <input type="month" placeholder="In format yyyy-mm" <?=get('timeanswered')?>>
+    <button class="ui animated button">
+      <div class="visible content">Search</div>
+      <div class="hidden content"><i class="search icon"></i></div>
+    </button>
   </form>
 </aside>
 
@@ -78,7 +95,8 @@ function doUserSearch() {
   echo '<h2>User search</h2>';
   echo 'Found '.$res->num_rows . ($res->num_rows === 1 ? ' result' : ' results');
 ?>
-<table id="userList">
+
+<table id="userList"><!-- TODO maybe with SemanticUI animated list -->
 <thead><tr>
   <th>Username</th>
   <th>Real Name</th>
@@ -212,5 +230,9 @@ if (!empty($_GET['lookfor']) and searchQueriesExist()){
   <!--TODO-->
 </footer>
 
+<script src="js/jquery2.min.js"></script>
+<script src="js/jquery.address.min.js"></script>
+<script src="js/semantic.min.js"></script>
+<script>$(function(){$('.tabular.menu .item').tab({history: false});});</script>
 </body>
 </html>
