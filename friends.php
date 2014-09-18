@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>Friends - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
 </head>
 <body data-user="<?=$user?>">
 

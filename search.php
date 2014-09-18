@@ -2,9 +2,9 @@
 <html>
 <head>
 <title>Search - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
-<link rel="stylesheet" type="text/css" href="semantic.min.css">
-<link rel="stylesheet" type="text/css" href="search.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
+<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+<link rel="stylesheet" type="text/css" href="css/search.css">
 <meta charset="utf-8">
 <noscript><style>
    aside .ui.tab {display: initial;}

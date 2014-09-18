@@ -1,6 +1,10 @@
 # CUSTOM BY ANESTIS
 res/
 .c9/
+## Semantic UI resources
+# if you need them, add them on your own
+fonts/
+images/
 
 #################
 ## Eclipse

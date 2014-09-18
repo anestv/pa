@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>Login - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
 </head>
 <body>
 

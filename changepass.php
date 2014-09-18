@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Change Password - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
 <meta charset="UTF-8">
 </head>
 <body>

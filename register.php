@@ -1,9 +1,9 @@
 ﻿<html>
 <head>
 <title>Registration - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="semantic.min.css">
-<link rel="stylesheet" type="text/css" href="general.css">
-<link rel="stylesheet" type="text/css" href="register.css">
+<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
+<link rel="stylesheet" type="text/css" href="css/register.css">
 <meta charset="UTF-8">
 </head>
 <body>

@@ -20,10 +20,10 @@ if ($owner['deleteon'] !== null)
 <!-- ola ta links einai relative to /pa/. Aparaithto gia to /pa/user/aaaa -->
 <base href="/pa/">
 <title><?=$ownerName?> - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
 <link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
-<!-- <link rel="stylesheet" type="text/css" href="profileAppearance.dcss.php?user=<?=$ownerName?>"> -->
-<link rel="stylesheet" type="text/css" href="semantic.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/profileAppearance.dcss.php?user=<?=$ownerName?>"> -->
+<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
 <meta charset="UTF-8"><!-- an exei elhnika -->
 
 <meta property="og:type" content="profile">

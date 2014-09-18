@@ -13,7 +13,7 @@ if (!$questions_raw) terminate('A server error has occurred '.$con->error, 500);
 <html>
 <head>
 <title>Pending questions - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
 </head>
 <body>
 
