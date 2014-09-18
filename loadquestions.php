@@ -31,8 +31,9 @@ if ($owner['deleteon'] !== null)
 $see = $owner['whosees'];
 
 if (empty($user) and $see !== 'all')
-  termin('You must log in', 401, '<div class="warn">You must <a href='.
-    '"login.php">log in</a> to view this user&#39;s questions<div>');
+  termin('You must log in', 401, '<div class="ui large warning message">'.
+    '<i class="warning icon"></i>You must <a href="login.php">log in</a>'.
+    ' to view this user\'s questions<div>');
 else if ($see === 'friends' and !in_array($user, $ownerFr))
   termin("You are not allowed to view this user's questions", 403,'');
 
@@ -47,13 +48,13 @@ function printQ($q){
   
   echo '<div class="question"><div class="ui top attached tiny header">';
   if ($q['publicasker'] and ($q['fromuser'] !== 'deleteduser'))
-  	echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] .'</a>';
+    echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] .'</a>';
   echo '<a class="date" href="question/'. $q['id'] .'">Answered: ';
   echo printDate($q, 'timeanswered') . '</a></div>';
   echo '<div class="ui piled bottom attached segment"><div class="links">';
   echo '<a href="reportq.php?qid='.$q['id'].'"><i class="red flag link icon"></i></a>';
   if ($ownerName === $user) {
-  	echo '<br><a class="deleteq" href="deleteq.php?qid=';
+    echo '<br><a class="deleteq" href="deleteq.php?qid=';
     echo $q['id'] .'"><i class="red trash link icon"></i></a>';
   }
   echo '</div><h3 class="ui header">' . $q['question'] . '</h3>';

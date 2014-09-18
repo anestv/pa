@@ -29,8 +29,7 @@ if ($owner['deleteon'] !== null)
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="PrivateAsk">
 <meta property="og:title" content="<?=$owner['realname']?> on PrivateAsk">
-<!-- <meta property="og:url" content="http://privateask.noip.me/pa/user/<?=$ownerName?>"> 
-prokalei kuklous otan den einai auto ths selidas -->
+<meta property="og:url" content="http://<?=$_SERVER['SERVER_ADDR']?>/pa/user/<?=$ownerName?>">
 <meta property="profile:username" content="<?=$ownerName?>">
 
 </head>
@@ -46,11 +45,11 @@ echo $owner['realname']. "</h1><span>Username: $ownerName</span></header>";
 
 
 if (empty($user) and $ask !== 'all')
-  echo '<div class="warn">You must <a href="login.php">'.
-      'log in</a> to ask a question</div>';
+  echo '<div class="ui large warning message"><i class="warning icon">'.
+    '</i>You must <a href="login.php">log in</a> to ask a question</div>';
 else if ($ask === 'friends' and !in_array($user, $ownerFr))
-  echo '<div class="warn">Sorry, you do not have'.
-      ' the right to ask a question</div>';
+  echo '<div class="ui large warning message"><i class="warning icon">'.
+    '</i>Sorry, you do not have the right to ask a question</div>';
 else {
 ?>
 <form method="post" class="ask ui dimmable form" action="sent.php">
@@ -73,14 +72,14 @@ Your question has been submitted!<br>Ask another one?
 echo '<div id="qContainer">';
 include("loadquestions.php");
 if (http_response_code() === 204){
-  http_response_code(200);
   $isLast = true;
   echo '<div id="noQs">There are no questions to show</div>';
 }
+http_response_code(200);
 echo '</div>';
 
 if (!$isLast)
-  echo '<button id="showMore">Show More</button>';
+  echo '<button id="showMore" class="ui button">Show More</button>';
 
 if ($res->num_rows > 4)
   echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';

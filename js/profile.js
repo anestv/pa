@@ -28,14 +28,14 @@ function showMoreOK(data, status){
   if (status ==='nocontent'||data.indexOf('<div data-last')!==-1)
     showMore.remove();
   else
-    showMore.prop('disabled', false).html('Show More');
+    showMore.prop('disabled', false).removeClass('loading');
   
   qContainer.append(data);
   offset += 10;
 }
 
 showMore.click(function(){
-  showMore.prop('disabled', true).html('Loading...');
+  showMore.prop('disabled', true).addClass('loading');
   
   var page = 'loadquestions.php?user=' +
       owner + '&offset=' + offset;
@@ -46,9 +46,7 @@ showMore.click(function(){
 //handle form submitting
 
 function askOK(){
-  butSubmit.prop('disabled', false).html('Ask');
-  
-  $('form.ask').trigger('reset').dimmer('show');
+  $('form.ask').trigger('reset').removeClass('loading').dimmer('show');
 }
 
 $('form.ask').submit(function(){
@@ -57,7 +55,7 @@ $('form.ask').submit(function(){
     return false;
   }
   
-  butSubmit.prop('disabled', true).html('Submitting...');
+  $(this).addClass('loading');
   
   $.post('sent.php', $(this).serialize(), askOK);
   return false;
@@ -108,7 +106,7 @@ $(document).ajaxError(function(event, xhr, settings){
   
   var ce = xhr.status < 500; //if it's a client error
   if (settings.type === "POST")
-    ce ? butSubmit.fadeOut(300) : butSubmit.prop('disabled', false).html('Ask');
+    ce ? butSubmit.fadeOut(300) : $('form.ask').removeClass('loading');
   else if (settings.url.indexOf('?user=') !==-1)
     ce ? showMore.fadeOut(300) : showMore.prop('disabled', false).html('Show More');
   else

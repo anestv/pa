@@ -58,14 +58,10 @@ form img {
 #askControls label{float:left;}
 #askControls button{float:right;}
 
-.warn {
-  max-width: 400px;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin: 0.7em auto;
-  padding: 5px;
-  border: 2px solid red;
-  border-radius: 8px;
+div.ui.large.warning.message {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 div.question:not(.icon) {
@@ -107,8 +103,7 @@ div.question .ui.segment > h3.header {
   border-radius: 10px;
 }
 button#showMore {
-  min-width: 180px;
-  font-size: 1.1em;
+  min-width: 160px;
   margin: auto;
   display: block;
   max-width: 260px;
@@ -159,6 +154,6 @@ header {
 }
 header h1 {
   display:inline-block;
-  margin:.7em;
+  margin:0.7em;
 }
 header i.user.icon {vertical-align: initial;}
