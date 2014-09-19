@@ -116,16 +116,18 @@ button#showMore {
   bottom: 2em;
 }
 
-ul#friendList{
-  text-align:left;
-  list-style-image: url('res/del.svg');
-  display:inline-block;/*gia na pianei mono oso xwro xreiazetai*/
-  padding:1em;/*gia na mhn einai perissotero apo aristera*/
+form#friendForm {
+  max-width: 400px;
+  margin: auto;
+  text-align: left;
 }
-ul#friendList li:hover{
-  cursor:pointer;
-  color:red;
-  text-decoration:underline;
+form#friendForm > * {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+form#friendForm > .ui.link.list.segment > .item {
+  margin-left: 1em;
 }
 
 .red:not(.icon):not(.ui) {
@@ -142,6 +144,11 @@ a.date {
   font-size:0.8em;
 }
 a.date:hover {color:#555;}
+
+form.answer textarea[name="answer"] {
+  height: 8em;
+  margin-bottom: 1em;
+}
 
 header {
   min-width:700px;

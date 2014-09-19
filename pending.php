@@ -29,8 +29,7 @@ function printQ($q){
   echo '<div class="question"><div class="ui top attached tiny header">';
   if ($q['publicasker'] and ($q['fromuser'] !== 'deleteduser'))
     echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] .'</a>';
-  echo '<a class="date" href="question/'. $q['id'] .'">Asked: ';
-  echo printDate($q, 'timeasked') . '</a></div>';
+  echo '<a class="date">Asked: '. printDate($q, 'timeasked') .'</a></div>';
   echo '<div class="ui piled bottom attached segment"><div class="links">';
   echo '<a href="answer.php?qid='. $q['id'] .'"><i class="pencil black link icon">';
   echo '</i></a><br><a class="deleteq" href="deleteq.php?qid=';
