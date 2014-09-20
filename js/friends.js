@@ -1,4 +1,10 @@
-var friends = JSON.parse($('input[name="friends"]').val());
+$(function (){ //on document ready
+
+var orig = JSON.parse($('input[name="friends"]').val());
+if (!Array.isArray(orig))
+  console.error("'Friends' is not a valid JSON array");
+var friends = orig.sort(); //sorts both arrays
+
 var user = document.body.getAttribute('data-user');
 
 //fix for when form is submitted in form.keydown
@@ -51,3 +57,15 @@ function removeFriend(){
   
   this.remove();
 }
+
+
+//Prevent user from leaving with unsaved changes
+
+window.onbeforeunload = function (e) {
+  var origS = JSON.stringify(orig); //is already sorted
+  var currS = JSON.stringify(friends.sort());
+  
+  if (origS !== currS) return 'You have not saved your friends';
+};
+
+});
