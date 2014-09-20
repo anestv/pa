@@ -103,7 +103,7 @@ if (empty($friends)) $friends = json_decode($friends_json);
   } ?>
 </div>
 
-<button type="submit" class="ui positive labeled icon button">
+<button type="submit" class="ui positive centered labeled icon button">
   <i class="save icon"></i>Save friends
 </button>
 </form>

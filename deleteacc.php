@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){ //thelei na to diagrapsei
       </div>
     </div></div>
   </div>
-  <button type="submit" class="ui negative button">Delete</button>
+  <button type="submit" class="ui centered negative button">Delete</button>
 </form>
 
 </main>

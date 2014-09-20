@@ -71,17 +71,19 @@ if($user){
   http_response_code(201); //created
   session_regenerate_id(true);
   $_SESSION['user'] = $user; //log him in
-  die('<div id="success">
-    <span>Success!</span><br><br>
-    Your account has been created!<br>
-    <a href="./">Home</a>
-  </div>
-  
-  </body>
-  </html>');
-  
-}
+  ?>
 
+<div class="aloneInPage ui success message">
+  <h2 class="header"><i class="checkmark icon"></i> Success!</h2>
+    Your account has been created!<br>
+    <a href=".">Home</a> <a href="user/<?=$user?>">Your profile</a>
+</div>
+</body>
+</html>
+
+  <?php 
+  die;
+}
 ?>
 <h1 class="ui center aligned inverted block header top attached">
  <a href="./"><i class="home link icon"></i></a>
@@ -124,7 +126,7 @@ if($user){
  <input type="text" name="datebirth" maxlength="20" placeholder="You shall not  fill this field">
 </div>
 
-<button type="submit" class="ui animated fade positive button">
+<button type="submit" class="ui animated fade centered positive button">
  <div class="visible content">Register</div>
  <div class="hidden content"><i class="signup icon"></i></div>
 </button>

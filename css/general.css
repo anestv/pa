@@ -164,3 +164,16 @@ header h1 {
   margin:0.7em;
 }
 header i.user.icon {vertical-align: initial;}
+
+.ui.button {font-family: sans-serif}
+
+.ui.segment,.ui.message {
+  text-align: justify;
+}
+
+.ui.centered.buttons,.ui.centered.button {
+/* MUST NOT be used with margin: auto !! */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
