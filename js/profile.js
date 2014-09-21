@@ -66,7 +66,7 @@ $('form.ask').submit(function(){
 
 function deleteOK(data, status, xhr){
   
-  if (data.indexOf('<div id="success">') !== -1){
+  if (data.indexOf('<div class="aloneInPage ui success message">') !== -1){
     //alert('The question was deleted successfully!'); 
     //is it obvious enough to omit the alert?
     xhr.question.slideUp();
