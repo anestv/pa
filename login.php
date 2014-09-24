@@ -62,25 +62,30 @@ else if($user) { //hdh sundedemenos
 
 <div class="center480">
   <h3 class="ui orangeBg top attached header">Log in to <i>PrivateAsk</i></h3>
-  <form action="login.php" method="POST" class="ui bottom attached form segment">
+  <form action="login.php" method="POST" class="ui attached form segment">
     <div class="ui left labeled field icon input">
-      <input name="user" required type="text" placeholder="Username">
+      <input name="user" required type="text" placeholder="Username" tabindex="1" autofocus>
       <i class="user icon"></i>
       <div class="ui corner label"><i class="red asterisk icon"></i></div>
     </div>
     <div class="ui left labeled field icon input">
-      <input name="pass" required type="password" placeholder="Password">
+      <input name="pass" required type="password" placeholder="Password" tabindex="2">
       <i class="lock icon"></i>
       <div class="ui corner label"><i class="red asterisk icon"></i></div>
     </div>
-    <button type="submit" class="ui right floated labeled icon positive button">
+    <button type="submit" class="ui right floated labeled icon positive button" tabindex="4">
       <i class="sign in icon"></i>Log in
     </button>
-    <div class="ui slider checkbox">
-      <input type="checkbox" name="keep" id="keep">
+    <div class="ui toggle checkbox">
+      <input type="checkbox" name="keep" id="keep" tabindex="3">
       <label for="keep">Keep me logged in</label>
     </div>
   </form>
+  <div class="ui bottom attached icon message">
+    <i class="signup icon"></i><div class="content">
+      <div class="header">New to <i>PrivateAsk</i>?</div>
+      <a href="register.php">Register Here</a>
+  </div></div>
 </div>
 </main>
 
