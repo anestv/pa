@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Change Password - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="css/general.css">
-<meta charset="UTF-8">
+  <title>Change Password - PrivateAsk</title>
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="css/register.css"><!-- for the orange header -->
+  <meta charset="utf-8">
 </head>
 <body>
-
+<main class="center940">
 <?php
 
 if (!$user)
@@ -50,27 +52,51 @@ $cr_arr = array('salt'=> $alataki, 'cost'=> 10);
 $hspass = password_hash($new, PASSWORD_DEFAULT, $cr_arr);
 $passDB = $con->real_escape_string($hspass);
 
-if (!$passDB)terminate('Fatal server error: password for insertion is empty');
+if (!$passDB) terminate('Fatal server error: password for insertion is empty');
 
 $res = $con->query("UPDATE users SET hs_pass = '$passDB' WHERE username = '$user';");
 
-if ($res) echo 'Your password was successfully changed!';
-else echo "Your password was NOT changed. ".$con->error;
-
+echo '<div class="ui message ';
+if ($res) echo 'success"><i class="checkmark icon"></i>Your password was successfully changed!';
+else echo 'error"><i class="attention icon"></i>Your password was NOT changed. '. $con->error;
+echo '</div>';
 }
 ?>
 
-<h1>Change your password</h1>
-<h3>We're glad to see you want to change your password!</h3>
-<p>Just a reminder: passwords must be 6-100 characters and should be difficult to guess</p>
-
-<form method="post">
-<input type="password" required name="old" placeholder="Old password"><br>
-<input type="password" required name="new" placeholder="New password" maxlength="101" pattern=".{6,}">
-<br><input type="password" required name="new2" placeholder="The new once again">
-<br><input type="text" required name="rand" placeholder="Enter something random" maxlength="20">
-<br><input type="submit">
+<h1 class="ui top attached center aligned block inverted header">
+  <a href="./"><i class="home link icon"></i></a>
+  Change your password
+</h1>
+<div class="ui attached info message">
+  <div class="header">
+    We're glad to see you want to change your password!
+  </div>
+  Reminder: passwords must be 6-100 characters and should be difficult to guess.
+</div>
+<form method="post" class="ui bottom attached form segment" autocomplete="off">
+  <div class="ui two column stackable grid">
+    <div class="column">
+      <div class="field">
+        <input type="password" required name="old" placeholder="Old password">
+      </div>
+      <div class="field">
+        <input type="text" required name="rand" placeholder="Enter something random" maxlength="20">
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        <input type="password" required name="new" placeholder="New password" maxlength="101" pattern=".{6,}">
+      </div>
+      <div class="field">
+        <input type="password" required name="new2" placeholder="The new one again">
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="ui centered positive animated fade button">
+    <div class="hidden content"><i class="save icon"></i></div>
+    <div class="visible content">Save</div>
+  </button>
 </form>
-
+</main>
 </body>
 </html>

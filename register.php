@@ -1,12 +1,14 @@
-﻿<html>
+<!DOCTYPE html>
+<html>
 <head>
-<title>Registration - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
-<link rel="stylesheet" type="text/css" href="css/general.css">
-<link rel="stylesheet" type="text/css" href="css/register.css">
-<meta charset="UTF-8">
+  <title>Registration - PrivateAsk</title>
+  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <link rel="stylesheet" type="text/css" href="css/register.css">
+  <meta charset="UTF-8">
 </head>
 <body>
+<main class="center940">
 
 <?php
 
@@ -73,11 +75,13 @@ if($user){
   $_SESSION['user'] = $user; //log him in
   ?>
 
-<div class="aloneInPage ui success message">
-  <h2 class="header"><i class="checkmark icon"></i> Success!</h2>
-    Your account has been created!<br>
-    <a href=".">Home</a> <a href="user/<?=$user?>">Your profile</a>
-</div>
+<div class="aloneInPage ui success icon message">
+  <i class="checkmark icon"></i><div class="content">
+  <h2 class="header">Success!</h2>
+  Your account has been created!<br>
+  <a href=".">Home</a> <a href="user/<?=$user?>">Your profile</a>
+</div></div>
+</main>
 </body>
 </html>
 
@@ -132,6 +136,6 @@ if($user){
 </button>
 
 </form>
-
+</main>
 </body>
 </html>
