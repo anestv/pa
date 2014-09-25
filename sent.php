@@ -48,7 +48,7 @@ $reqestAJAX = isset(apache_request_headers()['X-Requested-With']) and
 
 if (!$reqestAJAX)
   echo '<!DOCTYPE html><html><head><title>Ask a question - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css"></head><body>';
+<link rel="stylesheet" type="text/css" href="css/general.css"></head><body>';
 
 if ($result) echo '<div id="success" class="aloneInPage">Your question has been submitted</div>';
 else terminate("Your question was not submitted ".$con->error , 500);

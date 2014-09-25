@@ -3,7 +3,8 @@
 <!-- ola ta links einai relative to /pa/. Aparaithto gia to /pa/question/123 -->
 <base href="/pa/">
 <title>View question - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
 <meta charset="UTF-8">
 </head>
 <body>
@@ -44,37 +45,33 @@ if (empty($q['answer']))
 
 function printDate($prop){
   global $q;
-  if (null === $q[$prop])
-    terminate("A strange error regarding $prop occured", 500);
   $time = strtotime($q[$prop]);
-  $res = '<span title="'. date('r', $time) . '">';
-  $res .= date('G:i \o\n l j/n/y', $time) .'</span>';
-  return $res;
+  $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
+  return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
 }
 
 function printUser($prop){
   global $q;
-  echo '<a href="user/'.$q[$prop].'">'.$q[$prop].'</a><br>';
+  echo '<a href="user/'.$q[$prop].'">'.$q[$prop].'</a>';
 }
 ?>
-
-<div class="question">
-<div class="links">
-<a class="orange" href="reportq.php?qid=<?=$qid?>">Flag as inappropriate</a>
-<br>
-<?php if ($ownerName === $user)
-  echo '<a class="red" href="deleteq.php?qid='.$qid .'">Delete this question</a>';
-?></div>
-
+<div class="question aloneInPage" id="qContainer">
+<div class="ui top attached tiny header">
 To: <?=printUser('touser')?>
-<?php if ($q['publicasker'] and $q['fromuser'] !== 'deleteduser')
-  printUser('fromuser'); ?>
-Asked: <?=printDate('timeasked')?><br>
-Answered: <?=printDate('timeanswered')?><br>
-
-<h2><?=$q['question']?></h2>
-<p><?=$q['answer']?></p>
-
+<a class="date">Asked: <?=printDate('timeasked')?></a><br>
+<?php if ($q['publicasker'] and $q['fromuser'] !== 'deleteduser'){
+  echo 'From: ';printUser('fromuser');} ?>
+<a class="date">Answered: <?=printDate('timeanswered')?></a>
 </div>
+<div class="ui piled bottom attached segment"><div class="links">
+<a href="reportq.php?qid=<?=$qid?>"><i class="red flag link icon"></i></a>
+<?php if ($ownerName === $user) {
+  echo '<br><a class="deleteq" href="deleteq.php?qid=';
+  echo $qid .'"><i class="red trash link icon"></i></a>';
+}?>
+</div><h3 class="ui header"><?=$q['question']?></h3>
+<p><?=$q['answer']?></p>
+</div></div>
+
 </body>
 </html>

@@ -1,10 +1,14 @@
-﻿<html>
+<!DOCTYPE html>
+<html>
 <head>
-<title>Registration - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
-<meta charset="UTF-8">
+  <title>Registration - PrivateAsk</title>
+  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <link rel="stylesheet" type="text/css" href="css/register.css">
+  <meta charset="UTF-8">
 </head>
 <body>
+<main class="center940">
 
 <?php
 
@@ -14,11 +18,13 @@ if($user){
 } else if ($_SERVER["REQUEST_METHOD"] === "POST"){
 
 
-  if (!(isset($_POST["equation"]) and isset($_SESSION["equation"]))){
+  if (!empty($_POST["datebirth"])){
     header("HTTP/1.1 418 I'm a teapot");
+    session_write_close(); //let other requests continue
+    sleep(70);
     die();
-  } else if ($_POST["equation"] !== $_SESSION["equation"])
-    terminate("Wrong answer, seems you are not good at maths", 418);
+  } else if (empty($_POST["ToS"]))
+    terminate("You must agree to the Terms and Conditions to use the site.");
   
   if (isset($_POST["username"]) and trim($_POST["username"]))
     $user = $con->real_escape_string($_POST["username"]);
@@ -67,45 +73,69 @@ if($user){
   http_response_code(201); //created
   session_regenerate_id(true);
   $_SESSION['user'] = $user; //log him in
-  die('<div id="success">
-    <span>Success!</span><br><br>
-    Your account has been created!<br>
-    <a href="/">Home</a>
-  </div>
-  
-  </body>
-  </html>');
-  
-} else {
-  $max = mt_rand(1, 10) > 3; //70% pithanothta gia nai
-  $expon = mt_rand(1, 9);
-  if ($max) $_SESSION['equation'] = strval($expon);
-  else $_SESSION['equation'] = '0';
-  $ordArr = array('','πρωτο','δευτερο','τριτο','τεταρτο','πεμπτο','εξα','εφτα','οχτα','εννια');
-  $verifQ = 'Πόσες '. ($max? 'το πολύ':'τουλάχιστον').' λύσεις έχει μια '.$ordArr[$expon] .'βάθμια εξίσωση; ';
+  ?>
+
+<div class="aloneInPage ui success icon message">
+  <i class="checkmark icon"></i><div class="content">
+  <h2 class="header">Success!</h2>
+  Your account has been created!<br>
+  <a href=".">Home</a> <a href="user/<?=$user?>">Your profile</a>
+</div></div>
+</main>
+</body>
+</html>
+
+  <?php 
+  die;
 }
-
 ?>
+<h1 class="ui center aligned inverted block header top attached">
+ <a href="./"><i class="home link icon"></i></a>
+ Create an account on PrivateAsk
+</h1>
 
-<form method="post" autocomplete="off">
-<input type="text" maxlength="20" required name="username" placeholder="Username" pattern="\w{5,20}">
-<img src="res/info.svg" height="20" title="English letters and numbers allowed, 5-20 characters">
-<br>
-<input type="password" maxlength="101" required name="password" placeholder="Password" pattern=".{6,}">
-<img src="res/info.svg" height="20" title="6-100 characters">
-<br>
-<input type="text" required maxlength="40" name="real" placeholder="Real Name">
-<img src="res/info.svg" height="20" title="Up to 40 characters">
-<br><br>
-<?=$verifQ?><input type="number" min="0" max="9" name="equation" required><br>
+<form method="post" autocomplete="off" class="ui form bottom attached segment">
+<div class="ui two column grid">
+ 
+ <div class="column">
+  <div class="field">
+   <div class="ui pointing below label">Username: 5 - 20 English letters and numbers</div>
+   <input type="text" maxlength="20" required name="username" placeholder="Username" pattern="\w{5,20}">
+  </div>
+  <div class="field">
+   <div class="ui pointing below label">Real Name: Up to 40 characters</div>
+   <input type="text" required maxlength="40" name="real" placeholder="Real Name">
+  </div>
+ </div>
+ 
+ <div class="column">
+  <div class="field">
+   <div class="ui pointing below label">Password: 6 - 100 characters</div>
+   <input type="password" maxlength="101" required name="password" placeholder="Password" pattern=".{6,}">
+  </div>
+  <div class="field">
+   <div class="ui pointing below label">Enter something random</div>
+   <input type="text" maxlength="50" name="rand" placeholder="randomness" required>
+  </div>
+  <div class="inline field">
+   <div class="ui checkbox">
+    <input type="checkbox" required id="ToScheck" name="ToS">
+    <label for="ToScheck">I agree to the <a href="terms.html">Terms and Conditions</a></label>
+   </div>
+  </div>
+ </div>
+</div>
 
-<br>Enter here anything you want<br>
-<input type="text" maxlength="50" name="rand" placeholder="randomness" required><br>
+<div id="mperdevoBots"><!-- kind of honeypot trap for bots -->
+ <input type="text" name="datebirth" maxlength="20" placeholder="You shall not  fill this field">
+</div>
 
-<p>By procceeding, you agree to the <a href="terms.html">Terms and Conditions</a></p>
+<button type="submit" class="ui animated fade centered positive button">
+ <div class="visible content">Register</div>
+ <div class="hidden content"><i class="signup icon"></i></div>
+</button>
 
-<input type="submit">
 </form>
-
+</main>
 </body>
 </html>

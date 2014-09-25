@@ -5,13 +5,13 @@ if (!Array.isArray(orig))
   console.error("'Friends' is not a valid JSON array");
 var friends = orig.sort(); //sorts both arrays
 
-var user = document.body.getAttribute('data-user');
+var user = $('body').data('user');
 
 //fix for when form is submitted in form.keydown
 //return false, preventDefault, or stopProgagation did not work
 var submit = true;
 
-$('ul#friendList').on('click', 'li', removeFriend);
+$('.ui.link.list').on('click', '.ui.red.icon.button', removeFriend);
 
 $('#addFriend').click(addFriend);
 
@@ -45,19 +45,24 @@ function addFriend(){
   
   friends.push(friendName);
   
-  var curr = document.createElement('li');
-  curr.innerHTML = friendName;
-  $('ul#friendList').append(curr);
+  var curr = '<div class="item"><div class="ui right floated circular red icon button">';
+  curr += '<i class="remove icon"></i></div><a class="header" href="user/';
+  curr += friendName + '">' + friendName + '</a></div>';
+  
+  $('.ui.link.list').append(curr);
   return 'OK';
 }
 
 function removeFriend(){
-  var index = friends.indexOf(this.innerHTML);
+  var index = friends.indexOf($(this).siblings('.header').text());
   if (index !== -1) friends.splice(index, 1);
   
-  this.remove();
+  this.parentElement.remove();
 }
 
+$('.ui.message > i.close.icon').click(function(){
+  $(this).parent().slideUp();
+});
 
 //Prevent user from leaving with unsaved changes
 

@@ -1,0 +1,182 @@
+html {height:100%;}
+
+body {background: radial-gradient(#e0f5fd, #5099e9) fixed;}
+
+#success, #fail {
+  width: 15em;
+  margin: auto;
+  padding: 0.9em 0.4em;
+  border-radius: 10px;
+  font: 1.5em sans-serif;
+  text-align: center;
+}
+.aloneInPage{margin-top:5em !important;}
+#fail span, #success span {
+  background: rgba(245, 245, 245, 0.5);
+  color: darkslategrey;
+  padding: 3px;
+  border-radius: 5px;
+  font: 1.5em "Times New Roman", serif;
+}
+#success { /*only used in sent.php*/
+  background: radial-gradient(#D3D3D3, #94EC88);
+  color: darkslateblue;
+}
+#fail {
+  background: radial-gradient(#D33F2B, #440906);
+  color: lightyellow;
+}
+#fail a {color:lightblue;/*gia na fainetai*/}
+
+form {
+  text-align:center;
+  margin:auto;
+}
+input[type=number]{width:2em;}
+input:valid, textarea:valid {outline-color: green;}
+input:invalid, textarea:invalid {outline-color: red;}
+textarea {
+  color:black;/*gia na fainetai to keimeno*/
+  width:400px;
+  height:50px;
+  resize:vertical;
+  margin:0;
+}
+form.ask.ui.form {max-width: 420px;}
+form.ask #askControls {
+  max-width:400px;
+  margin:auto;
+  overflow:hidden;
+  padding:2px;
+  border-radius:5px;
+}
+form img {
+  vertical-align: middle;
+  width: 20px;
+  cursor:help;
+}
+#askControls label {float: left;}
+#askControls button {float: right;}
+
+div.ui.large.warning.message {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.question:not(.icon) {
+  margin: 1em;
+  max-width: 920px;
+}
+
+div.question>.ui.header,.orangeBg {
+  background-color: #F8981F;
+  background-image: linear-gradient(to bottom, #F8A11F, #EE911D);
+  color: #FFF;
+}
+div.question>.ui.header > a {color:#EEE;}
+div.question>.ui.header > a:hover {color:#FFF;}
+div.question>.ui.header::after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+}
+div.question a.date {float: right;}
+div.question div.links {float: right;}
+div.question div.links a {
+  text-decoration: none;
+  padding: 1px;
+}
+div.question .ui.segment > h3.header { margin-top: 0;}
+
+/*space for the floated div.links*/
+div.question .ui.segment {min-height: 4em;}
+
+#qContainer,.center940 {
+  max-width: 940px;
+  margin: auto;
+}
+#qContainer #noQs{
+  text-align: center;
+  max-width: 400px;
+  margin: 0.5em auto;
+  font-size: large;
+  border-radius: 10px;
+}
+button#showMore {
+  min-width: 160px;
+  margin: auto;
+  display: block;
+  max-width: 260px;
+}
+
+#scrollTop {
+  display: none;
+  position: fixed;
+  right: 5em;
+  bottom: 2em;
+}
+
+form#friendForm {
+  max-width: 400px;
+  margin: auto;
+  text-align: left;
+}
+form#friendForm > * {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+form#friendForm > .ui.link.list.segment > .item {
+  margin-left: 1em;
+}
+
+.red:not(.icon):not(.ui) { /*only used in settings, TO REMOVE*/
+  color:white;
+  background:red;
+  font-weight:bold;
+}
+a.date {
+  color:gray;
+  font-size:0.8em;
+}
+a.date:hover {color:#555;}
+
+form.answer textarea[name="answer"] {
+  height: 8em;
+  margin-bottom: 1em;
+}
+
+header {
+  min-width:700px;
+  max-width:900px;
+  display:table;
+  margin:auto;
+  border-radius:3em;
+  background:royalblue;
+  color:floralwhite;
+}
+header h1 {
+  display:inline-block;
+  margin:0.7em;
+}
+header i.user.icon {vertical-align: initial;}
+
+.ui.button {font-family: sans-serif}
+
+.ui.segment,.ui.message {
+  text-align: justify;
+}
+
+.ui.centered.buttons,.ui.centered.button {
+/* MUST NOT be used with margin: auto !! */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.center480 {
+  max-width: 480px;
+  margin: auto;
+}

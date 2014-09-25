@@ -1,13 +1,14 @@
 <html>
 <head>
 <title>Answer - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
+<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
 </head>
 <body>
 
 <?php
 
-if ($user == '')
+if (empty($user))
   terminate('You must be logged in to answer a question <br><a href="login.php">Log in</a>', 401);
 
 if (empty($_GET['qid']))
@@ -46,26 +47,29 @@ function printDate($prop){
   $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
   return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
 }
-
 ?>
 
 <div class="question" id="qContainer">
-<div class="links">
-<a class="red" href="deleteq.php?qid=<?=$qid?>">Delete this question</a>
+  <div class="ui top attached tiny header">
+    <?php if ($q['publicasker'] and $q['fromuser'] !== 'deleteduser')
+      echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] ."</a>"; ?>
+    <a class="date">Asked: <?=printDate('timeasked')?></a>
+  </div>
+  <div class="ui attached segment">
+    <div class="links"><a class="deleteq" href="deleteq.php?qid=<?=$qid?>">
+      <i class="red trash link icon"></i>
+    </a></div>
+    <h3 class="ui header"><?=$q['question']?></h3>
+  </div>
+  
+  <form method="post" class="answer ui bottom attached stacked form segment">
+    <textarea name="answer" placeholder="Your answer" required autofocus maxlength="200"></textarea>
+    <button type="submit" class="ui positive centered labeled icon button">
+      <i class="pencil icon"></i>Answer
+    </button>
+  </form>
+  
 </div>
-
-<?php if ($q['publicasker'] and $q['fromuser'] !== 'deleteduser')
-  echo 'From: <a href="user/'.$q['fromuser'].'">'.$q['fromuser'] ."</a><br>"; ?>
-Asked: <?=printDate('timeasked')?><br>
-
-<h2><?=$q['question']?></h2>
-
-</div>
-<br>
-<form method="post">
-<textarea name="answer" placeholder="Your answer" required autofocus maxlength="200"></textarea>
-<br><input type="submit">
-</form>
 
 </body>
 </html>

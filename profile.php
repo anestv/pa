@@ -20,17 +20,16 @@ if ($owner['deleteon'] !== null)
 <!-- ola ta links einai relative to /pa/. Aparaithto gia to /pa/user/aaaa -->
 <base href="/pa/">
 <title><?=$ownerName?> - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
 <link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
-<link rel="stylesheet" type="text/css" href="profileAppearance.dcss.php?user=<?=$ownerName?>">
-<link rel="stylesheet" type="text/css" href="semantic.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/profileAppearance.dcss.php?user=<?=$ownerName?>"> -->
+<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
 <meta charset="UTF-8"><!-- an exei elhnika -->
 
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="PrivateAsk">
 <meta property="og:title" content="<?=$owner['realname']?> on PrivateAsk">
-<!-- <meta property="og:url" content="http://privateask.noip.me/pa/user/<?=$ownerName?>"> 
-prokalei kuklous otan den einai auto ths selidas -->
+<meta property="og:url" content="http://<?=$_SERVER['SERVER_ADDR']?>/pa/user/<?=$ownerName?>">
 <meta property="profile:username" content="<?=$ownerName?>">
 
 </head>
@@ -41,18 +40,19 @@ prokalei kuklous otan den einai auto ths selidas -->
 $see = $owner['whosees'];
 $ask = $owner['whoasks'];
 
-echo '<header><h1>'.$owner['realname']. "</h1><span>Username: $ownerName</span></header>";
+echo '<header><i class="user big circular icon"></i><h1>';
+echo $owner['realname']. "</h1><span>Username: $ownerName</span></header>";
 
 
 if (empty($user) and $ask !== 'all')
-  echo '<div class="warn">You must <a href="login.php">'.
-      'log in</a> to ask a question</div>';
+  echo '<div class="ui large warning message"><i class="warning icon">'.
+    '</i>You must <a href="login.php">log in</a> to ask a question</div>';
 else if ($ask === 'friends' and !in_array($user, $ownerFr))
-  echo '<div class="warn">Sorry, you do not have'.
-      ' the right to ask a question</div>';
+  echo '<div class="ui large warning message"><i class="warning icon">'.
+    '</i>Sorry, you do not have the right to ask a question</div>';
 else {
 ?>
-<form method="post" class="ask ui dimmable" action="sent.php">
+<form method="post" class="ask ui dimmable form" action="sent.php">
 
 <div class="ui dimmer"><div class="content"><div class="center">
 Your question has been submitted!<br>Ask another one?
@@ -72,17 +72,17 @@ Your question has been submitted!<br>Ask another one?
 echo '<div id="qContainer">';
 include("loadquestions.php");
 if (http_response_code() === 204){
-  http_response_code(200);
   $isLast = true;
   echo '<div id="noQs">There are no questions to show</div>';
 }
+http_response_code(200);
 echo '</div>';
 
 if (!$isLast)
-  echo '<button id="showMore">Show More</button>';
+  echo '<button id="showMore" class="ui button">Show More</button>';
 
 if ($res->num_rows > 4)
-  echo '<div id="scrollTop"><i class="up arrow large icon"></i></div>';
+  echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';
 
 ?>
 

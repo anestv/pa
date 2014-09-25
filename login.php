@@ -1,14 +1,20 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Login - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="general.css">
+  <title>Login - PrivateAsk</title>
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <meta charset="utf-8">
 </head>
 <body>
 
+<main class="center940">
 <?php
 
-if(!empty($_REQUEST['loggedOut']) and empty($user)) //came from logout.php
-  echo "You have been successfully logged out";
+if (!empty($_REQUEST['loggedOut']) and empty($user)) //came from logout.php
+  echo '<div class="ui info message"><h2 class="header">'.
+  '<i class="sign out icon"></i> You have been logged out</h2>'.
+  'We home to see you soon!</div>';
   
 else if($user) { //hdh sundedemenos
   
@@ -51,18 +57,37 @@ else if($user) { //hdh sundedemenos
       header("Location: http://".$_SERVER['HTTP_HOST']."/pa/", true, 302);
     else echo '<meta http-equiv="refresh" content="0;url=index.php">';
   }
-  
 }
-
 ?>
 
-<form method="post" action="?"><!-- to ? einai gia na mhn ksanapaei sto ?logout=1 -->
-<input required name="user" type="text" placeholder="Username" autofocus><br>
-<input required name="pass" type="password" placeholder="Password"><br>
-<input type="checkbox" name="keep" id="keep">
-<label for="keep">Stay logged in</label><br>
-<input type="submit">
-</form>
+<div class="center480">
+  <h3 class="ui orangeBg top attached header">Log in to <i>PrivateAsk</i></h3>
+  <form action="login.php" method="POST" class="ui attached form segment">
+    <div class="ui left labeled field icon input">
+      <input name="user" required type="text" placeholder="Username" tabindex="1" autofocus>
+      <i class="user icon"></i>
+      <div class="ui corner label"><i class="red asterisk icon"></i></div>
+    </div>
+    <div class="ui left labeled field icon input">
+      <input name="pass" required type="password" placeholder="Password" tabindex="2">
+      <i class="lock icon"></i>
+      <div class="ui corner label"><i class="red asterisk icon"></i></div>
+    </div>
+    <button type="submit" class="ui right floated labeled icon positive button" tabindex="4">
+      <i class="sign in icon"></i>Log in
+    </button>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" name="keep" id="keep" tabindex="3">
+      <label for="keep">Keep me logged in</label>
+    </div>
+  </form>
+  <div class="ui bottom attached icon message">
+    <i class="signup icon"></i><div class="content">
+      <div class="header">New to <i>PrivateAsk</i>?</div>
+      <a href="register.php">Register Here</a>
+  </div></div>
+</div>
+</main>
 
 </body>
 </html>
