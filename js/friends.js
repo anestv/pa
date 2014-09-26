@@ -3,21 +3,17 @@ $(function (){ //on document ready
 var orig = JSON.parse($('input[name="friends"]').val());
 if (!Array.isArray(orig))
   console.error("'Friends' is not a valid JSON array");
-var friends = orig.sort(); //sorts both arrays
+var friends = orig.sort().slice(0);
+//sorts both arrays and makes them different references (equal values only)
 
 var user = $('body').data('user');
 
-//fix for when form is submitted in form.keydown
-//return false, preventDefault, or stopProgagation did not work
-var submit = true;
-
-$('.ui.link.list').on('click', '.ui.red.icon.button', removeFriend);
+$('.ui.link.list').on('click', '.ui.icon.button', removeFriend);
 
 $('#addFriend').click(addFriend);
 
 $('form').keydown(function(e){
   if (e.which === 13) {
-	submit = false;
     addFriend();
     return false;
   }
@@ -26,9 +22,7 @@ $('form').keydown(function(e){
 
 $('form').submit(function(){
   $('input[name="friends"]').val(JSON.stringify(friends));
-  if (submit) return true;
-  submit = true;
-  return false;
+  return true;
 });
 
 function addFriend(){
@@ -45,8 +39,8 @@ function addFriend(){
   
   friends.push(friendName);
   
-  var curr = '<div class="item"><div class="ui right floated circular red icon button">';
-  curr += '<i class="remove icon"></i></div><a class="header" href="user/';
+  var curr = '<div class="item"><div class="ui right floated circular icon button">';
+  curr += '<i class="red remove icon"></i></div><a class="header" href="user/';
   curr += friendName + '">' + friendName + '</a></div>';
   
   $('.ui.link.list').append(curr);
