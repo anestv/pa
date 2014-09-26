@@ -95,7 +95,7 @@ if($user){
 </h1>
 
 <form method="post" autocomplete="off" class="ui form bottom attached segment">
-<div class="ui two column grid">
+<div class="ui two column stackable grid">
  
  <div class="column">
   <div class="field">
