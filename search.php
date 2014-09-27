@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Search - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="css/general.css">
-<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
-<link rel="stylesheet" type="text/css" href="css/search.css">
-<meta charset="utf-8">
-<noscript><style>
-   aside .ui.tab {display: initial;}
-  .ui.tabular.menu {display:none;}
-</style></noscript>
+  <title>Search - PrivateAsk</title>
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="css/search.css">
+  <meta charset="utf-8">
+  <noscript><style>
+     aside .ui.tab {display: initial;}
+    .ui.tabular.menu {display: none;}
+  </style></noscript>
 </head>
 <body>
 

@@ -10,20 +10,20 @@ $ownerName = $con->real_escape_string($_GET['user']);
 $owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
 if ($owner === null) terminate('This user does not exist or has deleted their account', 404);
 $ownerFr = json_decode($owner['friends']);
-if ($ownerFr === null) terminate('A server error has occurred.', 500);
+if ($ownerFr === null or !is_array($ownerFr))
+  terminate('A server error has occurred.', 500);
 array_push($ownerFr, $ownerName);
 if ($owner['deleteon'] !== null)
   terminate('This user has deactivated their account.');
 //TODO πως θα κανει τερμινατε; δεν εχει καν stylesheets και ειμαι μεσα στο head
-//TODO να αλλαξω τα ownTmp σε ownerName παρακατω
 
 ?>
 <!-- ola ta links einai relative to /pa/. Aparaithto gia to /pa/user/aaaa -->
 <base href="/pa/">
 <title><?=$ownerName?> - PrivateAsk</title>
 <link rel="stylesheet" type="text/css" href="css/general.css">
-<link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
-<!-- <link rel="stylesheet" type="text/css" href="css/profileAppearance.dcss.php?user=<?=$ownerName?>"> -->
+<!-- <link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
+<link rel="stylesheet" type="text/css" href="css/profileAppearance.dcss.php?user=<?=$ownerName?>"> -->
 <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
 <meta charset="UTF-8"><!-- an exei elhnika -->
 
