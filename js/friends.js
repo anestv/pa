@@ -1,5 +1,6 @@
 $(function (){ //on document ready
 
+var promptUnsaved = true;
 var orig = JSON.parse($('input[name="friends"]').val());
 if (!Array.isArray(orig))
   console.error("'Friends' is not a valid JSON array");
@@ -7,17 +8,12 @@ var friends = orig.sort(); //sorts both arrays
 
 var user = $('body').data('user');
 
-//fix for when form is submitted in form.keydown
-//return false, preventDefault, or stopProgagation did not work
-var submit = true;
-
 $('.ui.link.list').on('click', '.ui.red.icon.button', removeFriend);
 
 $('#addFriend').click(addFriend);
 
 $('form').keydown(function(e){
   if (e.which === 13) {
-	submit = false;
     addFriend();
     return false;
   }
@@ -26,8 +22,7 @@ $('form').keydown(function(e){
 
 $('form').submit(function(){
   $('input[name="friends"]').val(JSON.stringify(friends));
-  if (submit) return true;
-  submit = true;
+  promptUnsaved = false;
   return false;
 });
 
@@ -70,7 +65,7 @@ window.onbeforeunload = function (e) {
   var origS = JSON.stringify(orig); //is already sorted
   var currS = JSON.stringify(friends.sort());
   
-  if (origS !== currS) return 'You have not saved your friends';
+  if (promptUnsaved && origS !== currS) return 'You have not saved your friends';
 };
 
 });
