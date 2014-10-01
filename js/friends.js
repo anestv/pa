@@ -65,7 +65,8 @@ window.onbeforeunload = function (e) {
   var origS = JSON.stringify(orig); //is already sorted
   var currS = JSON.stringify(friends.sort());
   
-  if (promptUnsaved && origS !== currS) return 'You have not saved your friends';
+  if (promptUnsaved && origS !== currS)
+    return e.returnValue = 'You have not saved your friends';
 };
 
 });
