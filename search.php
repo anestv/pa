@@ -146,7 +146,7 @@ function printQ($q){
 function doQASearch() {
   global $con, $user;
 
-  $query = "SELECT * FROM questions WHERE answer IS NOT NULL";
+  $query = "SELECT questions.* FROM questions , users WHERE answer IS NOT NULL";
   
   if (!empty($_GET['query'])){
     if (strlen(trim($_GET['query'])) < 5)
@@ -179,17 +179,16 @@ function doQASearch() {
   if ($fromuser) $query .= " AND fromuser = '$fromuser'";
   if ($touser) $query .= " AND touser = '$touser'";
   
-  $query .= " AND touser IN (SELECT username FROM users WHERE deleteon IS NULL AND (";
+  if ($fromuser and $fromuser !== $user)
+    $query .= ' AND publicasker = 1';
+  
+  $query .= " AND questions.touser = users.username AND deleteon IS NULL AND (";
   if ($user){ //takes care of privacy
     $query .= "whosees = 'users' OR friends LIKE '%\"";
     $query .= escape($user)."\"%' OR username = '$user' OR ";
   }
-  $query .= "whosees = 'all'))";
+  $query .= "whosees = 'all') LIMIT 50;"; //maybe do something about the limit in the future
   
-  if ($fromuser and $fromuser !== $user)
-    $query .= ' AND publicasker = 1';
-  
-  $query .= " LIMIT 50;"; //maybe do something about the limit in the future
   
   $res = $con->query($query);
   if (!$res) terminate('Server error '.$con->error, 400);
