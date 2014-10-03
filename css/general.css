@@ -42,13 +42,13 @@ textarea {
   resize:vertical;
   margin:0;
 }
-form.ask.ui.form {max-width: 420px;}
+form.ask.ui.form {
+  max-width: 420px;
+  margin: 0.6em auto;
+}
 form.ask #askControls {
-  max-width:400px;
-  margin:auto;
-  overflow:hidden;
-  padding:2px;
-  border-radius:5px;
+  overflow: hidden;
+  padding: 0.6em 0.2em 0;
 }
 form img {
   vertical-align: middle;
@@ -148,20 +148,18 @@ form.answer textarea[name="answer"] {
   margin-bottom: 1em;
 }
 
-header {
+header#profileHeader {
   min-width:700px;
   max-width:900px;
   display:table;
   margin:auto;
   border-radius:3em;
-  background:royalblue;
-  color:floralwhite;
 }
-header h1 {
+header#profileHeader h1 {
   display:inline-block;
   margin:0.7em;
 }
-header i.user.icon {vertical-align: initial;}
+header#profileHeader i.user.icon {vertical-align: initial;}
 
 .ui.button {font-family: sans-serif}
 
@@ -178,5 +176,6 @@ header i.user.icon {vertical-align: initial;}
 
 .center480 {
   max-width: 480px;
-  margin: auto;
+  margin-left: auto!important;
+  margin-right: auto!important;
 }
