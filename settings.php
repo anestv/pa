@@ -38,11 +38,13 @@ if (empty($settings['username']))
 $fonts = array("Aliquam","Arial","Calibri","Cambria","Comfortaa","Comic Sans MS","Courier",
 "Garamond","Josefin Sans","Leander","Segoe UI","Tahoma","Times New Roman","Trench","Verdana");
 
+$privacyVals = array('friends', 'users', 'all');
+$privacyOpts = array('Only your friends', 'Registered users' ,'Everyone');
+
 if ($_SERVER["REQUEST_METHOD"] === "POST"){
   
-  $possvals = array('friends', 'users', 'all');
   if (!(isset($_POST['whosees']) and isset($_POST['whoasks']) and 
-      in_array($_POST['whosees'],$possvals)and in_array($_POST['whoasks'],$possvals)))
+      in_array($_POST['whosees'],$privacyVals)and in_array($_POST['whoasks'],$privacyVals)))
     terminate('Choose one of the shown privacy settings',400);
   
   if (isset($_POST['real']) and trim($_POST['real']))
@@ -87,16 +89,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
   $settings['textfont'] = $fontf;
 }
 
-function getLists($prop){
+function writeDropdown($inputName, $dbName, $values, $strings = null){
   global $settings;
-  $res = '<select name="'.$prop .'"> <option value="friends"';
-  if ($settings[$prop]=== 'friends') $res .= ' selected';
-  $res .= '>Only your friends</option> <option value="users"';
-  if ($settings[$prop]=== 'users') $res .= ' selected';
-  $res .= '>Registered users</option> <option value="all"';
-  if ($settings[$prop]=== 'all') $res .= ' selected';
-  $res .= '>Everyone</option> </select>';
-  return $res;
+  if ($strings === null) $strings = $values;
+  ?>
+  <div class="ui selection dropdown scriptOnly">
+    <!-- dropdown initialized from hidden input's value-->
+    <input type="hidden" name="<?=$inputName?>" value="<?=$settings[$dbName]?>">
+    <div class="text"> </div>
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <?php
+      for ($i = 0; $i < count($values); $i++){
+        $state = ($settings[$dbName] === $values[$i])? 'active ':'';
+        echo '<div class="'. $state .'item" data-value="';
+        echo $values[$i] .'">'. $strings[$i] .'</div>';
+      }
+  echo '</div></div>';
+  
+  // noscript MUST be after the hidden input
+  // so that the hidden input's value is overwritten
+  echo '<noscript><select required name="'.$inputName.'">';
+  for ($i = 0; $i < count($values); $i++){
+    $state = ($settings[$dbName] === $values[$i])? ' selected' :'';
+    echo '<option value="'.$values[$i]."\"$state>".$strings[$i].'</option>';
+  }
+  echo '</select></noscript>';
 }
 ?>
 
@@ -121,16 +139,20 @@ function getLists($prop){
       <h3 class="ui header">Privacy</h3>
       <div class="field">
         <label>Who can view your profile?</label>
-        <?=getLists('whosees')?>
+        <?=writeDropdown('whosees','whosees',$privacyVals,$privacyOpts)?>
       </div>
       <div class="field">
         <label>Who can ask you a question?</label>
-        <?=getLists('whoasks')?>
+        <?=writeDropdown('whoasks','whoasks',$privacyVals,$privacyOpts)?>
       </div>
     </div>
     <div class="column" id="displaySettings">
       <h3 class="ui header">Display</h3>
-      <p>These settings will be used to display your profile.</p>
+      <p>
+        These settings will be used to display your profile.<br>
+        <a href="http://www.colourlovers.com/colors">Need inspiration?</a>
+        <i class="external url teal icon"></i>
+      </p>
       <div class="inline field">
         <label>Background color:</label>
         <input type="color" name="bcolor" required value="<?=$settings['backcolor']?>">
@@ -141,12 +163,7 @@ function getLists($prop){
       </div>
       <div class="inline field">
         <label>Text font family:</label>
-        <select name="fontfamily" required>
-         <?php
-          foreach($fonts as $curr)
-            echo '<option'.($settings['textfont']===$curr?' selected':'').">$curr</option>";
-         ?>
-        </select>
+        <?=writeDropdown('fontfamily','textfont',$fonts)?>
       </div>
       
       <noscript>Unless you enable Javascript the preview below will not function correctly.</noscript>

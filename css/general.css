@@ -174,3 +174,6 @@ header#profileHeader i.user.icon {vertical-align: initial;}
   margin-left: auto!important;
   margin-right: auto!important;
 }
+
+.scriptOnly {display: none !important;}
+/* to hide removeClass('scriptOnly')*/
