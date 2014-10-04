@@ -132,11 +132,6 @@ form#friendForm > .ui.link.list.segment > .item {
   margin-left: 1em;
 }
 
-.red:not(.icon):not(.ui) { /*only used in settings, TO REMOVE*/
-  color:white;
-  background:red;
-  font-weight:bold;
-}
 a.date {
   color:gray;
   font-size:0.8em;

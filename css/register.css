@@ -1,5 +1,6 @@
 h1.ui.inverted.block.header {
-  background-color: #f98f00;
+  background-color: #F8981F;
+  background-image: linear-gradient(to bottom, #F8A11F, #EE911D);
   font-family: segoe ui, trebuchet ms, tahoma, sans-serif;
   font-weight: 100;
 }
