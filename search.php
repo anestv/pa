@@ -24,17 +24,25 @@ function get($prop){
   if (!empty($_GET[$prop]))
     echo ' value="'.$_GET[$prop].'"';
 }
+
+if (isset($_GET['lookfor']) and $_GET['lookfor'] === 'qa'){
+  $activeQA = ' active';
+  $activeU = '';
+} else {
+  $activeQA = '';
+  $activeU = ' active';
+}
 ?>
 
 <!-- bar with search options -->
 <aside>
   <div class="ui tabular menu">
-    <a class="active item" data-tab="users">Users</a>
-    <a class="item" data-tab="qa">Questions</a>
+    <a class="item<?=$activeU?>" data-tab="users">Users</a>
+    <a class="item<?=$activeQA?>" data-tab="qa">Questions</a>
   </div>
   <!-- name attribute for inputs is inserted by get() -->
   
-  <form name="user" class="ui form active tab" autocomplete="off" data-tab="users">
+  <form name="user" class="ui form<?=$activeU?> tab" autocomplete="off" data-tab="users">
     <input type="hidden" name="lookfor" value="u">
     <h4 class="ui header"><i class="users icon"></i>Search for users</h4>
     <input type="text" maxlength="20" placeholder="Username" <?=get('username')?>>
@@ -45,13 +53,12 @@ function get($prop){
     </button>
   </form>
   
-  <form name="qa" class="ui form tab" autocomplete="off" data-tab="qa">
+  <form name="qa" class="ui form<?=$activeQA?> tab" autocomplete="off" data-tab="qa">
     <input type="hidden" name="lookfor" value="qa">
     <h4 class="ui header"><i class="question icon"></i>Search for questions / answers</h4>
-    <div class="ui labeled input">
+    <div class="ui icon input">
       <input type="text" maxlength="20" placeholder="From who" <?=get('fromuser')?>>
-      <div class="ui orange corner label" title="Unless you search for questions you asked,
- only eponymously asked questions will show up"><i class="warning icon"></i></div>
+      <i class="info icon" title="Unless you search for questions you asked, only eponymously asked questions will show up"></i>
     </div>
     <input type="text" maxlength="20" placeholder="To who" <?=get('touser')?>>
     <input type="text" placeholder="Text to look for" <?=get('query')?>>
@@ -120,8 +127,7 @@ function doUserSearch() {
   }?>
 </tr></tfoot>
 </table>
-  <?php 
-  
+<?php 
 }
 
 function printDate($q, $prop){
