@@ -5,7 +5,6 @@
   <link rel="stylesheet" type="text/css" href="css/general.css">
   <link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
   <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
-  <link rel="stylesheet" type="text/css" href="css/register.css">
   <link rel="stylesheet" type="text/css" href="css/profileAppearance.dcss.php">
   <meta charset="UTF-8">
   <style>
@@ -110,6 +109,7 @@ function writeDropdown($inputName, $dbName, $values, $strings = null){
   // noscript MUST be after the hidden input
   // so that the hidden input's value is overwritten
   echo '<noscript><select required name="'.$inputName.'">';
+  echo '<option value="">Select one</option>'; //required for valid html5
   for ($i = 0; $i < count($values); $i++){
     $state = ($settings[$dbName] === $values[$i])? ' selected' :'';
     echo '<option value="'.$values[$i]."\"$state>".$strings[$i].'</option>';
