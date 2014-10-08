@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <style>
     .ui.red.inverted.block.header {
-      background-image: linear-gradient(to bottom, #F05656, #CE4040);
+      background-image: linear-gradient(to bottom, #E44B4B, #D44B4B);
     }
   </style>
 </head>

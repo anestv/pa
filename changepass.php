@@ -4,7 +4,6 @@
   <title>Change Password - PrivateAsk</title>
   <link rel="stylesheet" type="text/css" href="css/general.css">
   <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
-  <link rel="stylesheet" type="text/css" href="css/register.css"><!-- for the orange header -->
   <meta charset="utf-8">
 </head>
 <body>
@@ -36,7 +35,7 @@ if ($new !== $_POST['new2'])
 
 
 $r1 = $con->query("SELECT hs_pass FROM users WHERE username = '$user';");
-if (!$r1) terminate('Server error:'.$con->error, 500);
+if (!$r1) terminate('Server error: '.$con->error, 500);
 
 if (!password_verify($old, $r1->fetch_array()['hs_pass']))
   terminate('The old password is incorrect');
@@ -56,22 +55,23 @@ if (!$passDB) terminate('Fatal server error: password for insertion is empty');
 
 $res = $con->query("UPDATE users SET hs_pass = '$passDB' WHERE username = '$user';");
 
-echo '<div class="ui message ';
-if ($res) echo 'success"><i class="checkmark icon"></i>Your password was successfully changed!';
-else echo 'error"><i class="attention icon"></i>Your password was NOT changed. '. $con->error;
-echo '</div>';
+if ($res) successMsg('Your password was successfully changed!');
+else errorMsg('Your password was not changed.', $con->error);
 }
 ?>
 
-<h1 class="ui top attached center aligned block inverted header">
+<h1 class="ui top attached center aligned block orange inverted header">
   <a href="./"><i class="home link icon"></i></a>
   Change your password
 </h1>
-<div class="ui attached info message">
-  <div class="header">
-    We're glad to see you want to change your password!
+<div class="ui attached info icon message">
+  <i class="info icon"></i>
+  <div class="content">
+    <div class="header">
+      We're glad to see you want to change your password!
+    </div>
+    Reminder: passwords must be 6-100 characters and should be difficult to guess.
   </div>
-  Reminder: passwords must be 6-100 characters and should be difficult to guess.
 </div>
 <form method="post" class="ui bottom attached form segment" autocomplete="off">
   <div class="ui two column stackable grid">
