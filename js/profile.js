@@ -21,6 +21,11 @@ $('#scrollTop').click(function (){
 });
 
 
+//handle button inside dimmer
+
+$('form.ask .ui.dimmer .ui.button').click(function(){
+  $('form.ask').dimmer('hide');
+});
 
 //handle show more button
 

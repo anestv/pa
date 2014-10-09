@@ -55,9 +55,14 @@ else {
 ?>
 <form method="post" class="ask ui dimmable form segment" action="sent.php">
 
-  <div class="ui dimmer"><div class="content"><div class="center">
-    Your question has been submitted!<br>Ask another one?
-  </div></div></div>
+  <div class="ui dimmer"><div class="content">
+    <!-- .center is for semantic modal behavior to close on click on dimmer-->
+    <div class="center ui icon header">
+      <i class="green checkmark icon"></i>
+      <p>Question submitted!</p>
+      <div class="ui blue small button">Ask another one?</div>
+    </div>
+  </div></div>
   <input type="hidden" name="to" value="<?=$ownerName?>">
   <textarea name="question" placeholder="Ask a question" required maxlength="200"></textarea>
   <div id="askControls">
