@@ -11,13 +11,22 @@
 <main class="center940">
 
 <?php
-
-if($user){
-  echo "Hello $user, you are already logged in";
-  //TODO maybe redirect to home
+if ($user){
+  redirect('index.php');
+?>
+  <div class="ui info message">
+    <div class="header">
+      <i class="info icon"></i>Hello <?=$user?>, you are already logged in
+    </div>
+    Go to the <a href=".">Home page</a> &emsp; <a href="logout.php">Log out</a>
+  </div>
+  </main>
+  </body>
+  </html>
+  <?php
+  die;
 } else if ($_SERVER["REQUEST_METHOD"] === "POST"){
-
-
+  
   if (!empty($_POST["datebirth"])){
     header("HTTP/1.1 418 I'm a teapot");
     session_write_close(); //let other requests continue
@@ -70,7 +79,7 @@ if($user){
   if (!$result)
     terminate("Your account was not created ". $con->error, 500);
   
-  http_response_code(201); //created
+  redirect("user/$user", 201); //won't redirect, just set Location, http created
   session_regenerate_id(true);
   $_SESSION['user'] = $user; //log him in
   ?>
@@ -78,7 +87,7 @@ if($user){
 <div class="aloneInPage ui success icon message">
   <i class="checkmark icon"></i><div class="content">
   <h2 class="header">Success!</h2>
-  Your account has been created!<br>
+  Your account has been created and you are logged in!<br>
   <a href=".">Home</a> <a href="user/<?=$user?>">Your profile</a>
 </div></div>
 </main>
@@ -89,13 +98,13 @@ if($user){
   die;
 }
 ?>
-<h1 class="ui center aligned inverted block header top attached">
+<h1 class="ui center aligned orange inverted block header top attached">
  <a href="./"><i class="home link icon"></i></a>
  Create an account on PrivateAsk
 </h1>
 
 <form method="post" autocomplete="off" class="ui form bottom attached segment">
-<div class="ui two column grid">
+<div class="ui two column stackable grid">
  
  <div class="column">
   <div class="field">

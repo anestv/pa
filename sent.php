@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_POST['question']) and trim($_POST['question']))
-  $question=$con->real_escape_string(htmlspecialchars($_POST["question"]));
+  $question = $con->real_escape_string(htmlspecialchars($_POST["question"]));
 else terminate('You did not enter a question', 400);
 
 if (empty($_POST['pubAsk']))
@@ -43,15 +43,20 @@ $query = "INSERT INTO questions (fromuser, touser, question, publicasker)".
 
 $result = $con->query($query);
 
-$reqestAJAX = isset(apache_request_headers()['X-Requested-With']) and 
+$requestAJAX = isset(apache_request_headers()['X-Requested-With']) and 
     apache_request_headers()['X-Requested-With'] === "XMLHttpRequest";
 
-if (!$reqestAJAX)
+if (!$requestAJAX)
   echo '<!DOCTYPE html><html><head><title>Ask a question - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="css/general.css"></head><body>';
+<link rel="stylesheet" type="text/css" href="css/general.css">
+<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+<meta charset="utf-8"></head><body>';
 
-if ($result) echo '<div id="success" class="aloneInPage">Your question has been submitted</div>';
-else terminate("Your question was not submitted ".$con->error , 500);
+if ($result){
+  successMsg('Your question has been submitted');
+  if (!$requestAJAX) redirect("user/$ownerName");
+} else
+  errorMsg("Your question was not submitted", $con->error);
 
-if (!$reqestAJAX) echo '</body></html>';
+if (!$requestAJAX) echo '</body></html>';
 ?>

@@ -4,6 +4,12 @@
   <title>Delete your account - PrivateAsk</title>
   <link rel="stylesheet" type="text/css" href="css/general.css">
   <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <meta charset="utf-8">
+  <style>
+    .ui.red.inverted.block.header {
+      background-image: linear-gradient(to bottom, #E44B4B, #D44B4B);
+    }
+  </style>
 </head>
 <body>
 <?php
@@ -41,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){ //thelei na to diagrapsei
   }
 }
 ?>
-<main style="max-width:950px; margin:auto"><!-- could be id="qContainer" -->
+<main class="center940">
 
 <h1 class="ui red inverted block top attached header">
   <i class="trash icon"></i> Delete your account

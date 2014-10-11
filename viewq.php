@@ -1,11 +1,12 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
-<!-- ola ta links einai relative to /pa/. Aparaithto gia to /pa/question/123 -->
-<base href="/pa/">
-<title>View question - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
-<link rel="stylesheet" type="text/css" href="css/general.css">
-<meta charset="UTF-8">
+  <!-- ola ta links einai relative to /pa/. Aparaithto gia to /pa/question/123 -->
+  <base href="/pa/">
+  <title>View question - PrivateAsk</title>
+  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <meta charset="UTF-8">
 </head>
 <body>
 

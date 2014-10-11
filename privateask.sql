@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `whoasks` set('friends','users','all') CHARACTER SET ascii NOT NULL DEFAULT 'friends',
   `deleteon` date DEFAULT NULL,
   `backcolor` varchar(7) CHARACTER SET ascii NOT NULL DEFAULT '#220963',
-  `textcolor` varchar(7) CHARACTER SET ascii NOT NULL DEFAULT '#F0F8FF',
+  `headcolor` varchar(7) CHARACTER SET ascii NOT NULL DEFAULT '#F0F8FF',
   `textfont` varchar(20) CHARACTER SET ascii NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 

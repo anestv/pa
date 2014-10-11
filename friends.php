@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Friends - PrivateAsk</title>
-<link rel="stylesheet" type="text/css" href="css/general.css">
-<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <title>Friends - PrivateAsk</title>
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <meta charset="utf-8">
 </head>
 <body data-user="<?=$user?>">
 
@@ -25,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
     $users[] = $row['username']; //push to array
   
   
-  $friends = json_decode($_POST["friends"]); //isws epikinduno alla to friends_str anti " exei \"
+  $friends = json_decode($_POST["friends"]); //isws epikinduno alla anti " exei \"
   if (! ($friends and is_array($friends)))
     terminate("Your friends were not provided as a correct JSON", 400);
   
@@ -97,8 +99,8 @@ if (empty($friends)) $friends = json_decode($friends_json);
 <div class="ui divided relaxed animated link list raised segment">
   <?php 
   foreach ($friends as $curr) {
-    echo '<div class="item"><div class="ui right floated circular red icon button">';
-    echo '<i class="remove icon"></i></div><a class="header" href="user/';
+    echo '<div class="item"><div class="ui right floated circular icon button">';
+    echo '<i class="red remove icon"></i></div><a class="header" href="user/';
     echo $curr .'">'. $curr .'</a></div>';
   } ?>
 </div>

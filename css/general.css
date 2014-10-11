@@ -2,58 +2,20 @@ html {height:100%;}
 
 body {background: radial-gradient(#e0f5fd, #5099e9) fixed;}
 
-#success, #fail {
-  width: 15em;
-  margin: auto;
-  padding: 0.9em 0.4em;
-  border-radius: 10px;
-  font: 1.5em sans-serif;
-  text-align: center;
-}
 .aloneInPage{margin-top:5em !important;}
-#fail span, #success span {
-  background: rgba(245, 245, 245, 0.5);
-  color: darkslategrey;
-  padding: 3px;
-  border-radius: 5px;
-  font: 1.5em "Times New Roman", serif;
-}
-#success { /*only used in sent.php*/
-  background: radial-gradient(#D3D3D3, #94EC88);
-  color: darkslateblue;
-}
-#fail {
-  background: radial-gradient(#D33F2B, #440906);
-  color: lightyellow;
-}
-#fail a {color:lightblue;/*gia na fainetai*/}
 
 form {
   text-align:center;
   margin:auto;
 }
-input[type=number]{width:2em;}
-input:valid, textarea:valid {outline-color: green;}
 input:invalid, textarea:invalid {outline-color: red;}
-textarea {
-  color:black;/*gia na fainetai to keimeno*/
-  width:400px;
-  height:50px;
-  resize:vertical;
-  margin:0;
+form.ask.ui.form {
+  max-width: 420px;
+  margin: 0.6em auto;
 }
-form.ask.ui.form {max-width: 420px;}
 form.ask #askControls {
-  max-width:400px;
-  margin:auto;
-  overflow:hidden;
-  padding:2px;
-  border-radius:5px;
-}
-form img {
-  vertical-align: middle;
-  width: 20px;
-  cursor:help;
+  overflow: hidden;
+  padding: 0.6em 0.2em 0;
 }
 #askControls label {float: left;}
 #askControls button {float: right;}
@@ -97,13 +59,6 @@ div.question .ui.segment {min-height: 4em;}
   max-width: 940px;
   margin: auto;
 }
-#qContainer #noQs{
-  text-align: center;
-  max-width: 400px;
-  margin: 0.5em auto;
-  font-size: large;
-  border-radius: 10px;
-}
 button#showMore {
   min-width: 160px;
   margin: auto;
@@ -132,36 +87,30 @@ form#friendForm > .ui.link.list.segment > .item {
   margin-left: 1em;
 }
 
-.red:not(.icon):not(.ui) { /*only used in settings, TO REMOVE*/
-  color:white;
-  background:red;
-  font-weight:bold;
-}
 a.date {
   color:gray;
   font-size:0.8em;
 }
 a.date:hover {color:#555;}
 
+/*name to add significance*/
 form.answer textarea[name="answer"] {
   height: 8em;
   margin-bottom: 1em;
 }
 
-header {
+header#profileHeader {
   min-width:700px;
   max-width:900px;
   display:table;
   margin:auto;
   border-radius:3em;
-  background:royalblue;
-  color:floralwhite;
 }
-header h1 {
+header#profileHeader h1 {
   display:inline-block;
   margin:0.7em;
 }
-header i.user.icon {vertical-align: initial;}
+header#profileHeader i.user.icon {vertical-align: initial;}
 
 .ui.button {font-family: sans-serif}
 
@@ -178,5 +127,24 @@ header i.user.icon {vertical-align: initial;}
 
 .center480 {
   max-width: 480px;
-  margin: auto;
+  margin-left: auto!important;
+  margin-right: auto!important;
+}
+
+.scriptOnly {display: none !important;}
+/* to hide removeClass('scriptOnly')*/
+
+h1.ui.orange.inverted.block.header {
+  background-color: #F8981F;
+  background-image: linear-gradient(to bottom, #F79E2E, #F39826);
+  font-family: 'Segoe UI', 'Trebuchet MS', 'Tahoma', sans-serif;
+  font-weight: 100;
+}
+
+h1.ui.orange.inverted.block.header i.home.icon {
+  float: left;
+  margin-left: 1em;
+  margin-right: -1em;
+  color: #FFF;
+  text-decoration: none;
 }
