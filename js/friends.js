@@ -1,5 +1,6 @@
 $(function (){ //on document ready
 
+var promptUnsaved = true;
 var orig = JSON.parse($('input[name="friends"]').val());
 if (!Array.isArray(orig))
   console.error("'Friends' is not a valid JSON array");
@@ -22,6 +23,8 @@ $('form').keydown(function(e){
 
 $('form').submit(function(){
   $('input[name="friends"]').val(JSON.stringify(friends));
+
+  promptUnsaved = false;
   return true;
 });
 
@@ -29,9 +32,8 @@ function addFriend(){
   var friendName = $('#friendInput').val();
   $('#friendInput').val('');
   
-  if (friendName.trim() == '') {
+  if (friendName.trim() == '')
     return alert("Enter a friend name");
-  }
   if (friends.indexOf(friendName) !== -1)
     return alert("You have already entered this friend");
   if (friendName === user)
@@ -64,7 +66,9 @@ window.onbeforeunload = function (e) {
   var origS = JSON.stringify(orig); //is already sorted
   var currS = JSON.stringify(friends.sort());
   
-  if (origS !== currS) return 'You have not saved your friends';
+  // do not compare the actual arrays as they are objects and have different references
+  if (promptUnsaved && origS !== currS)
+    return e.returnValue = 'You have not saved your friends';
 };
 
 });

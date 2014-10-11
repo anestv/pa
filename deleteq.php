@@ -19,7 +19,7 @@
     </style>
   </head>
 <body>
-
+<main class="center940">
 <?php
 
 if (empty($_GET['qid']))
@@ -49,9 +49,9 @@ function printDate($prop){
   return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
 }
 
-if (empty($_GET['del'])){ ?>
+if (empty($_POST['del'])){ ?>
 
-<div class="question" id="qContainer">
+<div class="question">
   <div class="ui top attached tiny header">
     To: <a href="user/<?=$q['touser']?>"><?=$q['touser']?></a>
     <a class="date">Asked: <?=printDate('timeasked')?></a><br>
@@ -63,8 +63,7 @@ if (empty($_GET['del'])){ ?>
     <h3 class="ui header"><?=$q['question']?></h3>
     <p><?=$q['answer']?></p>
   </div>
-  <form class="ui bottom attached segment">
-    <input type="hidden" name="qid" value="<?=$qid?>">
+  <form method="POST" class="ui bottom attached segment">
     <input type="hidden" name="del" value="1">
     <div class="ui warning message">
       <h2 class="header"><i class="warning icon"></i>
@@ -96,6 +95,6 @@ if (empty($_GET['del'])){ ?>
   else terminate('The question was not deleted'. $con->error, 500);
 }
 ?>
-
+</main>
 </body>
 </html>

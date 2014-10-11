@@ -84,9 +84,8 @@ if ($('.deleteq').length)
     if (!confirm('Delete this question?')) return false;
     
     var qElement = $(this).parents('.question');
-    var page = this.href + '&del=1';
     
-    $.get(page, deleteOK).question = qElement;
+    $.post(this.href, 'del=1', deleteOK).question = qElement;
     
     return false;
   });
@@ -96,12 +95,12 @@ if ($('.deleteq').length)
 $(document).ajaxError(function(event, xhr, settings){
   
   var errorType;
-  if (settings.type === 'POST')
-    errorType = 'submit your question';
-  else if (settings.url.indexOf('?user=') !==-1)
+  if (settings.type === 'GET')
     errorType = 'load more questions';
-  else
+  else if (xhr.question)
     errorType = 'delete this question';
+  else
+    errorType = 'submit your question';
   
   var errorMsg = 'Unfortunately we could not ' + errorType +
     '. ' + xhr.getResponseHeader('X-Error-Descr');
@@ -110,12 +109,12 @@ $(document).ajaxError(function(event, xhr, settings){
   console.warn(xhr.getResponseHeader('X-Error-Descr'));
   
   var ce = xhr.status < 500; //if it's a client error
-  if (settings.type === "POST")
-    ce ? butSubmit.fadeOut(300) : $('form.ask').removeClass('loading');
-  else if (settings.url.indexOf('?user=') !==-1)
+  if (settings.type === 'GET')
     ce ? showMore.fadeOut(300) : showMore.prop('disabled', false).html('Show More');
-  else
+  else if (xhr.question)
     ce ? $('#qContainer').off('click', 'a.deleteq') : null;
+  else
+    ce ? butSubmit.fadeOut(300) : $('form.ask').removeClass('loading');
   
 });
 
