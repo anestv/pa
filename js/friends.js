@@ -15,7 +15,10 @@ $('#addFriend').click(addFriend);
 
 $('form').keydown(function(e){
   if (e.which === 13) {
-    addFriend();
+    
+    // for #32: Chrome submits the form if addFriend alerts
+    setTimeout(addFriend, 5);
+    
     return false;
   }
 });
