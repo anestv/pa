@@ -23,6 +23,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `friends`
+--
+
+CREATE TABLE IF NOT EXISTS `friends` (
+  `user` varchar(20) NOT NULL,
+  `friend` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=ascii;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `questions`
 --
 
@@ -89,6 +100,12 @@ DELIMITER ;
 --
 
 --
+-- Indexes for table `friends`
+--
+ALTER TABLE `friends`
+ ADD UNIQUE KEY `friends_user_index` (`user`,`friend`), ADD KEY `FK_friends_friend` (`friend`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
@@ -123,6 +140,13 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `friends`
+--
+ALTER TABLE `friends`
+ADD CONSTRAINT `FK_friends_friend` FOREIGN KEY (`friend`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `FK_friends_user` FOREIGN KEY (`user`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `questions`
