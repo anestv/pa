@@ -3,6 +3,7 @@ $(function() {
 var qContainer = $('#qContainer');
 var showMore = $('button#showMore');
 var butSubmit = $('form.ask #askControls button');
+var butFriend = $('#profileHeader a.toggle.button');
 var owner = $('body').data('owner');
 var offset = 10;
 
@@ -17,6 +18,27 @@ $(window).scroll(function (){
 
 $('#scrollTop').click(function (){
   $("html, body").animate({scrollTop: 0}, 600);
+  return false;
+});
+
+
+//add/remove friend button
+function friendOK(){
+  butFriend.removeClass('loading').toggleClass('active');
+  
+  if (! butFriend.hasClass('active')) //we are after toggleClass
+    butFriend.children('span').text('Add friend');
+  else
+    butFriend.children('span').text('Friend');
+  
+}
+
+butFriend.click(function(){
+  butFriend.addClass('loading');
+  var action = butFriend.hasClass('active') ? 'remove' : 'add';
+ 
+  $.post('friends.php', {do: action, friends: owner}, friendOK);
+  
   return false;
 });
 
@@ -99,6 +121,8 @@ $(document).ajaxError(function(event, xhr, settings){
     errorType = 'load more questions';
   else if (xhr.question)
     errorType = 'delete this question';
+  else if (settings.url === 'friends.php')
+    errorType = 'change your friend list'
   else
     errorType = 'submit your question';
   
@@ -113,6 +137,8 @@ $(document).ajaxError(function(event, xhr, settings){
     ce ? showMore.fadeOut(300) : showMore.prop('disabled', false).html('Show More');
   else if (xhr.question)
     ce ? $('#qContainer').off('click', 'a.deleteq') : null;
+  else if (settings.url === 'friends.php')
+    ce ? butFriend.fadeOut(300) : location.assign('friends.php');
   else
     ce ? butSubmit.fadeOut(300) : $('form.ask').removeClass('loading');
   
