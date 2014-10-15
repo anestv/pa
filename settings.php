@@ -10,7 +10,11 @@
   <style>
     body {padding: 1em 4rem 0;}
     .ui.form.segment {padding-top: 0;}
-    #displayPreview span {padding: 0.5em 1.5em;}
+    #displayPreview span {
+      display: inline-block;
+      padding: 0.5em 1.5em;
+      line-height: 1.6;
+    }
     input[type="color"]{
       padding: 0 2px!important;
       min-height: 2em;
