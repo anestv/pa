@@ -9,6 +9,8 @@ var friends = orig.sort().slice(0);
 
 var user = $('body').data('user');
 
+$('.scriptOnly').removeClass('scriptOnly');
+
 $('.ui.link.list').on('click', '.ui.icon.button', removeFriend);
 
 $('#addFriend').click(addFriend);

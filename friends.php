@@ -93,6 +93,10 @@ if (isset($_POST['do'])){
     successMsg('Success!', 'Your friends have been changed!');
     
   } catch (Exception $e){
+    if ($e instanceof RuntimeException)
+      http_response_code(500);
+    else http_response_code(400);
+    
     $excMsg = $e->getMessage();
     header("X-Error-Descr: $excMsg");
     echo '<div class="center480 ui warning message"><div class="header">';
@@ -109,17 +113,17 @@ $friends = array();
 while ($curr = $res->fetch_array())
   $friends[] = $curr[0];
 
-$friends_json = json_encode($friends);
+$friends_json_html = htmlspecialchars(json_encode($friends));
 
 ?>
 <noscript>
   <div class="ui warning message">
     <div class="header"><i class="warning icon"></i> JavaScript is required for this page</div>
-    If Javascript cannot be enabled, add list your friends in JSON format, and submit.
+    If Javascript cannot be enabled, add your friends in JSON array format, and submit.
   </div>
   <form method="post">
     <input type="hidden" name="do" value="set">
-    <textarea name="friends"><?=htmlspecialchars($friends_json)?></textarea>
+    <textarea name="friends" cols="60" rows="4"><?=$friends_json_html?></textarea>
     <input type="submit">
   </form>
 </noscript>
@@ -137,10 +141,10 @@ $friends_json = json_encode($friends);
   </ul>
 </div>
 
-<form method="post" id="friendForm">
+<form method="post" id="friendForm" class="scriptOnly">
 
 <input type="hidden" name="do" value="set">
-<input type="hidden" name="friends" value="<?=htmlspecialchars($friends_json)?>">
+<input type="hidden" name="friends" value="<?=$friends_json_html?>">
 <div class="ui action input">
   <input type="text" id="friendInput" name="friendInput" placeholder="Friend's username">
   <div id="addFriend" class="ui icon button"><i class="add icon"></i></div>
