@@ -42,16 +42,17 @@ if (empty($q['answer']))
 
 
 $ownerName = $q['touser'];
-$owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
-$ownerFr = json_decode($owner['friends']);
-if ($ownerFr === null) terminate('A server error has occurred.', 500);
-array_push($ownerFr, $ownerName);
+$query = "SELECT deleteon, whosees FROM users WHERE username = '$ownerName';";
+$owner = $con->query($query)->fetch_array();
+
 if ($owner['deleteon'] !== null)
   terminate('The owner of this question has deactivated their account.');
 
+$res = $con->query("SELECT friend FROM friends WHERE user = '$ownerName' AND friend = '$user';");
+$ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
 
 $whosees = $owner['whosees'];
-if ($whosees === 'friends' and !in_array($user, $ownerFr))
+if ($whosees === 'friends' and !$ownerHasUserFriend)
   terminate('Sorry, you do not have the right to see this question', 403);
 
 
