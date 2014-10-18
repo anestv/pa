@@ -152,7 +152,7 @@ function printQ($q){
 function doQASearch() {
   global $con, $user;
 
-  $query = "SELECT questions.* FROM questions , users WHERE answer IS NOT NULL";
+  $query = "SELECT DISTINCT questions.* FROM questions, users, friends WHERE answer IS NOT NULL";
   
   if (!empty($_GET['query'])){
     if (strlen(trim($_GET['query'])) < 5)
@@ -190,8 +190,8 @@ function doQASearch() {
   
   $query .= " AND questions.touser = users.username AND deleteon IS NULL AND (";
   if ($user){ //takes care of privacy
-    $query .= "whosees = 'users' OR friends LIKE '%\"";
-    $query .= escape($user)."\"%' OR username = '$user' OR ";
+    $query .= "whosees = 'users' OR username = '$user' OR ";
+    $query .= "(`friends`.`user` = username AND friends.friend = '$user') OR ";
   }
   $query .= "whosees = 'all') LIMIT 50;"; //maybe do something about the limit in the future
   

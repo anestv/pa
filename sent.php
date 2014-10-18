@@ -12,22 +12,25 @@ if (empty($_POST['to']))
   terminate('Required parameters were not provided', 400);
 
 $ownerName = $con->real_escape_string($_POST['to']);
-$owner = $con->query("SELECT whoasks, friends, deleteon FROM users".
-  " WHERE username = '$ownerName';")->fetch_array();
+
+$query = "SELECT whoasks, deleteon FROM users WHERE username = '$ownerName';";
+$owner = $con->query($query)->fetch_array();
+
 if ($owner === null)
   terminate('This user does not exist or has deleted their account', 404);
-$ownerFr = json_decode($owner['friends']);
-if ($ownerFr === null) terminate('A server error has occurred.', 500);
-array_push($ownerFr, $ownerName);
+
 if ($owner['deleteon'] !== null)
   terminate('This user has deactivated their account.', 404);
 
 $ask = $owner['whoasks'];
 
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
+$ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
+
 //check permissions
 if (empty($user) and $ask !== 'all')
-  terminate('You must log in to ask a question', 401);
-else if ($ask === 'friends' and !in_array($user, $ownerFr))
+  terminate('You must <a href="login.php">log in</a> to ask a question', 401);
+else if ($ask === 'friends' and !$ownerHasUserFriend)
   terminate('Sorry, you cannot ask this user a question', 403);
 
 
