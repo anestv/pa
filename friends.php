@@ -36,7 +36,7 @@ if (isset($_POST['do'])){
       array_splice($friends, $userinfriends, 1);
     
     //clear previous friends
-    $res = $con->query("DELETE FROM friends WHERE user = '$user';");
+    $res = $con->query("DELETE FROM friends WHERE `user` = '$user';");
     if (!$res) throw new RuntimeException("MySQL error ".$con->error);
     
     $stmt = $con->prepare("INSERT INTO friends VALUES ('$user', ?);");
@@ -106,7 +106,7 @@ if (isset($_POST['do'])){
     die('</body></html>'); //do not print View
 }
 
-$res = $con->query("SELECT friend FROM friends WHERE user = '$user';");
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$user';");
 if (!$res) terminate("Querying database failed ".$con->error, 500);
 
 $friends = array();

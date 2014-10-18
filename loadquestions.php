@@ -12,7 +12,7 @@ if (empty($ownerName)){
   
   $ownerName = $con->real_escape_string($_GET['user']);
   
-  $res = $con->query("SELECT friend FROM friends WHERE user = '$ownerName' AND friend = '$user';");
+  $res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
   $ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
   
   if (empty($_GET['offset']))

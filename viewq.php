@@ -32,7 +32,7 @@ $owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetc
 if ($owner['deleteon'] !== null)
   terminate('The owner of this question has deactivated their account.');
 
-$res = $con->query("SELECT friend FROM friends WHERE user = '$ownerName' AND friend = '$user';");
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
 $ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
 
 $whosees = $owner['whosees'];

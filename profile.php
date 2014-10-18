@@ -52,11 +52,11 @@ $see = $owner['whosees'];
 $ask = $owner['whoasks'];
 
 //does the owner have user as friend?
-$res = $con->query("SELECT friend FROM friends WHERE user = '$ownerName' AND friend = '$user';");
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
 $ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
 
 //does the user have owner as friend?
-$res = $con->query("SELECT friend FROM friends WHERE user = '$user' AND friend = '$ownerName';");
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$user' AND friend = '$ownerName';");
 $userHasOwnerFriend = ($res and $res->num_rows > 0);
 
 ?>
