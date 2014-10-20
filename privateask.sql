@@ -23,6 +23,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `friends`
+--
+
+CREATE TABLE IF NOT EXISTS `friends` (
+  `user` varchar(20) NOT NULL,
+  `friend` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=ascii;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `questions`
 --
 
@@ -61,7 +72,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(20) CHARACTER SET ascii NOT NULL,
   `hs_pass` varchar(100) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT 'Hashed Salted Password',
   `realname` varchar(40) CHARACTER SET utf8 NOT NULL,
-  `friends` varchar(1000) CHARACTER SET ascii NOT NULL DEFAULT '[]' COMMENT 'in JSON',
   `whosees` set('friends','users','all') CHARACTER SET ascii NOT NULL DEFAULT 'friends',
   `whoasks` set('friends','users','all') CHARACTER SET ascii NOT NULL DEFAULT 'friends',
   `deleteon` date DEFAULT NULL,
@@ -89,6 +99,12 @@ DELIMITER ;
 --
 
 --
+-- Indexes for table `friends`
+--
+ALTER TABLE `friends`
+ ADD UNIQUE KEY `friends_user_index` (`user`,`friend`), ADD KEY `FK_friends_friend` (`friend`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
@@ -104,7 +120,7 @@ ALTER TABLE `question_reports`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
- ADD PRIMARY KEY (`username`), ADD FULLTEXT KEY `friends` (`friends`);
+ ADD PRIMARY KEY (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -123,6 +139,13 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `friends`
+--
+ALTER TABLE `friends`
+ADD CONSTRAINT `FK_friends_friend` FOREIGN KEY (`friend`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `FK_friends_user` FOREIGN KEY (`user`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `questions`

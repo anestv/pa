@@ -9,10 +9,7 @@ if (empty($_GET['user']))
 $ownerName = $con->real_escape_string($_GET['user']);
 $owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
 if ($owner === null) terminate('This user does not exist or has deleted their account', 404);
-$ownerFr = json_decode($owner['friends']);
-if ($ownerFr === null or !is_array($ownerFr))
-  terminate('A server error has occurred.', 500);
-array_push($ownerFr, $ownerName);
+
 if ($owner['deleteon'] !== null)
   terminate('This user has deactivated their account.');
 //TODO πως θα κανει τερμινατε; δεν εχει καν stylesheets και ειμαι μεσα στο head
@@ -33,6 +30,19 @@ if ($owner['deleteon'] !== null)
 <meta property="og:url" content="http://<?=$_SERVER['SERVER_ADDR']?>/pa/user/<?=$ownerName?>">
 <meta property="profile:username" content="<?=$ownerName?>">
 
+<style>
+  header#profileHeader {
+    border-radius: 2em;
+  }
+  #profileHeader > div {
+    margin: 0 1.3em;
+    min-height: 2.5em;
+  }
+  #profileHeader > div:last-child > a {
+    transform: translateY(-30%);
+  }
+</style>
+
 </head>
 <body data-owner="<?=$ownerName?>">
 
@@ -41,14 +51,36 @@ if ($owner['deleteon'] !== null)
 $see = $owner['whosees'];
 $ask = $owner['whoasks'];
 
-echo '<header id="profileHeader"><i class="user big circular icon"></i><h1>';
-echo $owner['realname']. "</h1><span>Username: $ownerName</span></header>";
+//does the owner have user as friend?
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
+$ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
 
+//does the user have owner as friend?
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$user' AND friend = '$ownerName';");
+$userHasOwnerFriend = ($res and $res->num_rows > 0);
+
+?>
+<header id="profileHeader">
+  <div><i class="user big circular icon"></i><h1><?=$owner['realname']?></h1></div>
+  <div>
+    <?php
+    if ($user and $user !== $ownerName){
+      if ($userHasOwnerFriend)
+        echo '<a class="ui active toggle labeled right floated left icon button" '.
+          'href="friends.php"><i class="user icon"></i><span>Friend</span></a>';
+      else
+        echo '<a class="ui toggle labeled right floated left icon button" '.
+          'href="friends.php"><i class="user icon"></i><span>Add friend</span></a>';
+    } ?>
+    <span>Username: <?=$ownerName?></span>
+  </div>
+</header>
+<?php
 
 if (empty($user) and $ask !== 'all')
   echo '<div class="ui large warning message"><i class="warning icon">'.
     '</i>You must <a href="login.php">log in</a> to ask a question</div>';
-else if ($ask === 'friends' and !in_array($user, $ownerFr))
+else if ($ask === 'friends' and !$ownerHasUserFriend)
   echo '<div class="ui large warning message"><i class="warning icon">'.
     '</i>Sorry, you do not have the right to ask a question</div>';
 else {
@@ -100,7 +132,7 @@ if ($res->num_rows > 4)
 ?>
 
 <script src="js/jquery2.min.js"></script>
-<script src="js/profile.js"></script>
 <script src="js/semantic.min.js"></script>
+<script src="js/profile.js"></script>
 </body>
 </html>

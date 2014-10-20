@@ -14,63 +14,116 @@ if (empty($user))
   terminate('You must be logged in <br><a href="login.php">Log in</a>', 401);
 
 
-if ($_SERVER["REQUEST_METHOD"] === "POST"){
+if (isset($_POST['do'])){
   
-  if (!(isset($_POST["friends"]) and trim($_POST["friends"])))
-    terminate("Parameter friends was not given", 400);
+  function setFriends($friendsJSON){
+    global $con, $user;
+    
+    $friends = json_decode($_POST["friends"]);
+    if (! ($friends and is_array($friends)))
+      throw new InvalidArgumentException("Your friends were not provided as a correct JSON");
+    
+    if (isset($_POST["friendInput"]) and trim($_POST["friendInput"]))
+      $friends[] = $_POST["friendInput"];
+    
+    $friends = array_filter($friends, "is_string"); //remove non-string elements
+    
+    $friends = array_unique($friends);
+    
+    //does he have himself as friend?
+    $userinfriends = array_search($user, $friends);
+    if ($userinfriends !== false)
+      array_splice($friends, $userinfriends, 1);
+    
+    //clear previous friends
+    $res = $con->query("DELETE FROM friends WHERE `user` = '$user';");
+    if (!$res) throw new RuntimeException("MySQL error ".$con->error);
+    
+    $stmt = $con->prepare("INSERT INTO friends VALUES ('$user', ?);");
+    
+    $stmt->bind_param('s', $curr);
+    
+    foreach ($friends as $curr)
+      $stmt->execute(); //$curr is registered and we dont have to bind it every time
+    
+    $stmt->close();
+  }
+  
+  function changeAFriend($method, $friend){
+    global $user, $con;
+    
+    if ($user === $friend)
+      throw new InvalidArgumentException('You cannot add or remove yourself as friend');
+    
+    $friend = $con->real_escape_string($friend);
+    
+    if ($method === 'add')
+      $query = "INSERT INTO friends VALUES ('$user', '$friend');";
+    else
+      $query = "DELETE FROM friends WHERE user = '$user' AND friend = '$friend';";
+    
+    $res = $con->query($query);
+    
+    if ($res and $con->affected_rows === 0)
+      throw new Exception("$friend was not in your friends anyway");
+    
+    switch ($con->errno){
+      case 1062:
+        throw new Exception("You are already friends with $friend");
+      case 1064:
+        throw new RuntimeException('MySQL syntax error');
+      case 1452:
+        throw new Exception("It looks like $friend is not yet registered");
+    }
+  }
   
   
-  $users_raw = $con->query("SELECT username FROM users;");
-  if (!$users_raw) terminate("An error has occurred".$con->error, 500);
-  $users = array();
-  while($row = $users_raw->fetch_array())
-    $users[] = $row['username']; //push to array
+  $do = $_POST['do'];
   
-  
-  $friends = json_decode($_POST["friends"]); //isws epikinduno alla anti " exei \"
-  if (! ($friends and is_array($friends)))
-    terminate("Your friends were not provided as a correct JSON", 400);
-  
-  if (isset($_POST["friendInput"]) and trim($_POST["friendInput"]))
-    $friends[] = $_POST["friendInput"];
-  
-  $friends = array_unique($friends);
-  
-  //mhpws exi ton eauto tou
-  $userinfriends = array_search($user, $friends);
-  if ($userinfriends !== false)
-    array_splice($friends, $userinfriends, 1);
-  
-  foreach ($friends as $curr)
-    if (! in_array($curr, $users)) //case-sensitive
-      terminate("Some of the provided friends ($curr) do not have accounts", 400);
-  
-  
-  $friends_str = $con->real_escape_string(json_encode($friends));
-  
-  $query = "UPDATE users SET friends = '$friends_str' WHERE username = '$user';";
-  $result = $con->query($query);
-  
-  if (!$result)
-    terminate("Your friends could not be changed ".$con->error, 500);
-  else 
-    echo '<div class="ui success message"><i class="checkmark icon">'.
-      '</i>Your friends have been changed</div>';
+  try {
+    
+    if (!(isset($_POST['friends']) and trim($_POST['friends'])))
+      throw new InvalidArgumentException('Parameter friends was not given');
+    
+    if ($do === 'set')
+      setFriends($_POST['friends']);
+    else 
+      changeAFriend($do, $_POST['friends']);
+    
+    successMsg('Success!', 'Your friends have been changed!');
+    
+  } catch (Exception $e){
+    if ($e instanceof RuntimeException)
+      http_response_code(500);
+    else http_response_code(400);
+    
+    $excMsg = $e->getMessage();
+    header("X-Error-Descr: $excMsg");
+    echo '<div class="center480 ui warning message"><div class="header">';
+    echo "Oops, something went wrong.</div><p>$excMsg</p></div>";
+  }
+  if ($requestAJAX)
+    die('</body></html>'); //do not print View
 }
 
-$friends_raw = $con->query("SELECT friends FROM users WHERE username = '$user';");
-if (! $friends_raw) terminate("Querying database failed ".$con->error, 500);
-$friends_json = $friends_raw->fetch_array()['friends']; //in JSON
-if (empty($friends)) $friends = json_decode($friends_json);
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$user';");
+if (!$res) terminate("Querying database failed ".$con->error, 500);
+
+$friends = array();
+while ($curr = $res->fetch_array())
+  $friends[] = $curr[0];
+
+$friends_json_html = htmlspecialchars(json_encode($friends));
 
 ?>
 <noscript>
   <div class="ui warning message">
     <div class="header"><i class="warning icon"></i> JavaScript is required for this page</div>
-    If Javascript cannot be enabled, add list your friends in JSON format, and submit.
+    If Javascript cannot be enabled, add your friends in JSON array format, and submit.
   </div>
   <form method="post">
-    <textarea name="friends"><?=htmlspecialchars($friends_json)?></textarea>
+    <input type="hidden" name="do" value="set">
+    <textarea name="friends" cols="60" rows="4"><?=$friends_json_html?></textarea>
     <input type="submit">
   </form>
 </noscript>
@@ -88,9 +141,10 @@ if (empty($friends)) $friends = json_decode($friends_json);
   </ul>
 </div>
 
-<form method="post" id="friendForm">
+<form method="post" id="friendForm" class="scriptOnly">
 
-<input type="hidden" name="friends" value="<?=htmlspecialchars($friends_json)?>">
+<input type="hidden" name="do" value="set">
+<input type="hidden" name="friends" value="<?=$friends_json_html?>">
 <div class="ui action input">
   <input type="text" id="friendInput" name="friendInput" placeholder="Friend's username">
   <div id="addFriend" class="ui icon button"><i class="add icon"></i></div>
@@ -101,7 +155,7 @@ if (empty($friends)) $friends = json_decode($friends_json);
   foreach ($friends as $curr) {
     echo '<div class="item"><div class="ui right floated circular icon button">';
     echo '<i class="red remove icon"></i></div><a class="header" href="user/';
-    echo $curr .'">'. $curr .'</a></div>';
+    echo $curr .'">'. "$curr</a></div>";
   } ?>
 </div>
 

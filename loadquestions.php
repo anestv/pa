@@ -11,11 +11,16 @@ if (empty($ownerName)){
     terminate('Required parameters were not provided', 400);
   
   $ownerName = $con->real_escape_string($_GET['user']);
+  
+  $res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
+  $ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
+  
   if (empty($_GET['offset']))
     terminate('Required parameters were not provided', 400);
   if ((!is_numeric($_GET['offset'])) or ($_GET['offset'] < 0))
     terminate('The offset is not of correct type.', 400);
   $offset = intval($_GET['offset']);
+  
 } else
   if (empty($offset)) $offset = 0;
 
@@ -23,19 +28,18 @@ if (empty($ownerName)){
 //check if can view the content
 $owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
 if ($owner === null) terminate('This user does not exist or has deleted their account', 404);
-$ownerFr = json_decode($owner['friends']);
-if ($ownerFr === null) terminate('A server error has occurred.', 500);
-array_push($ownerFr, $ownerName);
+
 if ($owner['deleteon'] !== null)
   terminate('This user has deactivated their account.', 404);
+
 $see = $owner['whosees'];
 
 if (empty($user) and $see !== 'all')
   termin('You must log in', 401, '<div class="ui large warning message">'.
     '<i class="warning icon"></i>You must <a href="login.php">log in</a>'.
     ' to view this user\'s questions<div>');
-else if ($see === 'friends' and !in_array($user, $ownerFr))
-  termin("You are not allowed to view this user's questions", 403,'');
+else if ($see === 'friends' and !$ownerHasUserFriend)
+  termin("You are not allowed to view this user's questions", 200, '');
 
 
 function printDate($q, $prop){

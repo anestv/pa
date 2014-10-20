@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <!-- ola ta links einai relative to /pa/. Aparaithto gia to /pa/question/123 -->
@@ -23,20 +23,22 @@ $q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
 
 if (empty($q['touser']))
   terminate("The question you have requested does not exist or has been deleted.", 404);
+
 $ownerName = $q['touser'];
 
+$query = "SELECT deleteon, whosees FROM users WHERE username = '$ownerName';";
 $owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
-$ownerFr = json_decode($owner['friends']);
-if ($ownerFr === null) terminate('A server error has occurred.', 500);
-array_push($ownerFr, $ownerName);
+
 if ($owner['deleteon'] !== null)
   terminate('The owner of this question has deactivated their account.');
 
+$res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
+$ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
 
 $whosees = $owner['whosees'];
 if (empty($user) and $whosees !== 'all')
   terminate('You must log in to continue<br><a href="login.php">Log in</a>', 401);
-if ($whosees === 'friends' and !in_array($user, $ownerFr))
+if ($whosees === 'friends' and !$ownerHasUserFriend)
   terminate('Sorry, you do not have the right to see this question', 403);
 
 
