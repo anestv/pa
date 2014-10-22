@@ -3,7 +3,7 @@
 function termin($descr, $code, $diemsg = null){
   if ($diemsg === null) $diemsg = $descr;
   header("X-Error-Descr: $descr", true, $code);
-  die($diemsg);
+  echo $diemsg;
 }
 
 if (empty($ownerName)){
@@ -35,11 +35,13 @@ if ($owner['deleteon'] !== null)
 $see = $owner['whosees'];
 
 if (empty($user) and $see !== 'all')
-  termin('You must log in', 401, '<div class="ui large warning message">'.
+  return termin('You must log in', 401, '<div class="ui large warning message">'.
     '<i class="warning icon"></i>You must <a href="login.php">log in</a>'.
     ' to view this user\'s questions<div>');
+  // return stops the current file. If included from profile.php,
+  // execution will be returned there, otherwise same as exit()
 else if ($see === 'friends' and !$ownerHasUserFriend)
-  termin("You are not allowed to view this user's questions", 200, '');
+  return termin("You are not allowed to view this user's questions", 200, '');
 
 
 function printDate($q, $prop){
@@ -70,7 +72,7 @@ $query = "SELECT * FROM questions WHERE timeanswered IS NOT NULL AND touser".
   " = '$ownerName' ORDER BY timeanswered DESC LIMIT 11 OFFSET $offset ;";
 $res = $con->query($query);
 if (!$res)
-  termin('Server error: '.$con->error, 500);
+  return termin('Server error: '.$con->error, 500);
 else if ($res->num_rows === 0)
   http_response_code(204); //No content
 else {

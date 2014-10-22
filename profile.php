@@ -123,12 +123,13 @@ if (http_response_code() === 204){
 http_response_code(200);
 echo '</div>';
 
-if (!$isLast)
-  echo '<button id="showMore" class="ui button">Show More</button>';
-
-if ($res->num_rows > 4)
-  echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';
-
+if (isset($isLast)){
+  if (!$isLast)
+    echo '<button id="showMore" class="ui button">Show More</button>';
+  
+  if ($res->num_rows > 4)
+    echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';
+}
 ?>
 
 <script src="js/jquery2.min.js"></script>
