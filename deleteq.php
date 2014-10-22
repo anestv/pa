@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Delete question - PrivateAsk</title>
-    <link rel="stylesheet" type="text/css" href="css/general.css">
-    <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
-    <style type="text/css">
-      #butCancel span {
-        display: inline-block;
-        opacity: 0.5;
-        margin: 0 -5.3em 0 0.7em;
-        transition: 0.6s ease margin-right, 0.4s linear opacity;
-      }
-      #butCancel:hover span {
-        margin-right: 0;
-        opacity: 1;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="utf-8">
+  <title>Delete question - PrivateAsk</title>
+  <link rel="stylesheet" type="text/css" href="css/general.css">
+  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <style type="text/css">
+    .ui.centered.buttons > * {
+      height: 2.6em;
+    }
+    #butCancel span {
+      display: inline-block;
+      opacity: 0.5;
+      margin: 0 -5.3em 0 0.7em;
+      transition: 0.6s ease margin-right, 0.4s linear opacity;
+    }
+    #butCancel:hover span {
+      margin-right: 0;
+      opacity: 1;
+    }
+  </style>
+</head>
 <body>
 <main class="center940">
 <?php

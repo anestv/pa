@@ -6,6 +6,9 @@
   <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
   <meta charset="utf-8">
   <style type="text/css">
+    .ui.centered.buttons > * {
+      height: 2.6em;
+    }
     #butCancel span {
       display: inline-block;
       opacity: 0.5;
