@@ -21,7 +21,7 @@ if ($owner['deleteon'] !== null)
 <link rel="stylesheet" type="text/css" href="css/general.css">
 <link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
 <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
-<link rel="stylesheet" type="text/css" href="css/profileAppearance.dcss.php?user=<?=$ownerName?>">
+<link rel="stylesheet" type="text/css" href="profileAppearance.dcss.php?user=<?=$ownerName?>">
 <meta charset="UTF-8"><!-- an exei elhnika -->
 
 <meta property="og:type" content="profile">

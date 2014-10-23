@@ -5,7 +5,7 @@
   <link rel="stylesheet" type="text/css" href="css/general.css">
   <link rel="stylesheet" type="text/css" href="res/fonts/customFonts.css">
   <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
-  <link rel="stylesheet" type="text/css" href="css/profileAppearance.dcss.php">
+  <link rel="stylesheet" type="text/css" href="profileAppearance.dcss.php">
   <meta charset="UTF-8">
   <style>
     body {padding: 1em 4rem 0;}
