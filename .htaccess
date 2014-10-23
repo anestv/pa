@@ -13,7 +13,7 @@ Header add P3P "policyref=\"/p3p.xml\", CP=\"OTI DSP COR CURa ADMa DEVi OUR IND 
 #MUST be set HERE and NOT in php.ini
 #sto php.ini bainei se KATHE selida, dhaldh kai
 #tou phpmyadmin kai prokalei tromera provlimata
-php_value auto_prepend_file "prepend.php"
+php_value auto_prepend_file "autoprepend/prepend.php"
 
 
 RewriteEngine On
