@@ -64,6 +64,17 @@ function errorMsg($header, $msg = ''){
   echo '<div class="header">'. "$header</div>$msg</div>";
 }
 
+function handleException($e, $header = 'Oops, something went wrong.'){
+  if ($e instanceof RuntimeException)
+    http_response_code(500);
+  else http_response_code(400);
+  
+  $excMsg = $e->getMessage();
+  header("X-Error-Descr: $excMsg");
+  echo '<div class="center480 ui warning message"><div class="header">';
+  echo "$header</div><p>$excMsg</p></div>";
+}
+
 $requestAJAX = isset(apache_request_headers()['X-Requested-With']) and 
   apache_request_headers()['X-Requested-With'] === "XMLHttpRequest";
 
