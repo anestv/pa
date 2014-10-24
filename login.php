@@ -14,48 +14,55 @@
 if (!empty($_REQUEST['loggedOut']) and empty($user)) //came from logout.php
   echo '<div class="ui info message"><h2 class="header">'.
   '<i class="sign out icon"></i> You have been logged out</h2>'.
-  'We home to see you soon!</div>';
+  'We hope to see you soon!</div>';
   
-else if($user) { //hdh sundedemenos
+else if ($user) { //hdh sundedemenos
   
-  echo '<meta http-equiv="refresh" content="4;url=index.php">';
+  echo '<meta http-equiv="refresh" content="4;url=index.php">'; //redirect to index in 4 seconds
   die("Hello $user, you are already logged in");
   
-} else if ($_SERVER["REQUEST_METHOD"] === "POST"){ //thelei na sundethei
+} else if (isset($_POST["user"]) and trim($_POST["user"])){ //wants to log in
   
-  if (isset($_POST["user"]) and trim($_POST["user"]))
+  try {
+    
     $user = $con->real_escape_string($_POST["user"]);
-  else terminate("You did not specify a username", 400);
-  
-  if (isset($_POST['pass']) and trim($_POST['pass']))
-  	$pass = $_POST['pass'];
-  else terminate('You did not enter a password', 400);
-  
-  
-  $user_dbraw = $con->query("SELECT username , hs_pass FROM users WHERE username = '$user';");
-  if (! $user_dbraw) terminate("Querying database failed: ".$con->error, 500);
-  $user_db = $user_dbraw->fetch_array();
-  
-  if($user_db['username'] == "")
-    terminate('This user does not exist. Maybe you should <a href="register.php">register</a>');
-  
-  if ($user === $user_db['username']){
-  	if (!password_verify($pass, $user_db['hs_pass']))
-  	  terminate('The password you entered is incorrect');
-  	
-    //apotroph diagrafhs
+    
+    if (isset($_POST['pass']) and trim($_POST['pass']))
+    	$pass = $_POST['pass'];
+    else throw new Exception('You did not enter a password');
+    
+    
+    $user_dbraw = $con->query("SELECT username , hs_pass FROM users WHERE username = '$user';");
+    if (!$user_dbraw)
+      throw new RuntimeException("Querying database failed: ".$con->error);
+    
+    $user_db = $user_dbraw->fetch_array();
+    
+    if ($user_dbraw->num_rows < 1 or $user_db['username'] == "")
+      throw new Exception('This user does not exist. Maybe you should <a href="register.php">register</a>');
+    
+    if (strcasecmp($user, $user_db['username']) !== 0) //compare case insensitive
+      throw new RuntimeException('Some very strange error happened.');
+    
+    if (!password_verify($pass, $user_db['hs_pass']))
+     throw new Exception('The password you entered is incorrect');
+    
+    //prevent account deletion
     $con->query("UPDATE users SET deleteon = NULL WHERE username = '$user';");
     if ($con->affected_rows > 0)
-      echo 'Your account has been recovered! Welcome back!';//den tha to diavasei giati tha ginei redirect
-
+      echo 'Your account has been recovered! Welcome back!';//won't read, will redirect
+    
     if (!empty($_POST["keep"]))
       session_set_cookie_params(60*60*24*7); //1 evdomada
     session_regenerate_id(true);
-    $_SESSION['user'] = $user;
+    $_SESSION['user'] = $user_db['username']; //proper case (capitals or small)
     
     if (isset($_SERVER['HTTP_REFERER']) and substr($_SERVER['HTTP_REFERER'], -4) === '/pa/')
       header("Location: http://".$_SERVER['HTTP_HOST']."/pa/", true, 302);
     else echo '<meta http-equiv="refresh" content="0;url=index.php">';
+    
+  } catch (Exception $e) {
+    handleException($e);
   }
 }
 ?>

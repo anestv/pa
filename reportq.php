@@ -59,25 +59,33 @@ if ($whosees === 'friends' and !$ownerHasUserFriend)
   terminate('Sorry, you do not have the right to see this question', 403);
 
 
-if ($_SERVER["REQUEST_METHOD"] === "POST"){
-  if (empty($_POST['reason']))
-    terminate("You did not tell us why you report this question");
-  $reason = $con->real_escape_string($_POST['reason']);
-  
-  if (!in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
-    terminate("Select one of the listed reasons", 400);
-  
-  $query = "INSERT INTO question_reports (qid, reporter, reason) VALUES ($qid, '$user', '$reason');";
-  $res = $con->query($query);
-  if ($res) successMsg('You have successfully reported this question');
-  else errorMsg('This question could not be reported' . $con->error);
-
-} else { //dhladh einai GET
+if (empty($_POST['reason']))
+  printQ();
+else {
+  try {
+    $reason = $con->real_escape_string($_POST['reason']);
+    
+    if (!in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
+      throw new InvalidArgumentException("Select one of the listed reasons");
+    
+    $query = "INSERT INTO question_reports (qid, reporter, reason) VALUES ($qid, '$user', '$reason');";
+    $res = $con->query($query);
+    if (!$res) 
+      throw new RuntimeException($con->error);
+    
+    successMsg('You have successfully reported this question');
+  } catch (Exception $e) {
+    handleException($e);
+    printQ();
+  }
+}
+function printQ(){
+  global $q, $user, $ownerName;
   
   if ($user === $ownerName)
     echo '<div class="ui info message"><i class="info icon"></i> This question'.
       ' was asked to you, so we suggest you <a href="deleteq.php?qid='.
-      $qid .'">delete this question</a> if it offends or annoys you</div>';
+      $q['id'] .'">delete this question</a> if it offends or annoys you</div>';
   
   //show the Q and A
   

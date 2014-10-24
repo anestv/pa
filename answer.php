@@ -34,17 +34,28 @@ if (!empty($q['answer'])) //an exei hdh apanthsh
 
 
 if (isset($_POST['answer']) and trim($_POST['answer'])) {
-  $answer = $con->real_escape_string(htmlspecialchars($_POST['answer']));
-  
-  $query = "UPDATE questions SET answer = '$answer', timeanswered = NOW() WHERE id = $qid ;";
-  $result = $con->query($query);
-
-  if ($result) {
+  try {
+    $answer = $con->real_escape_string(htmlspecialchars($_POST['answer']));
+    
+    $query = "UPDATE questions SET answer = '$answer', timeanswered = NOW() WHERE id = $qid ;";
+    $result = $con->query($query);
+    
+    if (!$result) 
+      throw new RuntimeException($con->error);
+    
     successMsg("You have successfully answered!");
     redirect("question/$qid", 201); //won't really redirect, just set Location
-  } else errorMsg("Your answer was not submitted", $con->error);
-} else {
+      
+  } catch (Exception $e) {
+    handleException($e);
+    printQ();
+  }
+    
+} else printQ();
 
+function printQ(){
+  global $q;
+  
   function printDate($prop){
     global $q;
     $time = strtotime($q[$prop]);
@@ -60,7 +71,7 @@ if (isset($_POST['answer']) and trim($_POST['answer'])) {
     <a class="date">Asked: <?=printDate('timeasked')?></a>
   </div>
   <div class="ui attached segment">
-    <div class="links"><a class="deleteq" href="deleteq.php?qid=<?=$qid?>">
+    <div class="links"><a class="deleteq" href="deleteq.php?qid=<?=$q['id']?>">
       <i class="red trash link icon"></i>
     </a></div>
     <h3 class="ui header"><?=$q['question']?></h3>
