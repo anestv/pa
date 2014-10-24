@@ -36,7 +36,7 @@ function terminate($reason = "", $exitcode = 0){
   $message .= "</div> $reason <br>".'<a href="?">Try again</a> &emsp;';
   $message .= '<a href="index.php">Home</a></div></div></body></html>';
   header("X-Error-Descr: $reason");
-  die $message;
+  die($message);
 }
 
 function suiMessage($type, $header, $msg = ''){
