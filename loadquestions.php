@@ -81,7 +81,9 @@ else {
   while(($row = $res->fetch_array()) and $i++ !== 11) 
     printQ($row);
   
-  if ($isLast = ($res->num_rows < 11))
+  $results = $res->num_rows;
+  
+  if ($results < 11)
     echo '<div data-last="1"></div>';
 }
 

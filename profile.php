@@ -14,6 +14,7 @@ if ($owner['deleteon'] !== null)
   terminate('This user has deactivated their account.');
 //TODO πως θα κανει τερμινατε; δεν εχει καν stylesheets και ειμαι μεσα στο head
 
+$ownerName = $owner['username']; //proper case (capital or small)
 ?>
 <!-- ola ta links einai relative to /pa/. Aparaithto gia to /pa/user/aaaa -->
 <base href="/pa/">
@@ -116,18 +117,17 @@ else {
 echo '<div id="qContainer">';
 include("loadquestions.php");
 if (http_response_code() === 204){
-  $isLast = true;
   echo '<div class="center480 ui info message"><i class="info icon"></i>';
   echo 'There are no questions to show</div>';
 }
 http_response_code(200);
 echo '</div>';
 
-if (isset($isLast)){
-  if (!$isLast)
+if (isset($results)){
+  if ($results > 10)
     echo '<button id="showMore" class="ui button">Show More</button>';
   
-  if ($res->num_rows > 4)
+  if ($results > 4)
     echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';
 }
 ?>
