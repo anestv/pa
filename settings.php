@@ -30,8 +30,7 @@
 <body>
 
 <?php
-if (!$user)
-  terminate('You must be logged in to change your settings <br><a href="login.php">Log in</a>', 401);
+requireLogin();
 
 $settings = $con->query("SELECT * FROM users WHERE username = '$user';")->fetch_array();
 

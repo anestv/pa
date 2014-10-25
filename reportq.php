@@ -32,8 +32,7 @@ else if((!is_numeric($_GET['qid'])) or ($_GET['qid'] <= 0))
 else
   $qid = intval($_GET['qid']);
 
-if (empty($user))
-  terminate('You must log in to continue<br><a href="login.php">Log in</a>', 401);
+requireLogin();
 
 $q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
 

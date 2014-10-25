@@ -14,7 +14,9 @@ function writeHeadHtml($title, $otherHeadStuff = ''){
 function redirect($relUrl, $code = 302){
   $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
       || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+  
   $absUrl = $protocol . $_SERVER['HTTP_HOST'] .'/pa/'. $relUrl;
+  
   if (headers_sent())
     echo '<meta http-equiv="refresh" content="0;url='. $absUrl .'">';
   else
@@ -75,6 +77,21 @@ function handleException($e, $header = 'Oops, something went wrong.'){
   echo "$header</div><p>$excMsg</p></div>";
 }
 
+function requireLogin($redirect = true, $die = true){
+  global $user;
+  
+  if (empty($user)){
+    $_SESSION['requiredLogin'] = pathinfo($_SERVER['SCRIPT_NAME'], PATHINFO_BASENAME);
+    // e.g. for 'example.com/some/directory/file.extension' gives 'file.extension'
+    
+    if ($redirect) redirect('login.php');
+    
+    errorMsg('Login required', 'In order to view this page, please <a href="login.php">Log In</a>');
+    
+    if ($die) die;
+  }
+}
+
 $requestAJAX = isset(apache_request_headers()['X-Requested-With']) and 
   apache_request_headers()['X-Requested-With'] === "XMLHttpRequest";
 
@@ -100,4 +117,8 @@ function connectToDB(){
   }
 }
 connectToDB();
+
+if ($_SERVER['SCRIPT_NAME'] !== '/pa/login.php') // enter path to login.php
+  unset($_SESSION['requiredLogin']);
+
 ?>

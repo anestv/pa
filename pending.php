@@ -7,8 +7,7 @@
 </head>
 <body>
 <?php
-if (empty($user))
-  terminate('You are not logged in <a href="login.php">Log in</a>', 401);
+requireLogin();
 
 $query = "SELECT * FROM questions WHERE touser = '$user'
   AND answer IS NULL ORDER BY timeasked LIMIT 50;";

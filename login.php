@@ -11,6 +11,11 @@
 <main class="center940">
 <?php
 
+if (isset($_SESSION['requiredLogin']))
+  echo '<div class="ui warning message"><h2 class="header">'.
+  '<i class="warning icon"></i> Login required</h2>'.
+  'In order to view this page, please log in</div>';
+
 if (!empty($_REQUEST['loggedOut']) and empty($user)) //came from logout.php
   echo '<div class="ui info message"><h2 class="header">'.
   '<i class="sign out icon"></i> You have been logged out</h2>'.
@@ -45,7 +50,7 @@ else if ($user) { //hdh sundedemenos
       throw new RuntimeException('Some very strange error happened.');
     
     if (!password_verify($pass, $user_db['hs_pass']))
-     throw new Exception('The password you entered is incorrect');
+      throw new Exception('The password you entered is incorrect');
     
     //prevent account deletion
     $con->query("UPDATE users SET deleteon = NULL WHERE username = '$user';");
@@ -57,9 +62,11 @@ else if ($user) { //hdh sundedemenos
     session_regenerate_id(true);
     $_SESSION['user'] = $user_db['username']; //proper case (capitals or small)
     
-    if (isset($_SERVER['HTTP_REFERER']) and substr($_SERVER['HTTP_REFERER'], -4) === '/pa/')
-      header("Location: http://".$_SERVER['HTTP_HOST']."/pa/", true, 302);
-    else echo '<meta http-equiv="refresh" content="0;url=index.php">';
+    if (isset($_SESSION['requiredLogin']))
+      redirect($_SESSION['requiredLogin']);
+    else redirect(''); //redirect to /pa/
+    
+    die('</main></body></html>'); //don't print the login form again
     
   } catch (Exception $e) {
     handleException($e);

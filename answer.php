@@ -10,8 +10,7 @@
 
 <?php
 
-if (empty($user))
-  terminate('You must be logged in to answer a question <br><a href="login.php">Log in</a>', 401);
+requireLogin();
 
 if (empty($_GET['qid']))
   terminate('Required parameters were not provided', 400);

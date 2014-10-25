@@ -10,9 +10,7 @@
 
 <?php
 
-if (empty($user))
-  terminate('You must be logged in <br><a href="login.php">Log in</a>', 401);
-
+requireLogin();
 
 if (isset($_POST['do'])){
   

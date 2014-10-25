@@ -10,9 +10,7 @@
 <main class="center940">
 <?php
 
-if (!$user)
-  terminate('You must be logged in to change your password <br><a href="login.php">Log in</a>', 401);
-
+requireLogin();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST"){
 

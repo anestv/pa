@@ -14,8 +14,7 @@
 <body>
 <?php
 
-if (empty($user))
-  terminate('You must be logged in to delete your account', 401);
+requireLogin();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST"){ //thelei na to diagrapsei
   
