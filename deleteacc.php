@@ -16,34 +16,37 @@
 
 requireLogin();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST"){ //thelei na to diagrapsei
+if ($_SERVER["REQUEST_METHOD"] === "POST") try {
   
   if (empty($_POST["user"]))
-    terminate("You did not enter a username", 400);
+    throw new Exception("You did not enter a username");
   if ($_POST["user"] !== $user)
-    terminate("You did not enter your account's username", 400);
+    throw new Exception("You did not enter your account's username");
   
   if (isset($_POST['pass']) and trim($_POST['pass']))
   	$pass = $_POST['pass'];
-  else terminate('You did not enter a password', 400);
+  else throw new Exception('You did not enter a password');
   
   $userobj = $con->query("SELECT hs_pass FROM users WHERE username = '$user';")->fetch_array();
   
   if (!password_verify($pass, $userobj['hs_pass']))
-  	terminate('The password you entered is incorrect');
+  	throw new Exception('The password you entered is incorrect');
   
 
   $query = "UPDATE users SET deleteon = CURRENT_DATE + INTERVAL 7 DAY WHERE username = '$user';";
   $res = $con->query($query);
   
-  if (!$res) terminate('A server error occurred '. $con->error, 500);
-  else {
-    session_destroy();
-    echo '<div class="ui success message"><i class="trash icon"></i>';
-	echo 'Your account will be deleted in 7 days. You have been logged out.';
-	echo ' You will be redirected to the main page</div>';
-    echo '<meta http-equiv="refresh" content="5; url=.">';
-  }
+  if (!$res) throw new RuntimeException($con->error);
+  
+  session_unset(); //unset all session variables
+  session_destroy();
+  echo '<div class="ui success message"><i class="trash icon"></i>';
+  echo 'Your account will be deleted in 7 days. You have been logged out.';
+  echo ' You will be redirected to the main page</div>';
+  echo '<meta http-equiv="refresh" content="5; url=.">';
+  
+} catch (Exception $e) {
+  handleException($e)
 }
 ?>
 <main class="center940">
