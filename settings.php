@@ -43,30 +43,30 @@ $fonts = array("Aliquam","Arial","Calibri","Cambria","Comfortaa","Comic Sans MS"
 $privacyVals = array('friends', 'users', 'all');
 $privacyOpts = array('Only your friends', 'Registered users' ,'Everyone');
 
-if ($_SERVER["REQUEST_METHOD"] === "POST"){
+if ($_SERVER["REQUEST_METHOD"] === "POST") try {
   
   if (!(isset($_POST['whosees']) and isset($_POST['whoasks']) and 
-      in_array($_POST['whosees'],$privacyVals)and in_array($_POST['whoasks'],$privacyVals)))
-    terminate('Choose one of the shown privacy settings',400);
+      in_array($_POST['whosees'],$privacyVals) and in_array($_POST['whoasks'],$privacyVals)))
+    throw new InvelidArgumentException('Choose one of the shown privacy settings');
+
+  $settings['whosees'] = $see = $_POST['whosees'];
+  $settings['whoasks'] = $ask = $_POST['whoasks'];
   
   if (isset($_POST['real']) and trim($_POST['real']))
-    $real= $con->real_escape_string(htmlspecialchars($_POST['real']));
-  else terminate ("Please enter your real name", 400);
+    $settings['realname'] = $real = $con->real_escape_string(htmlspecialchars($_POST['real']));
+  else throw new Exception("Please enter your real name");
   
   if (isset($_POST['fontfamily']) and in_array($_POST['fontfamily'],$fonts))
-    $fontf = $_POST['fontfamily'];
-  else terminate ("Please select a font family", 400);
+    $settings['textfont'] = $fontf = $_POST['fontfamily'];
+  else throw new Exception("Please select a font family");
 
   if (empty($_POST['bcolor']) or empty($_POST['hcolor']))
-    terminate('Select a background and text color',400);
+    throw new Exception('Select a background and text color');
   if (preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i',$_POST['bcolor'])!==1 or
       preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i',$_POST['hcolor'])!==1)
-    terminate('Select a background and text color');
-  $bcolor = $_POST['bcolor'];
-  $hcolor = $_POST['hcolor'];
-
-  $see = $_POST['whosees'];
-  $ask = $_POST['whoasks'];
+    throw new Exception('Select a background and text color');
+  $settings['backcolor'] = $bcolor = $_POST['bcolor'];
+  $settings['headcolor'] = $hcolor = $_POST['hcolor'];
 
   $query = "UPDATE users SET realname = '$real', whosees = '$see', ".
       "whoasks = '$ask', backcolor = '$bcolor', headcolor = '$hcolor', ".
@@ -74,21 +74,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
   
   $result = $con->query($query);
   
-  if ($result)
-    echo '<div class="ui success message"><div class="header">'.
-    '<i class="checkmark icon"></i>Your settings have been changed</div></div>';
-  else
-    echo '<div class="ui error message"><div class="header"><i '.
-    'class="attention icon"></i>Your settings were not changed '.$con->error.'</div></div>';
+  if (!$result) throw new RuntimeException($con->error);
   
-  //xreiazontai gia na fainontai swsta ta
-  //ta selected options meta apo update
-  $settings['whosees'] = $see;
-  $settings['whoasks'] = $ask;
-  $settings['realname']= $real;
-  $settings['backcolor'] = $bcolor;
-  $settings['headcolor'] = $hcolor;
-  $settings['textfont'] = $fontf;
+  successMsg('Your settings have been changed');
+  
+  //"$settings['foo'] = $bar" are all needed so that
+  //the selected options are shown after updating
+  //"$settings['foo'] = $bar" MUST be after sanitising that variable
+} catch (Exception $e) {
+  handleException($e);
 }
 
 function writeDropdown($inputName, $dbName, $values, $strings = null){

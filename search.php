@@ -90,14 +90,14 @@ function doUserSearch() {
   $realname = isset($_GET['realname']) ? $_GET['realname'] : '';
   
   if ($username and strlen($username) < 3)
-    terminate('Enter at least 3 characters at "Username"', 400);
+    throw new InvalidArgumentException('Enter at least 3 characters at "Username"');
   if ($realname and strlen($realname) < 3)
-  	terminate('Enter at least 3 characters at "Real Name"', 400);
+  	throw new InvalidArgumentException('Enter at least 3 characters at "Real Name"');
   
   $query = "SELECT username, realname FROM users WHERE username LIKE '".
       escape($username)."%' AND realname LIKE '".escape($realname)."%';";
   $res = $con->query($query);
-  if (!$res) terminate('An error occured '.$con->error, 500);
+  if (!$res) throw new RuntimeException($con->error);
 ?>
 <h2>User search</h2>
 
@@ -156,7 +156,7 @@ function doQASearch() {
   
   if (!empty($_GET['query'])){
     if (strlen(trim($_GET['query'])) < 5)
-      terminate('Please enter at least five characters as a query', 400);
+      throw new InvalidArgumentException('Please enter at least five characters as a query');
     
     $escapedQuery = $con->real_escape_string($_GET['query']);
     $query .= " AND MATCH(question, answer) AGAINST ('$escapedQuery')";
@@ -168,18 +168,18 @@ function doQASearch() {
     $fromuser = $_GET['fromuser'];
     if ($fromuser === 'deleteduser') $fromuser = '-';
     // - is not a valid username, so no results will return
-  } else terminate("Enter a valid username at field 'From user'", 400);
+  } else throw new InvalidArgumentException("Enter a valid username at field 'From user'");
   
   if (empty($_GET['touser'])) $touser = '';
   else if (preg_match('/^\w{5,20}$/', $_GET['touser']) === 1)
   	$touser = $_GET['touser'];
-  else terminate("Enter a valid username at field 'To user'", 400);
+  else throw new InvalidArgumentException("Enter a valid username at field 'To user'");
   
   if (!empty($_GET['timeanswered'])){
     if (preg_match("/^(1|2)\\d{3}-(0[1-9]|10|11|12)$/", $_GET['timeanswered']) === 1){
       $date = $_GET['timeanswered'] . '-01';
       $query .= " AND timeanswered BETWEEN '$date' AND '$date' + INTERVAL 1 MONTH - INTERVAL 1 DAY";
-    } else terminate('Enter the month in the format yyyy-mm', 400);
+    } else throw new InvalidArgumentException('Enter the month in the format yyyy-mm');
   }
   
   if ($fromuser) $query .= " AND fromuser = '$fromuser'";
@@ -197,7 +197,7 @@ function doQASearch() {
   
   
   $res = $con->query($query);
-  if (!$res) terminate('Server error '.$con->error, 400);
+  if (!$res) throw new RuntimeException($con->error);
   
   echo '<h2>Question search</h2>';
   
@@ -233,10 +233,14 @@ function searchQueriesExist() {
 if (!empty($_GET['lookfor']) and searchQueriesExist()){
   $subj = $_GET['lookfor'];
   
-  switch ($subj) {
-    case 'u':  doUserSearch(); break;
-    case 'qa': doQASearch(); break;
-    default: terminate('Invalid search terms',400);
+  try {
+    switch ($subj) {
+      case 'u':  doUserSearch(); break;
+      case 'qa': doQASearch(); break;
+      default: throw new Exception('Invalid search terms');
+    }
+  } catch (Exception $e) {
+    handleException($e);
   }
 }
 ?>

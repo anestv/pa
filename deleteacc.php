@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") try {
   echo '<meta http-equiv="refresh" content="5; url=.">';
   
 } catch (Exception $e) {
-  handleException($e)
+  handleException($e);
 }
 ?>
 <main class="center940">
