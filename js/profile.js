@@ -7,6 +7,7 @@ var butFriend = $('#profileHeader a.toggle.button');
 var owner = $('body').data('owner');
 var offset = 10;
 
+$('time').age();
 
 //handle go to top button
 $(window).scroll(function (){
@@ -59,6 +60,7 @@ function showMoreOK(data, status){
   
   qContainer.append(data);
   offset += 10;
+  $('time').age(); //calculate the new <time>s
 }
 
 showMore.click(function(){

@@ -134,6 +134,7 @@ if (isset($results)){
 
 <script src="js/jquery2.min.js"></script>
 <script src="js/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.age/1.1.7/jquery.age.min.js"></script>
 <script src="js/profile.js"></script>
 </body>
 </html>
