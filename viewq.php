@@ -29,7 +29,7 @@ try {
   $ownerName = $q['touser'];
   
   $query = "SELECT deleteon, whosees FROM users WHERE username = '$ownerName';";
-  $owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
+  $owner = $con->query($query)->fetch_array();
   
   if ($owner['deleteon'] !== null)
     throw new Exception('The owner of this question has deactivated their account.');
