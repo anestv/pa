@@ -12,39 +12,43 @@
 
 <?php
 
-if (empty($_GET['qid']))
-  terminate('Required parameters were not provided', 400);
-if ((!is_numeric($_GET['qid'])) or ($_GET['qid'] <= 0))
-  terminate('The question id is not of correct type.', 400);
-$qid = intval($_GET['qid']);
-
-
-$q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
-
-if (empty($q['touser']))
-  terminate("The question you have requested does not exist or has been deleted.", 404);
-
-$ownerName = $q['touser'];
-
-$query = "SELECT deleteon, whosees FROM users WHERE username = '$ownerName';";
-$owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
-
-if ($owner['deleteon'] !== null)
-  terminate('The owner of this question has deactivated their account.');
-
-$res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
-$ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
-
-$whosees = $owner['whosees'];
-if (empty($user) and $whosees !== 'all')
-  terminate('You must log in to continue<br><a href="login.php">Log in</a>', 401);
-if ($whosees === 'friends' and !$ownerHasUserFriend)
-  terminate('Sorry, you do not have the right to see this question', 403);
-
-
-if (empty($q['answer']))
-  terminate('This question has not been answered yet.');
-
+try {
+  
+  if (empty($_GET['qid']))
+    throw new Exception('Required parameters were not provided', 400);
+  if ((!is_numeric($_GET['qid'])) or ($_GET['qid'] <= 0))
+    throw new InvalidArgumentException('The question id is not of correct type.', 400);
+  $qid = intval($_GET['qid']);
+  
+  
+  $q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
+  
+  if (empty($q['touser']))
+    throw new Exception("The question you have requested does not exist or has been deleted.", 404);
+  
+  $ownerName = $q['touser'];
+  
+  $query = "SELECT deleteon, whosees FROM users WHERE username = '$ownerName';";
+  $owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
+  
+  if ($owner['deleteon'] !== null)
+    throw new Exception('The owner of this question has deactivated their account.');
+  
+  $res = $con->query("SELECT friend FROM friends WHERE `user` = '$ownerName' AND friend = '$user';");
+  $ownerHasUserFriend = (($user === $ownerName) or ($res and $res->num_rows > 0));
+  
+  $whosees = $owner['whosees'];
+  if (empty($user) and $whosees !== 'all')
+    throw new Exception('You must log in to continue<br><a href="login.php">Log in</a>', 401);
+  if ($whosees === 'friends' and !$ownerHasUserFriend)
+    throw new Exception('Sorry, you do not have the right to see this question', 403);
+  
+  if (empty($q['answer']))
+    throw new Exception('This question has not been answered yet.');
+  
+} catch (Exception $e) {
+  terminate($e->getMessage(), $e->getCode());
+}
 
 function printDate($prop){
   global $q;
