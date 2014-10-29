@@ -71,7 +71,7 @@ function printDate($prop){
     <a class="date">Asked: <?=printDate('timeasked')?></a>
   </div>
   <div class="ui attached segment">
-    <div class="links"><a class="deleteq" href="deleteq.php?qid=<?=$q['id']?>">
+    <div class="links"><a class="deleteq" href="deleteq.php?qid=<?=$qid?>">
       <i class="red trash link icon"></i>
     </a></div>
     <h3 class="ui header"><?=$q['question']?></h3>

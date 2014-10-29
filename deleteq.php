@@ -50,23 +50,20 @@ function printDate($prop){
   return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
 }
 
-if (empty($_POST['del']))
-  printQ();
-else {
+if (!empty($_POST['del'])){
   try {
     $del = $con->query("DELETE FROM questions WHERE id = $qid;");
     if (!$del)
       throw new RuntimeException($con->error);
     
     successMsg('You have successfully deleted this question', '<a href=".">Home</a>');
+    die('</main></body></html>');
+    
   } catch (Exception $e) {
     handleException($e);
-    printQ();
   }
 }
-
-function printQ(){ 
-  global $q; ?>
+?>
 
 <div class="question">
   <div class="ui top attached tiny header">
@@ -102,7 +99,6 @@ function printQ(){
   </form>
 </div>
 
-<?php }?>
 </main>
 </body>
 </html>

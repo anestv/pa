@@ -58,9 +58,7 @@ if ($whosees === 'friends' and !$ownerHasUserFriend)
   terminate('Sorry, you do not have the right to see this question', 403);
 
 
-if (empty($_POST['reason']))
-  printQ();
-else {
+if (!empty($_POST['reason'])){
   try {
     $reason = $con->real_escape_string($_POST['reason']);
     
@@ -73,29 +71,27 @@ else {
       throw new RuntimeException($con->error);
     
     successMsg('You have successfully reported this question');
+    die('</main></body></html>');
   } catch (Exception $e) {
     handleException($e);
-    printQ();
   }
 }
-function printQ(){
-  global $q, $user, $ownerName;
-  
-  if ($user === $ownerName)
-    echo '<div class="ui info message"><i class="info icon"></i> This question'.
-      ' was asked to you, so we suggest you <a href="deleteq.php?qid='.
-      $q['id'] .'">delete this question</a> if it offends or annoys you</div>';
-  
-  //show the Q and A
-  
-  function printDate($prop){
-    global $q;
-    $time = strtotime($q[$prop]);
-    if (!$time) return '-';
-    $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
-    return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
-  }
-  ?>
+
+if ($user === $ownerName)
+  echo '<div class="ui info message"><i class="info icon"></i> This question'.
+    ' was asked to you, so we suggest you <a href="deleteq.php?qid='.
+    $qid .'">delete this question</a> if it offends or annoys you</div>';
+
+//show the Q and A
+
+function printDate($prop){
+  global $q;
+  $time = strtotime($q[$prop]);
+  if (!$time) return '-';
+  $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
+  return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
+}
+?>
 <div class="question">
   <div class="ui top attached tiny header">
     To: <a href="user/<?=$q['touser']?>"><?=$q['touser']?></a>
@@ -155,7 +151,7 @@ function printQ(){
     </div>
   </form>
 </div>
-<?php } ?>
+
 </main>
 </body>
 </html>
