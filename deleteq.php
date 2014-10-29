@@ -32,9 +32,7 @@ else if((!is_numeric($_GET['qid'])) or ($_GET['qid'] <= 0))
 else
   $qid = intval($_GET['qid']);
 
-if (empty($user))
-  terminate('You must log in to continue<br><a href="login.php">Log in</a>', 401);
-
+requireLogin();
 
 $q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
 
@@ -52,7 +50,20 @@ function printDate($prop){
   return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
 }
 
-if (empty($_POST['del'])){ ?>
+if (!empty($_POST['del'])){
+  try {
+    $del = $con->query("DELETE FROM questions WHERE id = $qid;");
+    if (!$del)
+      throw new RuntimeException($con->error);
+    
+    successMsg('You have successfully deleted this question', '<a href=".">Home</a>');
+    die('</main></body></html>');
+    
+  } catch (Exception $e) {
+    handleException($e);
+  }
+}
+?>
 
 <div class="question">
   <div class="ui top attached tiny header">
@@ -88,16 +99,6 @@ if (empty($_POST['del'])){ ?>
   </form>
 </div>
 
-<?php } else {
-  
-  $del = $con->query("DELETE FROM questions WHERE id = $qid;");
-  if ($del)
-    echo '<div class="aloneInPage ui success message"><h2 class="header">'.
-      '<i class="checkmark icon"></i> You have successfully deleted'.
-      ' this question</h2><a href=".">Home</a></div>';
-  else terminate('The question was not deleted'. $con->error, 500);
-}
-?>
 </main>
 </body>
 </html>

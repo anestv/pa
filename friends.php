@@ -10,9 +10,7 @@
 
 <?php
 
-if (empty($user))
-  terminate('You must be logged in <br><a href="login.php">Log in</a>', 401);
-
+requireLogin();
 
 if (isset($_POST['do'])){
   
@@ -93,14 +91,7 @@ if (isset($_POST['do'])){
     successMsg('Success!', 'Your friends have been changed!');
     
   } catch (Exception $e){
-    if ($e instanceof RuntimeException)
-      http_response_code(500);
-    else http_response_code(400);
-    
-    $excMsg = $e->getMessage();
-    header("X-Error-Descr: $excMsg");
-    echo '<div class="center480 ui warning message"><div class="header">';
-    echo "Oops, something went wrong.</div><p>$excMsg</p></div>";
+    handleException($e);
   }
   if ($requestAJAX)
     die('</body></html>'); //do not print View

@@ -10,47 +10,58 @@
 
 <?php
 
-if (empty($user))
-  terminate('You must be logged in to answer a question <br><a href="login.php">Log in</a>', 401);
+requireLogin();
 
-if (empty($_GET['qid']))
-  terminate('Required parameters were not provided', 400);
-else if((!is_numeric($_GET['qid'])) or ($_GET['qid'] <= 0))
-  terminate('The question id is not of correct type.', 400);
-else
-  $qid = intval($_GET['qid']);
-
-
-$q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
-
-if (empty($q['touser']))
-  terminate("The question you have requested does not exist or has been deleted.", 404);
-
-if ($q['touser'] !== $user)
-  terminate("This question was not asked to you, so you cannot answer it.", 403);
-
-if (!empty($q['answer'])) //an exei hdh apanthsh
-  terminate("You have already answered this question; you can't reanswer it", 405);
-
+try {
+  
+  if (empty($_GET['qid']))
+    throw new Exception('Required parameters were not provided', 400);
+  else if (!is_numeric($_GET['qid']) or ($_GET['qid'] <= 0))
+    throw new InvalidArgumentException('The question id is not of correct type.', 400);
+  else
+    $qid = intval($_GET['qid']);
+  
+  $q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
+  
+  if (empty($q['touser']))
+    throw new Exception("The question you have requested does not exist or has been deleted.", 404);
+  
+  if ($q['touser'] !== $user)
+    throw new Exception("This question was not asked to you, so you cannot answer it.", 403);
+  
+  if (!empty($q['answer'])) //an exei hdh apanthsh
+    throw new Exception("You have already answered this question; you can't reanswer it", 405);
+  
+} catch (Exception $e) {
+  terminate($e->getMessage(), $e->getCode());
+}
 
 if (isset($_POST['answer']) and trim($_POST['answer'])) {
-  $answer = $con->real_escape_string(htmlspecialchars($_POST['answer']));
-  
-  $query = "UPDATE questions SET answer = '$answer', timeanswered = NOW() WHERE id = $qid ;";
-  $result = $con->query($query);
-
-  if ($result) {
+  try {
+    $answer = $con->real_escape_string(htmlspecialchars($_POST['answer']));
+    
+    $query = "UPDATE questions SET answer = '$answer', timeanswered = NOW() WHERE id = $qid ;";
+    $result = $con->query($query);
+    
+    if (!$result) 
+      throw new RuntimeException($con->error);
+    
     successMsg("You have successfully answered!");
     redirect("question/$qid", 201); //won't really redirect, just set Location
-  } else errorMsg("Your answer was not submitted", $con->error);
-} else {
-
-  function printDate($prop){
-    global $q;
-    $time = strtotime($q[$prop]);
-    $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
-    return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
+    //TODO maybe better to redirect 302 to pending.php
+    die('</body></html>');
+    
+  } catch (Exception $e) {
+    handleException($e);
   }
+}
+
+function printDate($prop){
+  global $q;
+  $time = strtotime($q[$prop]);
+  $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
+  return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
+}
 ?>
 
 <div class="question" id="qContainer">
@@ -74,7 +85,6 @@ if (isset($_POST['answer']) and trim($_POST['answer'])) {
   </form>
   
 </div>
-<?php } ?>
 
 </body>
 </html>

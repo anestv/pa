@@ -32,8 +32,7 @@ else if((!is_numeric($_GET['qid'])) or ($_GET['qid'] <= 0))
 else
   $qid = intval($_GET['qid']);
 
-if (empty($user))
-  terminate('You must log in to continue<br><a href="login.php">Log in</a>', 401);
+requireLogin();
 
 $q = $con->query("SELECT * FROM questions WHERE id = $qid;")->fetch_array();
 
@@ -59,36 +58,40 @@ if ($whosees === 'friends' and !$ownerHasUserFriend)
   terminate('Sorry, you do not have the right to see this question', 403);
 
 
-if ($_SERVER["REQUEST_METHOD"] === "POST"){
-  if (empty($_POST['reason']))
-    terminate("You did not tell us why you report this question");
-  $reason = $con->real_escape_string($_POST['reason']);
-  
-  if (!in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
-    terminate("Select one of the listed reasons", 400);
-  
-  $query = "INSERT INTO question_reports (qid, reporter, reason) VALUES ($qid, '$user', '$reason');";
-  $res = $con->query($query);
-  if ($res) successMsg('You have successfully reported this question');
-  else errorMsg('This question could not be reported' . $con->error);
-
-} else { //dhladh einai GET
-  
-  if ($user === $ownerName)
-    echo '<div class="ui info message"><i class="info icon"></i> This question'.
-      ' was asked to you, so we suggest you <a href="deleteq.php?qid='.
-      $qid .'">delete this question</a> if it offends or annoys you</div>';
-  
-  //show the Q and A
-  
-  function printDate($prop){
-    global $q;
-    $time = strtotime($q[$prop]);
-    if (!$time) return '-';
-    $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
-    return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
+if (!empty($_POST['reason'])){
+  try {
+    $reason = $con->real_escape_string($_POST['reason']);
+    
+    if (!in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
+      throw new InvalidArgumentException("Select one of the listed reasons");
+    
+    $query = "INSERT INTO question_reports (qid, reporter, reason) VALUES ($qid, '$user', '$reason');";
+    $res = $con->query($query);
+    if (!$res) 
+      throw new RuntimeException($con->error);
+    
+    successMsg('You have successfully reported this question');
+    die('</main></body></html>');
+  } catch (Exception $e) {
+    handleException($e);
   }
-  ?>
+}
+
+if ($user === $ownerName)
+  echo '<div class="ui info message"><i class="info icon"></i> This question'.
+    ' was asked to you, so we suggest you <a href="deleteq.php?qid='.
+    $qid .'">delete this question</a> if it offends or annoys you</div>';
+
+//show the Q and A
+
+function printDate($prop){
+  global $q;
+  $time = strtotime($q[$prop]);
+  if (!$time) return '-';
+  $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
+  return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
+}
+?>
 <div class="question">
   <div class="ui top attached tiny header">
     To: <a href="user/<?=$q['touser']?>"><?=$q['touser']?></a>
@@ -148,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
     </div>
   </form>
 </div>
-<?php } ?>
+
 </main>
 </body>
 </html>

@@ -3,16 +3,22 @@
 <head prefix="og: http://ogp.me/ns# profile: http://ogp.me/ns/profile#">
 <?php 
 
-if (empty($_GET['user']))
-  terminate('Required parameters were not provided', 400);
-
-$ownerName = $con->real_escape_string($_GET['user']);
-$owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
-if ($owner === null) terminate('This user does not exist or has deleted their account', 404);
-
-if ($owner['deleteon'] !== null)
-  terminate('This user has deactivated their account.');
-//TODO πως θα κανει τερμινατε; δεν εχει καν stylesheets και ειμαι μεσα στο head
+try {
+  if (empty($_GET['user']))
+    throw new Exception('Required parameters were not provided', 400);
+  
+  $ownerName = $con->real_escape_string($_GET['user']);
+  $owner = $con->query("SELECT * FROM users WHERE username = '$ownerName';")->fetch_array();
+  if ($owner === null)
+    throw new Exception('This user does not exist or has deleted their account', 404);
+  
+  if ($owner['deleteon'] !== null)
+    throw new Exception('This user has deactivated their account.');
+  
+} catch (Exception $e) {
+  include_once("included/profileError.php");
+  die; //just in case it hasn't already
+}
 
 $ownerName = $owner['username']; //proper case (capital or small)
 ?>
