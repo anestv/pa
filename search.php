@@ -62,15 +62,25 @@ if (isset($_GET['lookfor']) and $_GET['lookfor'] === 'qa'){
     </div>
     <input type="text" maxlength="20" placeholder="To who" <?=get('touser')?>>
     <input type="text" placeholder="Text to look for" <?=get('query')?>>
-    <span class="small">When was the question answered?</span>
-    <input type="month" placeholder="In format yyyy-mm" <?=get('timeanswered')?>>
+    <div class="field">
+      <span class="small">When was the question answered?</span>
+      <input type="month" placeholder="In format yyyy-mm" <?=get('timeanswered')?>>
+    </div>
+    <div class="field">
+      <select name="sort">
+        <!-- not using Semantic's dropdown, in v1.0 we will be able to do $('select').dropdown()-->
+        <option value="userasc">By recipent A-Z</option>
+        <option value="userdesc">By recipent Z-A</option>
+        <option value="timeasc">Oldest to newest</option>
+        <option value="timedesc" selected>Newest to oldest</option>
+      </select>
+    </div>
     <button class="ui animated button">
       <div class="visible content">Search</div>
       <div class="hidden content"><i class="search icon"></i></div>
     </button>
   </form>
 </aside>
-
 
 <!-- results -->
 <main>
@@ -182,6 +192,17 @@ function doQASearch() {
     } else throw new InvalidArgumentException('Enter the month in the format yyyy-mm');
   }
   
+  if (!empty($_GET['sort'])){
+    switch($_GET['sort']){
+      case 'userasc' : $sortq = 'ORDER BY touser'; break;
+      case 'userdesc': $sortq = 'ORDER BY touser DESC'; break;
+      case 'timeasc' : $sortq = 'ORDER BY timeanswered'; break;
+      case 'timedesc': $sortq = 'ORDER BY timeanswered DESC'; break;
+      default :
+        throw new InvalidArgumentException('Choose one of the listed sorting criteria');
+    }
+  } else $sortq = '';
+  
   if ($fromuser) $query .= " AND fromuser = '$fromuser'";
   if ($touser) $query .= " AND touser = '$touser'";
   
@@ -193,7 +214,7 @@ function doQASearch() {
     $query .= "whosees = 'users' OR username = '$user' OR ";
     $query .= "(`friends`.`user` = username AND friends.friend = '$user') OR ";
   }
-  $query .= "whosees = 'all') LIMIT 50;"; //maybe do something about the limit in the future
+  $query .= "whosees = 'all') $sortq LIMIT 50;"; //maybe do something about the limit in the future
   
   
   $res = $con->query($query);
@@ -254,7 +275,12 @@ if (!empty($_GET['lookfor']) and searchQueriesExist()){
 
 <script src="js/jquery2.min.js"></script>
 <script src="js/jquery.address.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.age/1.1.7/jquery.age.min.js"></script>
 <script src="js/semantic.min.js"></script>
-<script>$(function(){$('.tabular.menu .item').tab({history: false});});</script>
+<script>
+$(function(){
+  $('.tabular.menu .item').tab({history: false});
+  $('time').age();
+});</script>
 </body>
 </html>
