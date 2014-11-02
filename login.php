@@ -3,7 +3,7 @@
 <head>
   <title>Login - PrivateAsk</title>
   <link rel="stylesheet" type="text/css" href="css/general.css">
-  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.19.3/css/semantic.min.css">
   <meta charset="utf-8">
 </head>
 <body>

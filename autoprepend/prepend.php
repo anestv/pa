@@ -7,7 +7,7 @@ function writeHeadHtml($title, $otherHeadStuff = ''){
   if ($requestAJAX) return;
   echo "<html><head><title>$title - PrivateAsk</title>";
   echo '<link rel="stylesheet" type="text/css" href="css/general.css">';
-  echo '<link rel="stylesheet" type="text/css" href="css/semantic.min.css">';
+  echo '<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.19.3/css/semantic.min.css">';
   echo $otherHeadStuff . '<meta charset="utf-8"></head><body>';
 }
 

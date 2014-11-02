@@ -3,7 +3,7 @@
 <head>
   <title>Search - PrivateAsk</title>
   <link rel="stylesheet" type="text/css" href="css/general.css">
-  <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.19.3/css/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="css/search.css">
   <meta charset="utf-8">
   <noscript><style>
@@ -273,10 +273,10 @@ if (!empty($_GET['lookfor']) and searchQueriesExist()){
   <!--TODO-->
 </footer>
 
-<script src="js/jquery2.min.js"></script>
-<script src="js/jquery.address.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.age/1.1.7/jquery.age.min.js"></script>
-<script src="js/semantic.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.age/1.2.4/jquery.age.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.19.3/javascript/semantic.min.js"></script>
 <script>
 $(function(){
   $('.tabular.menu .item').tab({history: false});
