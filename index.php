@@ -13,7 +13,7 @@
 <?php
 
 if (!$user) {
-  include_once("notLoggedIn.html");
+  include_once("included/notLoggedIn.html");
   die;
 }
 
