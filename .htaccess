@@ -1,22 +1,12 @@
-#enation XSS attacks
-#Header add Content-Security-Policy "default-src 'self'; style-src https://cdnjs.cloudflare.com/ 'self'; script-src https://cdnjs.cloudflare.com/ https://code.jquery.com/ 'self'; report-uri /csp-report.php"
-Header add X-Content-Type-Options "nosniff"
-Header add X-Frame-Options "SAMEORIGIN"
-Header add X-XSS-Protection "1"
-
-#na xrhsimopoiei httpS gia 1 mhna
-#kelisto mexri na uparxei pistopitiko https
-#Header add Strict-Transport-Security "max-age=2592000"
-
-Header add P3P "policyref=\"/p3p.xml\", CP=\"OTI DSP COR CURa ADMa DEVi OUR IND COM NAV CNT\""
-
-#MUST be set HERE and NOT in php.ini
-#sto php.ini bainei se KATHE selida, dhaldh kai
-#tou phpmyadmin kai prokalei tromera provlimata
-php_value auto_prepend_file "autoprepend/prepend.php"
-
+Options -Indexes
 
 RewriteEngine On
-RewriteRule ^user/(\w{5,20})$ profile.php?user=$1
-RewriteRule ^question/(\d+)$ viewq.php?qid=$1
-#RewriteRule ^(question|user)/(\w+\.(css|js|php))$ ./$2 [R]
+RewriteBase /pa/
+
+#comment out to keep trailing slashes
+RewriteRule ^(.+)/$ $1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^(.*)$ index.php?$1 [QSA,L]

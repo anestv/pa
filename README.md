@@ -13,9 +13,7 @@ a question at the [PrivateAsk profile](http://privateask.noip.me/pa/user/private
 
 - **Want to contribute?**
 Great! [This wiki page](https://github.com/anestv/pa/wiki/How-to-contribute) is for you! Currently 
-there are no code style guidelines, so just be consistent with the rest of the file. 
-If you find some functions that are not declared (such as `terminate()`) it's because 
-they are declared in a prepeded file, which is not located in this repo.
+there are no code style guidelines, so just be consistent with the rest of the file.
 
 - **Want to use it?**
 I use XAMPP. The database configuration is located in this repo.
