@@ -16,6 +16,7 @@ use \helpers\url as Url;
 Router::any('', '\controllers\welcome@index');
 Router::get('login', '\controllers\login@get');
 Router::post('login', '\controllers\login@post');
+Router::any('logout', '\controllers\login@logout');
 
 //if no route found
 Router::error('\core\error@index');

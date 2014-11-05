@@ -17,7 +17,7 @@ class Config {
     date_default_timezone_set('Europe/Athens');
   
     //site address
-    define('DIR','http://privateask.noip.me/pa/');
+    define('DIR','http://'.$_SERVER['HTTP_HOST'].'/pa/');
     
     $db = parse_ini_file('dbConnectConfig.ini');
     

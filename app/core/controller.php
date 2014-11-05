@@ -29,8 +29,9 @@ class Controller {
     
     $excMsg = $e->getMessage();
     header("X-Error-Descr: $excMsg");
-    echo '<div class="center480 ui warning message"><div class="header">';
-    echo "$header</div><p>$excMsg</p></div>";
+    $a = '<div class="center480 ui warning message"><div class="header">';
+    $a .= "$header</div><p>$excMsg</p></div>";
+    $GLOBALS['warnMessage'] .= $a;
   }
 
 }

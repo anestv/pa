@@ -20,9 +20,23 @@ class User extends \core\model {
     else if ($username == self::ANONYMOUS)
       ;// do sth
     
-    // search DB for this username and if found
-    // make $this that user
-    // if deleteon != null, make this user DELETED_USER
+    $username = $this->_db->real_escape_string($username);
+    $res = $this->_db->query("SELECT * FROM users WHERE username = '$username';");
+    if (!$res) throw new RuntimeException($this->_db->error);
+    if ($res->num_rows < 1){
+      ;// make it anonymous? or what?
+      return;
+    }
+    $user = $res->fetch_array();
+    if ($user['deleteon'] !== null)
+      ;// make it DELETED_USER
+    
+    $this->username = $user['username'];
+    $this->realname = $user['realname'];
+    $this->hs_pass = $user['hs_pass'];
+    $this->whosees = $user['whosees'];
+    $this->whoasks = $user['whoasks'];
+    
   }
   
   
@@ -47,11 +61,15 @@ class User extends \core\model {
     // update db entry
   }
   
-  function hasFriend($friend){ //could be protected
+  function hasFriend($user){ //could be protected
     if ($user instanceof User)
       $user = $user->username;
+    else $user = $this->_db->real_escape_string($user);
     
+    $query = "SELECT friend FROM friends WHERE `user`='$this->username' AND friend='$user';";
+    $res = $this->_db->query($query);
     
+    return (($user === $this->username) or ($res and $res->num_rows > 0));
   }
   
   public function profileVisibleBy($user){
@@ -100,14 +118,14 @@ class User extends \core\model {
       throw new Exception('The password you entered is incorrect');
     
     $query = "UPDATE users SET deleteon = CURRENT_DATE + INTERVAL 7 DAY WHERE username = '$username';";
-    $res = $con->query($query);
+    $res = $this->_db->query($query);
     
-    if (!$res) throw new RuntimeException($con->error);
+    if (!$res) throw new RuntimeException($this->_db->error);
   }
   
   public function preventDeletion(){
-    $con->query("UPDATE users SET deleteon = NULL WHERE username = '$user';");
-    return $con->affected_rows > 0; // if anything changed
+    $this->_db->query("UPDATE users SET deleteon = NULL WHERE username = '$user';");
+    return $this->_db->affected_rows > 0; // if anything changed
   }
   
 }

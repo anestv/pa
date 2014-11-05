@@ -11,6 +11,9 @@ if ($data['loggedOut'])
   '<i class="sign out icon"></i> You have been logged out</h2>'.
   'We hope to see you soon!</div>';
 
+if ($GLOBALS['warnMessage'])
+  echo $GLOBALS['warnMessage'];
+else $GLOBALS['warnMessage'] = '';
 ?>
 
 <div class="center480">
