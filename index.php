@@ -13,10 +13,13 @@ use \core\router as Router;
 use \helpers\url as Url;
 
 //define routes
-Router::any('', '\controllers\welcome@index');
+Router::any('', '\controllers\index@index');
 Router::get('login', '\controllers\login@get');
 Router::post('login', '\controllers\login@post');
 Router::any('logout', '\controllers\login@logout');
+Router::any('terms', function(){
+  \core\view::render('terms');
+});
 
 //if no route found
 Router::error('\core\error@index');

@@ -4,23 +4,25 @@ use core\view as View;
 use core\error as Error;
 
 class Controller {
+  
+  public $view;
+  protected $user;
+  
+  public function __construct(){  
+    //initialise the config object
+    new config();
+    //initialise the views object
+    $this->view = new view();
+    $this->user = new \models\User(\models\User::CURRENT);
+  }
 
-	public $view;
-
-	public function __construct(){	
-		//initialise the config object
-		new config();
-		//initialise the views object
-		$this->view = new view();
-	}
-
-	//Display an error page if nothing exists
-	protected function _error($error) {
-		require 'app/core/error.php';
-		$this->_controller = new error($error);
-	    	$this->_controller->index();
-	    	die;
-	}
+  //Display an error page if nothing exists
+  protected function _error($error) {
+    require 'app/core/error.php';
+    $this->_controller = new error($error);
+    $this->_controller->index();
+    die;
+  }
   
   static function handleException($e, $header = 'Oops, something went wrong.'){
     if ($e instanceof RuntimeException)

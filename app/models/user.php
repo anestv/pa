@@ -5,6 +5,7 @@ class User extends \core\model {
   const NOT_LOGGED_IN = NULL;
   const DELETED_USER = 'deleteduser';
   const ANONYMOUS = 'anonymous';
+  const CURRENT = 'curr';
   
   public $username, $hs_pass, $realname, $whosees, $whoasks, $deactivated;
   
@@ -13,6 +14,11 @@ class User extends \core\model {
   public function __construct($username){
     parent::__construct();
     
+    if ($username == self::CURRENT){
+      if ($_SESSION['user'])
+        $username = $_SESSION['user'];
+      else $username = self::NOT_LOGGED_IN;
+    }
     if ($username == self::NOT_LOGGED_IN)
       ;// do sth
     else if ($username == self::DELETED_USER)
@@ -98,6 +104,18 @@ class User extends \core\model {
     return $this->hasFriend($user);
   }
   
+  public function getUnseen(){
+    $user = $this->username;
+    $query = "SELECT COUNT(*) FROM questions WHERE touser = '$user' AND answer IS NULL;";
+    $res = $this->_db->query($query);
+    
+    if (!$res) throw new RuntimeException($this->_db->error);
+    
+    $unseen = intval($res->fetch_array()[0]);
+    if ($unseen > 99) $unseen = '99+';
+    
+    return $unseen;
+  }
   
   public function editFriends($action, $argument){
     if ($action == 'add')

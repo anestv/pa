@@ -30,19 +30,19 @@ class Login extends \core\controller{
       $pass = $_POST['pass'];
     else throw new Exception('You did not enter a password');
     
-    $user = new \models\user($user);
+    $this->user = new \models\user($user);
     
     //TODO check if the user exists (not DELETED_USER or sth similar)
     
-    if (!$user->checkPassword($pass))
+    if (!$this->user->checkPassword($pass))
       throw new Exception('The password you entered is incorrect');
     
-    $user->preventDeletion();
+    $this->user->preventDeletion();
     
     if (!empty($_POST["keep"]))
       session_set_cookie_params(60*60*24*7); //1 evdomada
     session_regenerate_id(true);
-    $_SESSION['user'] = $user->username; //proper case (capitals or small)
+    $_SESSION['user'] = $this->user->username; //proper case (capitals or small)
     
     if (isset($_SESSION['requiredLogin']))
       \helpers\Url::redirect($_SESSION['requiredLogin']);

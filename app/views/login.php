@@ -40,7 +40,7 @@ else $GLOBALS['warnMessage'] = '';
   <div class="ui bottom attached icon message">
     <i class="signup icon"></i><div class="content">
       <div class="header">New to <i>PrivateAsk</i>?</div>
-      <a href="register.php">Register Here</a>
+      <a href="register">Register Here</a>
   </div></div>
 </div>
 </main>
