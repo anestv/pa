@@ -9,17 +9,20 @@ class index extends \core\controller{
   
   public function index(){  
       
+    $data['noGeneralCss'] = true;
+    $data['styles'][] = 'index.css';
+    View::rendertemplate('header',$data);
+    
     if (empty($_SESSION['user'])){
       View::render('notLoggedIn',$data);
     } else {
-      
       $data['unseen'] = $this->user->getUnseen();
       $data['user'] = $this->user;
       
-      //View::rendertemplate('header',$data);
-      View::render('index',$data);
-      //View::rendertemplate('footer',$data);
+      View::render('index', $data);
     }
+    
+    View::rendertemplate('footer',$data);
   }
   
 }

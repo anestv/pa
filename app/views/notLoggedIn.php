@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<!-- PrivateAsk - Copyright Anestis Varsamidis 2014 -
-http://github.com/anestv/pa - Open source: Artistic License 2.0 -->
-<html>
-<head>
-  <meta charset="utf-8">
-  <title><?=SITETITLE?></title>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.19.3/css/semantic.min.css">
-  <link rel="stylesheet" type="text/css" href="<?=helpers\url::get_template_path()?>css/index.css">
-</head>
-<body>
-
 <a id="githubribbon" href="https://github.com/anestv/pa">Find me on GitHub</a>
 
 <h1 class="ui black huge block header">
@@ -50,6 +38,3 @@ so bugs may exist and errors may frequently occur.</p>
   </div>
   <div class="ui vertical divider">Or</div>
 </div>
-
-</body>
-</html>
