@@ -17,6 +17,8 @@ Router::any('', '\controllers\index@index');
 Router::get('login', '\controllers\login@get');
 Router::post('login', '\controllers\login@post');
 Router::any('logout', '\controllers\login@logout');
+Router::get('register', '\controllers\register@get');
+Router::post('register', '\controllers\register@post');
 Router::any('terms', function(){
   \core\view::render('terms');
 });

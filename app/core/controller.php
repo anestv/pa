@@ -24,16 +24,27 @@ class Controller {
     die;
   }
   
-  static function handleException($e, $header = 'Oops, something went wrong.'){
+  protected function requireUser($state = 'loggedin'){
+    if ($state == 'loggedin'){
+      if (! $this->user->isRealUser())
+        \helpers\Url::redirect('login');
+    } else
+      if ($this->user->isRealUser())
+        \helpers\Url::redirect('');
+  }
+  
+  static function handleException($e, $header = ''){
     if ($e instanceof RuntimeException)
       http_response_code(500);
     else http_response_code(400);
     
     $excMsg = $e->getMessage();
     header("X-Error-Descr: $excMsg");
-    $a = '<div class="center480 ui warning message"><div class="header">';
-    $a .= "$header</div><p>$excMsg</p></div>";
-    $GLOBALS['warnMessage'] .= $a;
+    
+    if ($header)
+      $GLOBALS['warnMessage'] .= "<p class=\"header\">$header</p>";
+    
+    $GLOBALS['warnMessage'] .= "<p>$excMsg</p>";
   }
 
 }

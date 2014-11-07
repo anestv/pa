@@ -9,6 +9,7 @@ class Login extends \core\controller{
   }
   
   public function get(){
+    $this->requireUser('notloggedin');
     
     $data['title'] = 'Login';
     
@@ -21,6 +22,8 @@ class Login extends \core\controller{
   }
   
   public function post(){
+    $this->requireUser('notloggedin');
+    
     try {
     if (isset($_POST["user"]) and trim($_POST["user"]))
       $user = $_POST["user"];

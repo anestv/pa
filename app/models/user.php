@@ -46,16 +46,46 @@ class User extends \core\model {
   }
   
   
-  public static function create($username, $password, $realname, $salt){
+  public static function create($username, $password, $realname, $rand){
+    
     // validate user pass real (regexps and length)
+    if (preg_match('/^\w{5,20}$/', $username) !== 1)
+      throw new Exception('Enter 5-20 English letters and numbers as username');
+    if (strlen($password) < 6)
+      throw new Exception('Please enter a password of more than 6 characters');
+    if (strlen($password) > 100)
+      throw new Exception('Please enter a password up to 100 characters');
+    if (strlen($realname) > 40)
+      throw new Exception('Enter a real name up to 40 characters');
+    
+    // no need to escape user (passed regex) or pass (will be hashed)
+    
+    $realname = $this->_db->real_escape_string($realname);
     
     // no need to check case-insensitive (check for deleteduser in Question.writedown is case sensitive)
     if ($username === self::ANONYMOUS or $username === self::DELETED_USER)
       throw new Exception("Do not use '$username' as a username, as it has a special meaning for the server");
     
-    // hash password
+    // is there a user with the same username?
+    $testUser = new self($username);
+    if ($testUser->isRealUser())
+      throw new Exception('This username already exists');
+    
+    // hash and salt teh password
+    $hexrand = bin2hex(openssl_random_pseudo_bytes(10));
+    $thirand = base_convert($hexrand, 16, 30);
+    $alataki = $thirand. $rand. $thirand;
+    $cr_arr = array('salt'=> $alataki, 'cost'=> 10);
+    $hspass = password_hash($pass, PASSWORD_DEFAULT, $cr_arr);
+    $passDB = $this->_db->real_escape_string($hspass);
+    
     // insert data into database
-    return new self($username, $passowrd);
+    $query = "INSERT INTO users(username, hs_pass, realname) VALUES ('$username', '$passDB', '$realname');";
+    $result = $this->_db->query($query);
+    
+    if (!$result) throw new RuntimeException($this->_db->error);
+    
+    return new self($username);
   }
   
   public function checkPassword($password){
@@ -65,6 +95,10 @@ class User extends \core\model {
   public function changePassword($newPass){ //must have arleady verified newpass == newpass2
     // hash password and put it in $this->hs_pass
     // update db entry
+  }
+  
+  public function isRealUser(){
+    // TODO
   }
   
   function hasFriend($user){ //could be protected
