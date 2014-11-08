@@ -10,15 +10,14 @@ if ($data['loggedOut'])
   echo '<div class="ui info message"><h2 class="header">'.
   '<i class="sign out icon"></i> You have been logged out</h2>'.
   'We hope to see you soon!</div>';
-
-if ($GLOBALS['warnMessage'])
-  echo $GLOBALS['warnMessage'];
-else $GLOBALS['warnMessage'] = '';
 ?>
 
 <div class="center480">
   <h3 class="ui orangeBg top attached header">Log in to <i>PrivateAsk</i></h3>
-  <form action="login" method="POST" class="ui attached form segment">
+  <form action="login" method="POST" class="ui attached form segment<?php if ($GLOBALS['warnMessage']) echo ' error';?>">
+    <div class="ui error message">
+      <?=$GLOBALS['warnMessage']?>
+    </div>
     <div class="ui left labeled field icon input">
       <input name="user" required type="text" placeholder="Username" tabindex="1" autofocus>
       <i class="user icon"></i>

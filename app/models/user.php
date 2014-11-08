@@ -2,7 +2,7 @@
  
 class User extends \core\model {
   
-  const NOT_LOGGED_IN = NULL;
+  const NOT_LOGGED_IN = 'none';
   const DELETED_USER = 'deleteduser';
   const ANONYMOUS = 'anonymous';
   const CURRENT = 'curr';
@@ -19,12 +19,14 @@ class User extends \core\model {
         $username = $_SESSION['user'];
       else $username = self::NOT_LOGGED_IN;
     }
-    if ($username == self::NOT_LOGGED_IN)
-      ;// do sth
-    else if ($username == self::DELETED_USER)
-      ;// do sth
-    else if ($username == self::ANONYMOUS)
-      ;// do sth
+    
+    switch ($username){
+      case self::NOT_LOGGED_IN:
+      case self::DELETED_USER:
+      case self::ANONYMOUS:
+        $this->username = $username;
+        return;
+    }
     
     $username = $this->_db->real_escape_string($username);
     $res = $this->_db->query("SELECT * FROM users WHERE username = '$username';");
@@ -98,7 +100,17 @@ class User extends \core\model {
   }
   
   public function isRealUser(){
-    // TODO
+    
+    switch ($this->username){
+      
+      case self::NOT_LOGGED_IN:
+      case self::DELETED_USER:
+      case self::ANONYMOUS:
+        return false;
+      
+      default:
+        return true;
+    }
   }
   
   function hasFriend($user){ //could be protected

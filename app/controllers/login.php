@@ -35,7 +35,8 @@ class Login extends \core\controller{
     
     $this->user = new \models\user($user);
     
-    //TODO check if the user exists (not DELETED_USER or sth similar)
+    if (!$this->user->isRealUser())
+      throw new Exception('This user doesn\'t exist. Do you want to <a href="register">register</a>?');
     
     if (!$this->user->checkPassword($pass))
       throw new Exception('The password you entered is incorrect');
