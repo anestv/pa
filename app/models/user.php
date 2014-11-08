@@ -30,21 +30,22 @@ class User extends \core\model {
     
     $username = $this->_db->real_escape_string($username);
     $res = $this->_db->query("SELECT * FROM users WHERE username = '$username';");
+    
     if (!$res) throw new RuntimeException($this->_db->error);
     if ($res->num_rows < 1){
-      ;// make it anonymous? or what?
+      $this->username = self::NOT_LOGGED_IN;
+      throw new Exception("No user named $username was found");
       return;
     }
+    
     $user = $res->fetch_array();
-    if ($user['deleteon'] !== null)
-      ;// make it DELETED_USER
     
     $this->username = $user['username'];
     $this->realname = $user['realname'];
     $this->hs_pass = $user['hs_pass'];
     $this->whosees = $user['whosees'];
     $this->whoasks = $user['whoasks'];
-    
+    $this->deactivated = $user['deleteon'] !== null;
   }
   
   
