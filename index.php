@@ -12,6 +12,10 @@ if(file_exists('vendor/autoload.php')){
 use \core\router as Router;
 use \helpers\url as Url;
 
+// initialise the config object
+// originally was on \core\Controller::__contruct()
+new \core\config();
+
 //define routes
 Router::any('', '\controllers\index@index');
 Router::get('login', '\controllers\login@get');
@@ -19,12 +23,15 @@ Router::post('login', '\controllers\login@post');
 Router::any('logout', '\controllers\login@logout');
 Router::get('register', '\controllers\register@get');
 Router::post('register', '\controllers\register@post');
+Router::any('question/(:num)', '\controllers\question@view');
 Router::any('terms', function(){
   \core\view::render('terms');
 });
 
 //if no route found
 Router::error('\core\error@index');
+
+$GLOBALS['user'] = new \models\User(\models\User::CURRENT);
 
 //execute matched routes
 Router::dispatch();

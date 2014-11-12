@@ -16,8 +16,8 @@ class index extends \core\controller{
     if (empty($_SESSION['user'])){
       View::render('notLoggedIn',$data);
     } else {
-      $data['unseen'] = $this->user->getUnseen();
-      $data['user'] = $this->user;
+      $data['unseen'] = $GLOBALS['user']->getUnseen();
+      $data['user'] = $GLOBALS['user'];
       
       View::render('index', $data);
     }

@@ -6,14 +6,10 @@ use core\error as Error;
 class Controller {
   
   public $view;
-  protected $user;
   
-  public function __construct(){  
-    //initialise the config object
-    new config();
+  public function __construct(){
     //initialise the views object
     $this->view = new view();
-    $this->user = new \models\User(\models\User::CURRENT);
   }
 
   //Display an error page if nothing exists
@@ -26,10 +22,10 @@ class Controller {
   
   protected function requireUser($state = 'loggedin'){
     if ($state == 'loggedin'){
-      if (! $this->user->isRealUser())
+      if (! $GLOBALS['user']->isRealUser())
         \helpers\Url::redirect('login');
     } else
-      if ($this->user->isRealUser())
+      if ($GLOBALS['user']->isRealUser())
         \helpers\Url::redirect('');
   }
   

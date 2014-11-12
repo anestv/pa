@@ -193,6 +193,10 @@ class User extends \core\model {
     return $this->_db->affected_rows > 0; // if anything changed
   }
   
+  public function __toString(){
+    return $this->username;
+  }
+  
 }
  
 ?>
