@@ -7,6 +7,7 @@ http://github.com/anestv/pa - Open source: Artistic License 2.0 -->
   <title><?php if (isset($data['title']))echo $data['title'].' - '; echo SITETITLE; //SITETITLE defined in config.php?></title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.19.3/css/semantic.min.css">
   <?php
+  echo '<base href="'. BASE_DIR .'">';
   if (empty($data['noGeneralCss']))
     echo '<link href="'.helpers\url::get_template_path().'css/general.css" rel="stylesheet">';
   

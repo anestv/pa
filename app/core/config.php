@@ -6,7 +6,7 @@ class Config {
     
     //turn on output buffering
     ob_start();
-  
+    
     //start sessions
     \helpers\session::init();
   
@@ -17,7 +17,8 @@ class Config {
     date_default_timezone_set('Europe/Athens');
   
     //site address
-    define('DIR','http://'.$_SERVER['HTTP_HOST'].'/pa/');
+    define('BASE_DIR', '/pa/');
+    define('DIR','http://'.$_SERVER['HTTP_HOST'].BASE_DIR);
     
     $db = parse_ini_file('dbConnectConfig.ini');
     
@@ -28,13 +29,13 @@ class Config {
     define('DB_USER',$db['username']);
     define('DB_PASS',$db['password']);
     define('PREFIX','');
-  
+    
     //set prefix for sessions
     define('SESSION_PREFIX','pa_');
-  
+    
     //optionall create a constant for the name of the site
     define('SITETITLE','PrivateAsk');
-  
+    
     //set the default template
     \helpers\session::set('template','default');
     
