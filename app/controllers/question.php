@@ -75,5 +75,46 @@ class Question extends \core\controller{
     }
   }
   
+  
+  public function getDelete($qid){
+    $this->requireUser('loggedin');
+    
+    try {
+      $q = new Quest($qid);
+      
+      if ($GLOBALS['user']->username != $q->touser->username)
+        throw new Exception('You cannot delete this question.', 403);
+      
+      $data['title'] = 'Delete a question';
+      $data['styles'] = array('slideCancel.css');
+      $data['q'] = $q;
+      
+    } catch (Exception $e) {
+      $this->handleException($e);
+    }
+    
+    View::rendertemplate('header', $data);
+    View::render('deleteq', $data);
+    View::rendertemplate('footer', $data);
+  }
+  
+  
+  public function postDelete($qid){
+    $this->requireUser('loggedin');
+    
+    try {
+      $q = new Quest($qid);
+      
+      if ($GLOBALS['user'] != $q->touser)
+        throw new Exception("You cannot delete this question");
+      
+      $q->delete();
+    } catch (Exception $e) {
+      
+    }
+    $_SESSION['deleteSuccess'] = true; // print a message 'successfully deleted'
+    \helpers\Url::redirect('user/'. $q->touser->username);
+  }
+  
 }
 ?>
