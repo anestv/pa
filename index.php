@@ -24,6 +24,10 @@ Router::any('logout', '\controllers\login@logout');
 Router::get('register', '\controllers\register@get');
 Router::post('register', '\controllers\register@post');
 Router::any('question/(:num)', '\controllers\question@view');
+Router::get ('question/(:num)/report', '\controllers\question@getReport');
+Router::post('question/(:num)/report', '\controllers\question@postReport');
+Router::get ('question/(:num)/delete', '\controllers\question@getDelete');
+Router::post('question/(:num)/delete', '\controllers\question@postDelete');
 Router::any('terms', function(){
   \core\view::render('terms');
 });

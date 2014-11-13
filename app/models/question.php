@@ -19,7 +19,7 @@ class Question extends \core\model {
     $res = $this->_db->query($query);
     
     if (! $res) throw new RuntimeException($this->_db->error);
-    if ($res->num_rows < 1) throw new Exception("Question #$qid not found");
+    if ($res->num_rows < 1) throw new Exception("Question #$qid not found", 404);
     
     $q = $res->fetch_array();
     
@@ -83,7 +83,7 @@ class Question extends \core\model {
       throw new Exception('Sorry, you do not have the right to see this question');
   }
   
-  public function writeOut($extended = false){
+  public function writeOut($extended = false, $partial = false){
     
     // an example of extended use is in viewq
     
@@ -111,16 +111,18 @@ class Question extends \core\model {
     if ($extended) echo '<a class="date">Answered: ';
     else echo '<a class="date" href="question/'. $this->qid .'">Answered: ';
     
-    echo $prDate('timeanswered').'</a></div>
-      <div class="ui piled bottom attached segment"><div class="links">
-      <a href="question/'.$this->qid.'/report"><i class="red flag link icon"></i></a>';
+    echo $prDate('timeanswered').'</a></div><div class="ui ';
+    if (! $partial) echo 'piled bottom ';
+    echo 'attached segment"><div class="links"><a href="question/' .
+      $this->qid .'/report"><i class="red flag link icon"></i></a>';
     
     if ($this->touser == $GLOBALS['user']) {
       echo '<br><a class="deleteq" href="question/' . $this->qid;
       echo '/delete"><i class="red trash link icon"></i></a>';
     }
     echo '</div><h3 class="ui header">'. $this->question.
-      '</h3><p>'.$this->answer.'</p></div></div>';
+      '</h3><p>'.$this->answer.'</p></div>';
+    if (! $partial) echo '</div>'; // else </div> will be closed in view
   }
   
   public function report($reason){
@@ -142,8 +144,6 @@ class Question extends \core\model {
     $del = $con->query("DELETE FROM questions WHERE id = $this->qid;");
     if (!$del)
       throw new RuntimeException($con->error);
-    
-    // it would be good if we could delete $this
   }
   
 }
