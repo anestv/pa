@@ -1,6 +1,7 @@
 <?php namespace models;
 
 use \models\User as User;
+use \Exception, \RuntimeException, \InvalidArgumentException;
 
 class Question extends \core\model {
   
@@ -41,7 +42,7 @@ class Question extends \core\model {
     
     // ensure proper case (because == is case sensitive)
     $to = $touser->username;
-    $from = new User($from)->username;
+    $from = (new User($from))->username;
     
     if (!$touser->askableBy($fromuser))
       throw new Exception('Sorry, you cannot ask this user a question', 403);
@@ -66,7 +67,7 @@ class Question extends \core\model {
   }
   
   public function answer($text){
-    if ($loggedInUser != $this->touser) 
+    if ($GLOBALS['user'] != $this->touser) 
       throw new Exception('You cannot answer this question');
     
     // do all sorts of validation
@@ -77,15 +78,49 @@ class Question extends \core\model {
     // TODO update DB entry (dont forget timeanswered = NOW())
   }
   
-  public function writeOut($extended = false, $stopIfUnanswered = true){
+  public function preparePrint(){
+    if (! $this->touser->profileVisibleBy($GLOBALS['user']))
+      throw new Exception('Sorry, you do not have the right to see this question');
+  }
+  
+  public function writeOut($extended = false){
     
     // an example of extended use is in viewq
     
-    if ($stopIfUnanswered and empty($this->answer))
-      throw new Exception('This question has not been answered yet');
-    
-    if (! $this->touser->profileVisibleBy($loggedInUser))
+    if (! $this->touser->profileVisibleBy($GLOBALS['user']))
       throw new Exception('Sorry, you do not have the right to see this question');
+    
+    // using closures so that $this is available inside them
+    $prUser = function ($prop){
+      $u = $this->$prop->username;
+      return '<a href="user/'.$u.'">'.$u.'</a>';
+    };
+    $prDate = function ($prop){
+      $time = strtotime($this->$prop);
+      $res = '<time title="'.date('r', $time).'" datetime="'.date('c',$time);
+      return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
+    };
+    
+    echo '<div class="question"><div class="ui top attached tiny header">';
+    if ($extended)
+      echo 'To: '.$prUser('touser').'<a class="date">Asked: '.$prDate('timeasked').'</a><br>';
+    
+    if ($this->pubAsk and $this->fromuser !== User::DELETED_USER){
+      echo 'From: '.$prUser('fromuser');}
+    
+    if ($extended) echo '<a class="date">Answered: ';
+    else echo '<a class="date" href="question/'. $this->qid .'">Answered: ';
+    
+    echo $prDate('timeanswered').'</a></div>
+      <div class="ui piled bottom attached segment"><div class="links">
+      <a href="question/'.$this->qid.'/report"><i class="red flag link icon"></i></a>';
+    
+    if ($this->touser == $GLOBALS['user']) {
+      echo '<br><a class="deleteq" href="question/' . $this->qid;
+      echo '/delete"><i class="red trash link icon"></i></a>';
+    }
+    echo '</div><h3 class="ui header">'. $this->question.
+      '</h3><p>'.$this->answer.'</p></div></div>';
   }
   
   public function report($reason){
@@ -93,7 +128,7 @@ class Question extends \core\model {
     if (! in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
       throw new InvalidArgumentException("Select one of the listed reasons");
     
-    if (! $this->touser->profileVisibleBy($loggedInUser))
+    if (! $this->touser->profileVisibleBy($GLOBALS['user']))
       throw new Exception('Sorry, you do not have the right to see this question');
     
     // TODO insert into db
@@ -101,9 +136,7 @@ class Question extends \core\model {
   
   public function delete(){
     
-    // note that we check for comparison, NOT identity
-    // the objects must have the same properties, not same reference
-    if ($loggedInUser != $this->touser) 
+    if ($GLOBALS['user']->username != $this->touser->username) 
       throw new Exception('You cannot delete this question');
     
     $del = $con->query("DELETE FROM questions WHERE id = $this->qid;");
