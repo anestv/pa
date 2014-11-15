@@ -1,5 +1,6 @@
 <?php namespace models;
- 
+use \Exception, \RuntimeException;
+
 class User extends \core\model {
   
   const NOT_LOGGED_IN = 'none';

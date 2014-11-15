@@ -22,7 +22,7 @@ $data['q']->writeOut(true, true);
       </h2>
       This cannot be undone
     </div>
-     
+    
     <div class="ui centered buttons">
       <a class="ui icon button" id="butCancel" href="index.php" onclick="history.back();return history.length<2;">
         <i class="close icon"></i>

@@ -31,7 +31,7 @@ $data['q']->writeOut(true, true);
         </div></div>
         <div class="field"><div class="ui radio checkbox">
           <input type="radio" id="ri3" name="reason" value="tos">
-          <label for="ri3">It violates the site's <a href="terms.html">Terms of Service</a></label>
+          <label for="ri3">It violates the site's <a href="terms">Terms of Service</a></label>
         </div></div>
       </div>
       <div class="grouped inline fields column">
@@ -50,7 +50,7 @@ $data['q']->writeOut(true, true);
       </div>
     </div>
     <div class="ui centered buttons">
-      <a class="ui icon button" id="butCancel" href="index.php" onclick="history.back();return history.length<2;">
+      <a class="ui icon button" id="butCancel" href="." onclick="history.back();return history.length<2;">
         <i class="close icon"></i>
         <span>Cancel</span>
       </a> 

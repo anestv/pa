@@ -135,9 +135,9 @@ class Question extends \core\model {
     if (! in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
       throw new InvalidArgumentException("Select one of the listed reasons");
     
-    $user = $GLOBALS['user']);
+    $user = $GLOBALS['user'];
     
-    if (! $this->touser->profileVisibleBy($user)
+    if (! $this->touser->profileVisibleBy($user))
       throw new Exception('Sorry, you do not have the right to see this question');
     
     $query = "INSERT INTO question_reports (qid, reporter, reason)" .
