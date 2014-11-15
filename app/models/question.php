@@ -67,15 +67,20 @@ class Question extends \core\model {
   }
   
   public function answer($text){
-    if ($GLOBALS['user'] != $this->touser) 
-      throw new Exception('You cannot answer this question');
+    if ($GLOBALS['user']->username != $this->touser->username) 
+      throw new Exception('You cannot answer this question', 403);
     
-    // do all sorts of validation
+    if (! empty($this->answer))
+      throw new Exception("You have already answered this question; you can't reanswer it", 405);
     
-    // and possibly html escaping
-    $this->answer = htmlspecialchars($text);
+    $answer = $this->answer = htmlspecialchars($text);
     
-    // TODO update DB entry (dont forget timeanswered = NOW())
+    $query = "UPDATE questions SET answer = '$answer', timeanswered = NOW() WHERE id = $qid;";
+    $res = $this->_db->query($query);
+    
+    if (! $res) throw new RuntimeException($this->_db->error);
+    
+    return $res;
   }
   
   public function preparePrint(){
@@ -120,8 +125,8 @@ class Question extends \core\model {
       echo '<br><a class="deleteq" href="question/' . $this->qid;
       echo '/delete"><i class="red trash link icon"></i></a>';
     }
-    echo '</div><h3 class="ui header">'. $this->question.
-      '</h3><p>'.$this->answer.'</p></div>';
+    echo "</div><h3 class=\"ui header\">$this->question</h3><p>$this->answer</p></div>";
+    
     if (! $partial) echo '</div>'; // else </div> will be closed in view
   }
   
@@ -130,10 +135,18 @@ class Question extends \core\model {
     if (! in_array($reason, array('illegal', 'threat', 'tos', 'porn', 'copyright', 'other')))
       throw new InvalidArgumentException("Select one of the listed reasons");
     
-    if (! $this->touser->profileVisibleBy($GLOBALS['user']))
+    $user = $GLOBALS['user']);
+    
+    if (! $this->touser->profileVisibleBy($user)
       throw new Exception('Sorry, you do not have the right to see this question');
     
-    // TODO insert into db
+    $query = "INSERT INTO question_reports (qid, reporter, reason)" .
+        " VALUES ($this->qid, '$user', '$reason');";
+    $res = $this->_db->query($query);
+    if (! $res) 
+      throw new RuntimeException($this->_db->error);
+    
+    return $res;
   }
   
   public function delete(){
@@ -144,6 +157,8 @@ class Question extends \core\model {
     $del = $con->query("DELETE FROM questions WHERE id = $this->qid;");
     if (!$del)
       throw new RuntimeException($con->error);
+    
+    return $del;
   }
   
 }
