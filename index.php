@@ -28,9 +28,8 @@ Router::get ('question/(:num)/report', '\controllers\question@getReport');
 Router::post('question/(:num)/report', '\controllers\question@postReport');
 Router::get ('question/(:num)/delete', '\controllers\question@getDelete');
 Router::post('question/(:num)/delete', '\controllers\question@postDelete');
-Router::any('terms', function(){
-  \core\view::render('terms');
-});
+Router::any('terms', '\controllers\statics@terms');
+Router::any('help', '\controllers\statics@help');
 
 //if no route found
 Router::error('\core\error@index');
