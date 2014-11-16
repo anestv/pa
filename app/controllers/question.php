@@ -5,10 +5,6 @@ use \models\Question as Quest;
 
 class Question extends \core\controller{
   
-  public function __construct(){
-    parent::__construct();
-  }
-  
   public function view($qid){
     try {
       $q = new Quest($qid);

@@ -161,9 +161,9 @@ class Question extends \core\model {
     if ($GLOBALS['user']->username != $this->touser->username) 
       throw new Exception('You cannot delete this question');
     
-    $del = $con->query("DELETE FROM questions WHERE id = $this->qid;");
+    $del = $this->_db->query("DELETE FROM questions WHERE id = $this->qid;");
     if (!$del)
-      throw new RuntimeException($con->error);
+      throw new RuntimeException($this->_db->error);
     
     return $del;
   }

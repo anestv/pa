@@ -3,21 +3,21 @@
 class Friend extends \core\model {
   
   public static function addFriend($user, $friend){
-    $res = $this->_db->query("INSERT INTO friends VALUES ('$user', '$friend');");
+    $res = self::$_db->query("INSERT INTO friends VALUES ('$user', '$friend');");
     
-    if ($this->_db->errno == 1062)
+    if (self::$_db->errno == 1062)
       throw new Exception("You are already friends with $friend");
     
     return true;
   }
   
   public static function removeFriend($user, $friend){
-    $res = $this->_db->query("DELTETE FROM friends WHERE `user`='$user' AND friend='$friend';");
+    $res = self::$_db->query("DELTETE FROM friends WHERE `user`='$user' AND friend='$friend';");
     
-    if ($res and $con->affected_rows === 0)
+    if ($res and self::$_db->affected_rows === 0)
       throw new Exception("$friend was not in your friends anyway");
     
-    if ($this->_db->errno == 1452)
+    if (self::$_db->errno == 1452)
       throw new Exception("It looks like $friend is not yet registered");
     
     return true;
@@ -38,10 +38,10 @@ class Friend extends \core\model {
       array_splice($friends, $userinfriends, 1);
     
     //clear previous friends
-    $res = $this->_db->query("DELETE FROM friends WHERE `user` = '$user';");
+    $res = self::$_db->query("DELETE FROM friends WHERE `user` = '$user';");
     if (!$res) throw new RuntimeException("MySQL error ".$this->_db->error);
     
-    $stmt = $this->_db->prepare("INSERT INTO friends VALUES ('$user', ?);");
+    $stmt = self::$_db->prepare("INSERT INTO friends VALUES ('$user', ?);");
     
     $stmt->bind_param('s', $curr);
     
@@ -50,10 +50,6 @@ class Friend extends \core\model {
     
     $stmt->close();
     return true;
-  }
-  
-  public function __construct(){
-    parent::__construct();
   }
   
 }

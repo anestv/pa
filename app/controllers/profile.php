@@ -5,10 +5,6 @@ use \models\User as User;
 
 class Profile extends \core\controller{
   
-  public function __construct(){
-    parent::__construct();
-  }
-  
   public function profile($username){
     try {
       $user = new User($username);

@@ -2,10 +2,6 @@
 use core\view as View;
 
 class index extends \core\controller{
-
-  public function __construct(){
-    parent::__construct();
-  }
   
   public function index(){  
       

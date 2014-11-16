@@ -2,9 +2,9 @@
 
 class Model extends Controller {
 
-	protected $_db;
+	protected static $_db;
 	
 	public function __construct(){
-		$this->_db = new \helpers\database();
+		self::$_db = $this->_db = new \helpers\database();
 	}
 }
