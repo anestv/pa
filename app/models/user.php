@@ -8,7 +8,7 @@ class User extends \core\model {
   const ANONYMOUS = 'anonymous';
   const CURRENT = 'curr';
   
-  public $username, $hs_pass, $realname, $whosees, $whoasks, $deactivated;
+  public $username, $hs_pass, $realname, $whosees, $whoasks, $deactivated, $style;
   
   
   // find an existing user by username
@@ -35,7 +35,7 @@ class User extends \core\model {
     if (!$res) throw new RuntimeException($this->_db->error);
     if ($res->num_rows < 1){
       $this->username = self::NOT_LOGGED_IN;
-      throw new Exception("No user named $username was found");
+      throw new Exception("No user named $username was found", 404);
       return;
     }
     
@@ -47,6 +47,8 @@ class User extends \core\model {
     $this->whosees = $user['whosees'];
     $this->whoasks = $user['whoasks'];
     $this->deactivated = $user['deleteon'] !== null;
+    $this->style = array_intersect_key($user,
+        ['headcolor'=>0, 'backcolor'=>0, 'textfont'=>0]); // get the common keys
   }
   
   
@@ -130,6 +132,9 @@ class User extends \core\model {
     if ($user instanceof User)
       $user = $user->username;
     
+    if ($user === self::DELETED_USER or $user === self::ANONYMOUS)
+      throw new Exception('Invalid user provided'); // too general?
+    
     if ($user === self::NOT_LOGGED_IN)
       return $this->whosees === 'all';
     
@@ -142,6 +147,9 @@ class User extends \core\model {
   public function askableBy($user){
     if ($user instanceof User)
       $user = $user->username;
+    
+    if ($user === self::DELETED_USER or $user === self::ANONYMOUS)
+      throw new Exception('Invalid user provided'); // too general?
     
     if ($user === self::NOT_LOGGED_IN)
       return $this->whoasks === 'all';

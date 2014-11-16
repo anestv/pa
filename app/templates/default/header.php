@@ -13,7 +13,10 @@ http://github.com/anestv/pa - Open source: Artistic License 2.0 -->
   
   if (isset($data['styles']) and is_array($data['styles']))
     foreach($data['styles'] as $style)
-      echo '<link rel="stylesheet" type="text/css" href="'.helpers\url::get_template_path()."css/$style\">";
+      if ($style[0] == '/')
+        echo '<link rel="stylesheet" type="text/css" href="'.substr($style, 1).'">';
+      else
+        echo '<link rel="stylesheet" type="text/css" href="'.helpers\url::get_template_path()."css/$style\">";
 ?>
 </head>
-<body>
+<body <?=$data['bodyData']?>>

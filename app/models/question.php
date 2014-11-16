@@ -8,6 +8,8 @@ class Question extends \core\model {
   public $qid, $question, $answer, $fromuser, $touser;
   public $timeasked, $timeanswered, $pubAsk;
   
+//  protected static $stmtInit = self::$_db->prepare("SELECT * FROM questions WHERE id = ?;");
+  
   public function __construct($qid){
     parent::__construct();
     
@@ -17,7 +19,12 @@ class Question extends \core\model {
     
     $query = "SELECT * FROM questions WHERE id = $qid;";
     $res = $this->_db->query($query);
-    
+//    self::$stmtInit->bind_param('i', $qid);
+//    self::$stmtInit->execute();
+//    self::$stmtInit->bind_result($TODO);//TODO $this->properties h locals opou xreiazetai px touser, fromuser, deleteon
+//    self::$stmtInit->fetch()
+      
+//    TODO
     if (! $res) throw new RuntimeException($this->_db->error);
     if ($res->num_rows < 1) throw new Exception("Question #$qid not found", 404);
     
@@ -33,7 +40,7 @@ class Question extends \core\model {
     $this->answer = $q['answer'];
     $this->timeasked = $q['timeasked'];
     $this->timeanswered = $q['timeanswered'];
-    $this->pubAsk = $q['pubAsk'];
+    $this->pubAsk = $q['publicasker'];
     $this->fromuser = new User($q['fromuser']);
   }
   
@@ -110,7 +117,7 @@ class Question extends \core\model {
     if ($extended)
       echo 'To: '.$prUser('touser').'<a class="date">Asked: '.$prDate('timeasked').'</a><br>';
     
-    if ($this->pubAsk and $this->fromuser !== User::DELETED_USER){
+    if ($this->pubAsk and $this->fromuser->username !== User::DELETED_USER){
       echo 'From: '.$prUser('fromuser');}
     
     if ($extended) echo '<a class="date">Answered: ';
