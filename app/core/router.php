@@ -13,6 +13,7 @@ class Router
 
     public static $patterns = array(
         ':any' => '[^/]+',
+        ':user'=> '\w{5,20}',
         ':num' => '[0-9]+',
         ':all' => '.*'
     );

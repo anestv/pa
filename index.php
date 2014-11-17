@@ -30,9 +30,9 @@ Router::get ('question/(:num)/delete', '\controllers\question@getDelete');
 Router::post('question/(:num)/delete', '\controllers\question@postDelete');
 Router::any('terms', '\controllers\statics@terms');
 Router::any('help', '\controllers\statics@help');
-Router::get('user/(:any)', '\controllers\profile@profile');
-Router::get('api/profileDisplay/(:any)', '\controllers\api@profileDisplay');
-Router::get('api/load/(:any)', '\controllers\api@load');
+Router::get('user/(:user)', '\controllers\profile@profile');
+Router::get('api/profileDisplay/(:user)', '\controllers\api@profileDisplay');
+Router::get('api/load/(:user)', '\controllers\api@load');
 
 //if no route found
 Router::error('\core\error@index');
