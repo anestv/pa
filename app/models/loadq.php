@@ -3,10 +3,6 @@ use \Exception, \RuntimeException;
 
 class LoadQ extends \core\model {
   
-  public function __construct(){
-    parent::__construct();
-  }
-  
   public static function main($owner, $offset = 0){
     if (!is_numeric($offset) or $offset < 0)
       throw new InvalidArgumentException('The offset is not of correct type.');
@@ -22,7 +18,7 @@ class LoadQ extends \core\model {
       if (! $owner->profileVisibleBy($GLOBALS['user']))
         throw new Exception("You are not allowed to view this user's questions", 403);
       
-      $query = "SELECT id FROM questions WHERE timeanswered IS NOT NULL AND touser".
+      $query = "SELECT id FROM questions WHERE answer IS NOT NULL AND touser".
         " = '$owner->username' ORDER BY timeanswered DESC LIMIT 11 OFFSET $offset;";
       $res = self::$_db->query($query);
       if (!$res)
@@ -30,6 +26,7 @@ class LoadQ extends \core\model {
       
     } catch (Exception $e) {
       throw $e;
+      // TODO anything better?
     }
     
     if ($res->num_rows === 0)
@@ -43,22 +40,8 @@ class LoadQ extends \core\model {
         $q->writeOut(false);
       }
       
-      if ($res->num_rows < 11)
-        echo '<div data-last="1"></div>';
-      
       return $res;
     }
-  }
-  
-  public static function fromRequest($owner){
-    if (empty($owner) or !isset($_GET['offset']))
-      throw new Exception('Required parameters were not provided');
-    
-    if ((!is_numeric($_GET['offset'])) or ($_GET['offset'] < 0))
-      throw new InvalidArgumentException('The offset is not of correct type.');
-    $offset = intval($_GET['offset']);
-    
-    self::main($owner, $offset);
   }
   
 }

@@ -64,8 +64,11 @@ class Question extends \core\controller{
       $q->report($_POST['reason']);
       
       $_SESSION['reportSuccess'] = true; //TODO print a message 'thank you for letting us know'
+      
       \helpers\Url::redirect('user/'. $q->touser->username);
+      
     } catch (Exception $e) {
+      $this->handleException($e);
       //TODO
       $this->getReport($qid);
     }
@@ -105,11 +108,16 @@ class Question extends \core\controller{
         throw new Exception("You cannot delete this question");
       
       $q->delete();
-    } catch (Exception $e) {
       
+      $_SESSION['deleteSuccess'] = true; // print a message 'successfully deleted'
+      
+      if (!$this->byAJAX)
+        \helpers\Url::redirect('user/'. $q->touser->username);
+      
+    } catch (Exception $e) {
+      $this->handleException($e);
+      $this->getDelete($qid);
     }
-    $_SESSION['deleteSuccess'] = true; // print a message 'successfully deleted'
-    \helpers\Url::redirect('user/'. $q->touser->username);
   }
   
 }

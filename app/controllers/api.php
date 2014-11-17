@@ -1,5 +1,6 @@
 <?php namespace controllers;
 use core\view as View;
+use \Exception;
 
 class API extends \core\controller{
   
@@ -30,9 +31,25 @@ class API extends \core\controller{
     
     View::render('profileDisplay', $data);
   }
-
-  public function __construct(){
-    parent::__construct();
+  
+  public function load($owner){
+    
+    try {
+      if (empty($owner) or !isset($_GET['offset']))
+        throw new Exception('Required parameters were not provided');
+      
+      if ((!is_numeric($_GET['offset'])) or ($_GET['offset'] < 0))
+        throw new InvalidArgumentException('The offset is not of correct type.');
+      $offset = intval($_GET['offset']);
+      
+      $result = \models\LoadQ::main($owner, $offset); //prints question after checks and returns $res
+      
+      if ($result->num_rows < 11)
+        echo '<div data-last="1"></div>';
+      
+    } catch (Exception $e) {
+      $this->handleException($e);
+    }
   }
   
 }

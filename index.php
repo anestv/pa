@@ -32,6 +32,7 @@ Router::any('terms', '\controllers\statics@terms');
 Router::any('help', '\controllers\statics@help');
 Router::get('user/(:any)', '\controllers\profile@profile');
 Router::get('api/profileDisplay/(:any)', '\controllers\api@profileDisplay');
+Router::get('api/load/(:any)', '\controllers\api@load');
 
 //if no route found
 Router::error('\core\error@index');
