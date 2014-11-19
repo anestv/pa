@@ -181,7 +181,7 @@ class User extends \core\model {
     else if ($action == 'set')
       Friend::setFriends($this->username, $argument);
     else
-      throw new Exception(); //or something similar
+      throw new Exception('The provided action is not supported', 400);
   }
   
   public function deleteAccount($username, $password){
@@ -198,7 +198,7 @@ class User extends \core\model {
   }
   
   public function preventDeletion(){
-    $this->_db->query("UPDATE users SET deleteon = NULL WHERE username = '$user';");
+    $this->_db->query("UPDATE users SET deleteon = NULL WHERE username = '$this->username';");
     return $this->_db->affected_rows > 0; // if anything changed
   }
   

@@ -12,7 +12,7 @@ class Friend extends \core\model {
   }
   
   public static function removeFriend($user, $friend){
-    $res = self::$_db->query("DELTETE FROM friends WHERE `user`='$user' AND friend='$friend';");
+    $res = self::$_db->query("DELETE FROM friends WHERE `user`='$user' AND friend='$friend';");
     
     if ($res and self::$_db->affected_rows === 0)
       throw new Exception("$friend was not in your friends anyway");
@@ -39,7 +39,7 @@ class Friend extends \core\model {
     
     //clear previous friends
     $res = self::$_db->query("DELETE FROM friends WHERE `user` = '$user';");
-    if (!$res) throw new RuntimeException("MySQL error ".$this->_db->error);
+    if (!$res) throw new RuntimeException("MySQL error ".self::$_db->error);
     
     $stmt = self::$_db->prepare("INSERT INTO friends VALUES ('$user', ?);");
     

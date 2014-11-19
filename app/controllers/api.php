@@ -1,6 +1,6 @@
 <?php namespace controllers;
 use core\view as View;
-use \Exception;
+use \Exception, \InvalidArgumentException, \RuntimeException;
 
 class API extends \core\controller{
   
@@ -49,6 +49,30 @@ class API extends \core\controller{
       
     } catch (Exception $e) {
       $this->handleException($e);
+    }
+  }
+  
+  public function friends(){
+    
+    $this->requireUser('loggedin');
+    
+    $possVals = ['set', 'add', 'remove'];
+    
+    try {
+      if (!(isset($_POST['do']) and in_array($_POST['do'], $possVals)))
+        throw new InvalidArgumentException('Parameter do was not valid', 400);
+      
+      if (!(isset($_POST['friends']) and trim($_POST['friends'])))
+        throw new InvalidArgumentException('Parameter friends was not given', 400);
+      
+      $GLOBALS['user']->editFriends($_POST['do'], $_POST['friends']);
+      
+      // do not print anything, this page will be used with AJAX
+      // or in a way that it wont be visible to the user
+      echo 'Success!'; // just a small indicator
+      
+    } catch (Exception $e){
+      handleException($e);
     }
   }
   
