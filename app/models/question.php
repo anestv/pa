@@ -47,11 +47,17 @@ class Question extends \core\model {
   public static function create($text, $pubAsk, $from, $to){
     $touser = new User($to);
     
+    if (!$touser->isRealUser())
+      throw new Exception('This user does not seem to exist');
+    
+    if ($touser->deactivated)
+      throw new Exception('This user has deactivated their account');
+    
     // ensure proper case (because == is case sensitive)
     $to = $touser->username;
-    $from = (new User($from))->username;
+    $from = $from->username;
     
-    if (!$touser->askableBy($fromuser))
+    if (!$touser->askableBy($from))
       throw new Exception('Sorry, you cannot ask this user a question', 403);
     
     $pubAsk = ($pubAsk ? 1 : 0);
@@ -62,15 +68,15 @@ class Question extends \core\model {
     } else if ($from == $to)
       $pubAsk = 1;
     
-    $question = $this->_db->real_escape_string(htmlspecialchars($text));
+    $question = self::$_db->real_escape_string(htmlspecialchars($text));
     
     $query = "INSERT INTO questions (fromuser, touser, question, publicasker)".
       " VALUES ('$from', '$to', '$question', $pubAsk);";
     
-    $res = $this->_db->query($query);
-    if (! $res) throw new RuntimeException($this->_db->error);
+    $res = self::$_db->query($query);
+    if (! $res) throw new RuntimeException(self::$_db->error);
     
-    return new self($qid);
+    return new self(self::$_db->insert_id);
   }
   
   public function answer($text){

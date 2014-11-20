@@ -23,7 +23,7 @@ Router::post('login', '\controllers\login@post');
 Router::any('logout', '\controllers\login@logout');
 Router::get('register', '\controllers\register@get');
 Router::post('register', '\controllers\register@post');
-Router::any('question/(:num)', '\controllers\question@view');
+Router::get('question/(:num)', '\controllers\question@view');
 Router::get ('question/(:num)/report', '\controllers\question@getReport');
 Router::post('question/(:num)/report', '\controllers\question@postReport');
 Router::get ('question/(:num)/delete', '\controllers\question@getDelete');

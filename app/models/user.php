@@ -66,16 +66,21 @@ class User extends \core\model {
     
     // no need to escape user (passed regex) or pass (will be hashed)
     
-    $realname = $this->_db->real_escape_string($realname);
+    $realname = self::$_db->real_escape_string($realname);
     
-    // no need to check case-insensitive (check for deleteduser in Question.writedown is case sensitive)
-    if ($username === self::ANONYMOUS or $username === self::DELETED_USER)
+    // case-insensitive check, even though check for deleteduser in Question.writedown is case sensitive
+    $regex = '/^'.self::ANONYMOUS.'|'.self::DELETED_USER.'$/i'; 
+    if (preg_match($regex, $username) === 1)
       throw new Exception("Do not use '$username' as a username, as it has a special meaning for the server");
     
     // is there a user with the same username?
-    $testUser = new self($username);
-    if ($testUser->isRealUser())
-      throw new Exception('This username already exists');
+    try {
+      $testUser = new self($username);
+    } catch (Exception $e) {
+      $notExist = $e->getCode() == 404;
+    }
+    if (!$notExist and $testUser->isRealUser())
+      throw new Exception("A user named $username already exists");
     
     // hash and salt teh password
     $hexrand = bin2hex(openssl_random_pseudo_bytes(10));
@@ -83,13 +88,13 @@ class User extends \core\model {
     $alataki = $thirand. $rand. $thirand;
     $cr_arr = array('salt'=> $alataki, 'cost'=> 10);
     $hspass = password_hash($pass, PASSWORD_DEFAULT, $cr_arr);
-    $passDB = $this->_db->real_escape_string($hspass);
+    $passDB = self::$_db->real_escape_string($hspass);
     
     // insert data into database
     $query = "INSERT INTO users(username, hs_pass, realname) VALUES ('$username', '$passDB', '$realname');";
-    $result = $this->_db->query($query);
+    $result = self::$_db->query($query);
     
-    if (!$result) throw new RuntimeException($this->_db->error);
+    if (!$result) throw new RuntimeException(self::$_db->error);
     
     return new self($username);
   }

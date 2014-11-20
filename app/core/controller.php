@@ -33,9 +33,13 @@ class Controller {
   }
   
   static function handleException($e, $header = ''){
-    if ($e instanceof RuntimeException)
+    
+    if ($e->getCode())
+      http_response_code($e->getCode());
+    else if ($e instanceof RuntimeException)
       http_response_code(500);
-    else http_response_code(400);
+    else
+      http_response_code(400);
     
     $excMsg = $e->getMessage();
     header("X-Error-Descr: $excMsg");

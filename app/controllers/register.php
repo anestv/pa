@@ -43,12 +43,13 @@ class Register extends \core\controller {
       
       $this->user = \models\User::create($user, $pass, $realN, $_POST['rand']);
       
-      redirect("user/$user", 201); //won't redirect, just set Location, http created
       session_regenerate_id(true);
       $_SESSION['user'] = $user; // log him in
       
-      // TODO redirect to / where there will be a message
+      // redirect to / where there will be a message
       // "Your account has been created and you are logged in"
+      $_SESSION['registerSuccess'] = true;
+      \helpers\Url::redirect('');
       
     } catch (Exception $e) {
       $this->handleException($e);
