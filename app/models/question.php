@@ -13,7 +13,7 @@ class Question extends \core\model {
   public function __construct($qid){
     parent::__construct();
     
-    if (!is_numeric($qid) or $qid < 0)
+    if (!is_numeric($qid) or $qid <= 0)
       throw new InvalidArgumentException('qid is not a positive integer');
     else $qid = intval($qid);
     
@@ -123,22 +123,28 @@ class Question extends \core\model {
     if ($extended)
       echo 'To: '.$prUser('touser').'<a class="date">Asked: '.$prDate('timeasked').'</a><br>';
     
-    if ($this->pubAsk and $this->fromuser->username !== User::DELETED_USER){
-      echo 'From: '.$prUser('fromuser');}
+    if ($this->pubAsk and $this->fromuser->username !== User::DELETED_USER)
+      echo 'From: '.$prUser('fromuser');
     
     if ($extended) echo '<a class="date">Answered: ';
     else echo '<a class="date" href="question/'. $this->qid .'">Answered: ';
     
     echo $prDate('timeanswered').'</a></div><div class="ui ';
     if (! $partial) echo 'piled bottom ';
-    echo 'attached segment"><div class="links"><a href="question/' .
-      $this->qid .'/report"><i class="red flag link icon"></i></a>';
+    echo 'attached segment"><div class="links"><a href="question/'. $this->qid;
+    
+    if (empty($this->answer) and $this->touser->username == $GLOBALS['user']->username)
+      echo '/answer"><i class="black pencil link icon"></i></a>';
+    else
+      echo '/report"><i class="red flag link icon"></i></a>';
     
     if ($this->touser == $GLOBALS['user']) {
       echo '<br><a class="deleteq" href="question/' . $this->qid;
       echo '/delete"><i class="red trash link icon"></i></a>';
     }
-    echo "</div><h3 class=\"ui header\">$this->question</h3><p>$this->answer</p></div>";
+    echo "</div><h3 class=\"ui header\">$this->question</h3>";
+    if ($this->answer) echo "<p>$this->answer</p>";
+    echo '</div>';
     
     if (! $partial) echo '</div>'; // else </div> will be closed in view
   }

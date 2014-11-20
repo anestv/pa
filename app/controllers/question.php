@@ -11,7 +11,7 @@ class Question extends \core\controller{
       
       $q->preparePrint();
       
-      if (empty($q->answer))
+      if (empty($q->answer) and $q->touser->username != $GLOBALS['user']->username)
         throw new Exception('This question has not been answered yet.');
       
     } catch (Exception $e) {
@@ -21,9 +21,9 @@ class Question extends \core\controller{
     $data['title'] = 'View a question';
     $data['question'] = $q;
     
-    View::rendertemplate('header',$data);
-    View::render('viewq',$data);
-    View::rendertemplate('footer',$data);
+    View::rendertemplate('header', $data);
+    View::render('viewq', $data);
+    View::rendertemplate('footer', $data);
   }
   
   
@@ -38,7 +38,7 @@ class Question extends \core\controller{
         throw new Exception('This question has not been answered yet.');
       
       $data['title'] = 'Report a question';
-      $data['styles'] = array('slideCancel.css');
+      $data['styles'] = ['slideCancel.css'];
       
       $data['q'] = $q;
       $data['suggestDelete'] = $GLOBALS['user']->username === $q->touser->username;
@@ -85,7 +85,7 @@ class Question extends \core\controller{
         throw new Exception('You cannot delete this question.', 403);
       
       $data['title'] = 'Delete a question';
-      $data['styles'] = array('slideCancel.css');
+      $data['styles'] = ['slideCancel.css'];
       $data['q'] = $q;
       
     } catch (Exception $e) {
