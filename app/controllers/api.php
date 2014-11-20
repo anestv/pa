@@ -72,7 +72,35 @@ class API extends \core\controller{
       echo 'Success!'; // just a small indicator
       
     } catch (Exception $e){
-      handleException($e);
+      $this->handleException($e);
+    }
+  }
+  
+  public function ask(){
+    
+    try {
+      
+      if (!(isset($_POST['question']) and trim($_POST['question'])))
+        throw new Exception('You did not enter a question', 400);
+      
+      if (empty($_POST['to']))
+        throw new Exception('Required parameters were not provided', 400);
+      
+      $q = \models\Question::create($_POST['question'], $_POST['pubAsk'], $GLOBALS['user'], $_POST['to']);
+      
+      echo 'Success!';
+      
+      if ($this->byAJAX){
+        http_response_code(201); // 201 = Created
+        Header('Location: '. DIR ."question/$q->qid"); // won't actually redirect
+      } else {
+        $_SESSION['questionSent'] = true;
+        \helpers\Url::redirect('user/'.$q->touser->username);
+      }
+      
+    } catch (Exception $e) {
+      $this->handleException($e);
+      echo $e->getMessage();
     }
   }
   
