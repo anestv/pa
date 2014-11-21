@@ -28,6 +28,8 @@ Router::get ('question/(:num)/report', '\controllers\question@getReport');
 Router::post('question/(:num)/report', '\controllers\question@postReport');
 Router::get ('question/(:num)/delete', '\controllers\question@getDelete');
 Router::post('question/(:num)/delete', '\controllers\question@postDelete');
+Router::get ('question/(:num)/answer', '\controllers\answer@get');
+Router::post('question/(:num)/answer', '\controllers\answer@post');
 Router::any('terms', '\controllers\statics@terms');
 Router::any('help', '\controllers\statics@help');
 Router::get('user/(:user)', '\controllers\profile@profile');
