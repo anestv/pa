@@ -36,15 +36,16 @@ div.question>.ui.header,.orangeBg {
   background-image: linear-gradient(to bottom, #F8A11F, #EE911D);
   color: #FFF;
 }
-div.question>.ui.header > a {color:#EEE;}
-div.question>.ui.header > a:hover {color:#FFF;}
-div.question>.ui.header::after {
-  content: '';
-  display: block;
-  clear: both;
-  height: 0;
+div.question>.ui.header {
+  padding-bottom: 0.4em;
 }
-div.question a.date {float: right;}
+div.question>.ui.header table {width: 100%;}
+div.question>.ui.header table td:nth-child(2){text-align: right;}
+div.question>.ui.header table a {color: #EEE;}
+div.question>.ui.header table a:hover {color:#FFF;}
+div.question>.ui.header table td:nth-child(2) a{
+  font-size: 0.8em;
+}
 div.question div.links {float: right;}
 div.question div.links a {
   text-decoration: none;
@@ -86,12 +87,6 @@ form#friendForm > * {
 form#friendForm > .ui.link.list.segment > .item {
   margin-left: 1em;
 }
-
-a.date {
-  color:gray;
-  font-size:0.8em;
-}
-a.date:hover {color:#555;}
 
 /*name to add significance*/
 form.answer textarea[name="answer"] {

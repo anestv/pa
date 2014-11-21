@@ -1,6 +1,5 @@
 <?php namespace models;
 
-use \models\User as User;
 use \Exception, \RuntimeException, \InvalidArgumentException;
 
 class Question extends \core\model {
@@ -10,8 +9,10 @@ class Question extends \core\model {
   
 //  protected static $stmtInit = self::$_db->prepare("SELECT * FROM questions WHERE id = ?;");
   
-  public function __construct($qid){
+  public function __construct($qid = null){
     parent::__construct();
+    
+    if (null === $qid) return;
     
     if (!is_numeric($qid) or $qid <= 0)
       throw new InvalidArgumentException('qid is not a positive integer');
@@ -119,17 +120,37 @@ class Question extends \core\model {
       return $res .'">'.date('G:i \o\n l j/n/y', $time) .'</time>';
     };
     
-    echo '<div class="question"><div class="ui top attached tiny header">';
-    if ($extended)
-      echo 'To: '.$prUser('touser').'<a class="date">Asked: '.$prDate('timeasked').'</a><br>';
+    echo '<div class="question">';
     
-    if ($this->pubAsk and $this->fromuser->username !== User::DELETED_USER)
-      echo 'From: '.$prUser('fromuser');
+    // HEADER:
     
-    if ($extended) echo '<a class="date">Answered: ';
-    else echo '<a class="date" href="question/'. $this->qid .'">Answered: ';
+    echo '<div class="ui top attached tiny header"><table>';
     
-    echo $prDate('timeanswered').'</a></div><div class="ui ';
+    if ($extended){
+      echo '<tr><td>To: '.$prUser('touser').'</td><td>';
+      echo '<a class="date">Asked: '.$prDate('timeasked').'</a></td></tr>';
+    }
+    
+    echo '<tr><td>';
+    $showFrom = $this->pubAsk and $this->fromuser->username !== User::DELETED_USER;
+    if ($showFrom) echo 'From: '.$prUser('touser');
+    
+    echo '</td><td>';
+    
+    if ($extended){
+      if ($this->answer)
+        echo '<a class="date">Answered: '.$prDate('timeanswered').'</a>';
+    } else {
+      echo '<a class="date" href="question/'.$this->qid.'">';
+      if ($this->answer)
+        echo 'Answered: '.$prDate('timeanswered').'</a>';
+      else
+        echo 'Asked: '.$prDate('timeasked').'</a>';
+    }
+    echo '</td></tr></table></div>';
+  
+    // MAIN BODY: 
+    echo '<div class="ui ';
     if (! $partial) echo 'piled bottom ';
     echo 'attached segment"><div class="links"><a href="question/'. $this->qid;
     
@@ -138,7 +159,7 @@ class Question extends \core\model {
     else
       echo '/report"><i class="red flag link icon"></i></a>';
     
-    if ($this->touser == $GLOBALS['user']) {
+    if ($this->touser->username == $GLOBALS['user']->username) {
       echo '<br><a class="deleteq" href="question/' . $this->qid;
       echo '/delete"><i class="red trash link icon"></i></a>';
     }
