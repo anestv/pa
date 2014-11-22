@@ -1,7 +1,9 @@
 <a id="githubribbon" href="https://github.com/anestv/pa">Find me on GitHub</a>
 
 <h1 class="ui black huge block header">
-<img src="res/logo.svg" alt="PrivateAsk logo" height="100">
+<object type="image/svg+xml" data="images/logo.svg" class="logo">
+  PrivateAsk logo
+</object>
 <div class="content">Welcome to PrivateAsk!
 <h3 class="sub header">Like Ask, but private!</h3></div></h1>
 

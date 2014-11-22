@@ -1,5 +1,5 @@
 <nav class="ui seven item inverted fluid menu">
-  <img class="item" src="res/logo.svg" alt="PrivateAsk logo" height="50">
+  <a class="item" href=".">PrivateAsk</a>
   <a class="item" href="user/<?=$data['user']->username?>"><i class="user icon"></i>Your profile</a>
   <a class="item" href="search"><i class="search icon"></i> Search</a>
   <a class="item" href="pending"><i class="question icon"></i>

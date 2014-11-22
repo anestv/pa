@@ -24,7 +24,7 @@ $data['q']->writeOut(true, true);
     </div>
     
     <div class="ui centered buttons">
-      <a class="ui icon button" id="butCancel" href="index.php" onclick="history.back();return history.length<2;">
+      <a class="ui icon button" id="butCancel" href="." onclick="history.back();return history.length<2;">
         <i class="close icon"></i>
         <span>Cancel</span>
       </a> 

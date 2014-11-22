@@ -10,14 +10,15 @@ nav.ui.fluid.menu {
   margin: 0;
   background-color: #F89D2A;
   border-radius: 0;
-  font-family: comfortaa, segoe ui, sans-serif;
+  font-family: segoe ui, sans-serif;
   position: absolute;
   top: 0;
   left: 0;
 }
-nav.ui.menu img.item {
-  padding: 2px 0;
-  background: radial-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.4));
+nav.ui.menu .item:first-child {
+  font-family: Damion, cursive;
+  padding: 0;
+  font-size: 2rem;
 }
 
 #githubribbon {
@@ -34,7 +35,7 @@ h1.ui.black.block.huge.header {
   font-weight: 100;
 }
 
-h1.ui.header > img {
+h1.ui.header > object {
   float:right;
   margin-top:-0.6em;
 }
