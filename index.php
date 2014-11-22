@@ -37,6 +37,7 @@ Router::get('api/profileDisplay/(:user)', '\controllers\api@profileDisplay');
 Router::get('api/load/(:user)', '\controllers\api@load');
 Router::post('api/friends', '\controllers\api@friends');
 Router::post('api/ask', '\controllers\api@ask');
+Router::get('pending', '\controllers\pending@get');
 
 //if no route found
 Router::error('\core\error@index');
