@@ -8,7 +8,7 @@ class User extends \core\model {
   const ANONYMOUS = 'anonymous';
   const CURRENT = 'curr';
   
-  public $username, $hs_pass, $realname, $whosees, $whoasks, $deactivated, $style;
+  public $username, $hs_pass, $realname, $whosees, $whoasks, $deactivated, $style, $raw;
   
   
   // find an existing user by username
@@ -39,7 +39,7 @@ class User extends \core\model {
       return;
     }
     
-    $user = $res->fetch_array();
+    $user = $this->raw = $res->fetch_assoc();
     
     $this->username = $user['username'];
     $this->realname = $user['realname'];
@@ -176,6 +176,72 @@ class User extends \core\model {
     if ($unseen > 99) $unseen = '99+';
     
     return $unseen;
+  }
+  
+  public function editSettings($s){
+    $privacyVals = ['friends', 'users', 'all'];
+    $fonts = ["Aliquam","Arial","Calibri","Cambria","Comfortaa","Comic Sans MS","Courier","Garamond","Josefin Sans","Leander","Segoe UI","Tahoma","Times New Roman","Trench","Verdana"];
+    $warn = '';
+    
+    if (!is_array($s))
+      throw new Exception('Argument is not an array');
+    
+    $s = array_intersect_key($s, $this->raw); // keep only keys present in $this->raw
+    
+    if (!in_array($s['whosees'], $privacyVals)){
+      $warn .= '<li>Choose one of the shown privacy settings';
+      unset($s['whosees']);
+    }
+    
+    if (!in_array($s['whoasks'], $privacyVals)){
+      $warn .= '<li>Choose one of the shown privacy settings';
+      unset($s['whoasks']);
+    }
+    
+    if (isset($s['realname'])) {
+      if (trim($s['realname'])) {
+        $realtmp = htmlspecialchars(substr($s['realname'], 0, 40)); // first 40 chars
+        $s['realname'] = $this->_db->real_escape_string($realtmp);
+      } else {
+        $warn .= '<li>Enter your real name';
+        unset($s['realname']);
+      }
+    }
+    
+    if (isset($s['textfont']) and !in_array($s['textfont'], $fonts)){
+      $warn .= '<li>Select a font family';
+      unset($s['textfont']);
+    }
+    
+    if (preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $s['backcolor']) !== 1){
+      $warn .= '<li>Select a background color';
+      unset($s['backcolor']);
+    }
+    
+    if (preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $s['headcolor']) !== 1){
+      $warn .= '<li>Select a header color';
+      unset($s['headcolor']);
+    }
+    
+    // if a setting doesn't exist or is not valid, use its current value
+    $this->raw = array_merge($this->raw, $s);
+    
+    // don't update username, hs_pass and deleteon
+    $toUpdate = array_diff_key($this->raw, ['username' => 1, 'deleteon' => 1, 'hs_pass' => 1]);
+    
+    $set = '';
+    foreach($toUpdate as $k=>$v)
+      $set .= "$k = '$v', ";
+    $set = rtrim($set, ', ');
+    
+    $query = "UPDATE users SET $set WHERE username = '$this->username';";
+    
+    $res = $this->_db->query($query);
+    
+    if (! $res)
+      $warn .= '<li>Your settings were not changed due to a server error.'.$this->_db->error;
+    
+    return ($warn ?: false);
   }
   
   public function editFriends($action, $argument){

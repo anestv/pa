@@ -1,0 +1,16 @@
+body {padding: 1em 4rem 0;}
+#displayPreview span {
+  display: inline-block;
+  padding: 0.5em 1.5em;
+  line-height: 1.6;
+}
+input[type="color"]{
+  padding: 0 2px!important;
+  min-height: 2em;
+  min-width: 4em;
+  border-width: 0!important;
+}
+a.red.item {
+  color: red !important;
+  font-weight: bold;
+}
