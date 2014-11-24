@@ -283,6 +283,20 @@ class User extends \core\model {
       throw new Exception('The provided action is not supported', 400);
   }
   
+  public function getFriends(){
+    $res = $this->_db->query("SELECT friend FROM friends WHERE `user` = '$this->username';");
+    if (!$res) throw new RuntimeException($this->_db->error);
+    
+    $friends = [];
+    while ($curr = $res->fetch_array())
+      $friends[] = $curr[0];
+    
+    if (count($friends) != $res->num_rows)
+      throw new Exception('Unexpected number of friends (no offense)', 500);
+    
+    return $friends;
+  }
+  
   public function deleteAccount($username, $password){
     if ($username !== $this->username)
       throw new Exception("You did not enter your account's username");

@@ -1,4 +1,5 @@
 <?php namespace models;
+use \Exception, \RuntimeException, \InvalidArgumentException;
  
 class Friend extends \core\model {
   
@@ -23,12 +24,8 @@ class Friend extends \core\model {
     return true;
   }
   
-  public static function setFriends($user, $friendList){
-    $friends = json_decode($friendList);
-    if (! ($friends and is_array($friends)))
-      throw new InvalidArgumentException("Your friends were not provided as a correct JSON");
-    
-    $friends = array_filter($friends, "is_string"); //remove non-string elements
+  public static function setFriends($user, $friends){ // $friends is an array
+    $friends = array_filter($friends, "is_string"); // remove non-string elements
     
     $friends = array_unique($friends);
     
@@ -46,7 +43,7 @@ class Friend extends \core\model {
     $stmt->bind_param('s', $curr);
     
     foreach ($friends as $curr)
-      $stmt->execute(); //$curr is registered and we dont have to bind it every time
+      $stmt->execute(); // $curr is registered and we don't have to bind it every time
     
     $stmt->close();
     return true;
