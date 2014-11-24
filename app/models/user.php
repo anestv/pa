@@ -85,8 +85,8 @@ class User extends \core\model {
     // hash and salt teh password
     $hexrand = bin2hex(openssl_random_pseudo_bytes(10));
     $thirand = base_convert($hexrand, 16, 30);
-    $alataki = $thirand. $rand. $thirand;
-    $cr_arr = array('salt'=> $alataki, 'cost'=> 10);
+    $alataki = $thirand. $rand. $thirand; // in case $rand is too small
+    $cr_arr = ['salt'=> $alataki, 'cost'=> 10];
     $hspass = password_hash($pass, PASSWORD_DEFAULT, $cr_arr);
     $passDB = self::$_db->real_escape_string($hspass);
     
@@ -103,9 +103,37 @@ class User extends \core\model {
     return password_verify($password, $this->hs_pass);
   }
   
-  public function changePassword($newPass){ //must have arleady verified newpass == newpass2
-    // hash password and put it in $this->hs_pass
-    // update db entry
+  public function changePassword($oldPass, $newPass, $rand){
+    //must have arleady verified newpass == newpass2
+    
+    if (strlen($newPass) < 6)
+      throw new Exception('Please enter a password of more than 6 characters');
+    if (strlen($newPass) > 100)
+      throw new Exception('Please enter a password up to 100 characters');
+    
+    if (!$this->checkPassword($oldPass))
+      throw new Exception('The old password is incorrect');
+    
+    if ($oldPass == $newPass)
+      throw new Exception('The new password is the same as the old one');
+    
+    // hash and salt teh password
+    $hexrand = bin2hex(openssl_random_pseudo_bytes(10));
+    $thirand = base_convert($hexrand, 16, 30);
+    $alataki = $thirand. $rand. $thirand; // in case $rand is too small
+    $cr_arr = ['salt'=> $alataki, 'cost'=> 10];
+    $hspass = password_hash($newPass, PASSWORD_DEFAULT, $cr_arr);
+    $passDB = self::$_db->real_escape_string($hspass);
+    
+    if (!$passDB)
+      throw new RuntimeException('Fatal server error: password for insertion is empty');
+    
+    $query = "UPDATE users SET hs_pass = '$passDB' WHERE username = '$this->username';";
+    $res = self::$_db->query($query);
+    
+    if (!$res) throw new RuntimeException(self::$_db->error);
+    
+    return $res;
   }
   
   public function isRealUser(){
