@@ -37,16 +37,18 @@ class Login extends \core\controller{
     if (!$this->user->checkPassword($pass))
       throw new Exception('The password you entered is incorrect');
     
-    $this->user->preventDeletion();
+    $recovered = $this->user->preventDeletion();
     
     if (!empty($_POST["keep"]))
       session_set_cookie_params(60*60*24*7); //1 evdomada
     session_regenerate_id(true);
     $_SESSION['user'] = $this->user->username; //proper case (capitals or small)
     
-    if (isset($_SESSION['requiredLogin']))
+    if (isset($_SESSION['requiredLogin'])){
+      unset($_SESSION['requiredLogin']);
       \helpers\Url::redirect($_SESSION['requiredLogin']);
-    else \helpers\Url::redirect(''); //redirect to /pa/
+      
+    } else \helpers\Url::redirect(''); //redirect to /pa/
     
     } catch (Exception $e){
       self::handleException($e); //warning message

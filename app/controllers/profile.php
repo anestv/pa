@@ -30,10 +30,10 @@ class Profile extends \core\controller{
     }
     
     $data['title'] = $username;
-    $data['styles'] = array('profile.css', "/api/profileDisplay/$username");
+    $data['styles'] = ['profile.css', "/api/profileDisplay/$username"];
     $data['bodyData'] = 'data-owner="' . $username . '"';
-    $data['scripts'] = array('jquery' => 1, 'semantic' => 1, 'jquery.age' => 1);
-    $data['scripts']['custom'] = array('profile.js');
+    $data['scripts'] = ['jquery' => 1, 'semantic' => 1, 'jquery.age' => 1];
+    $data['scripts']['custom'] = ['profile.js'];
     
     $data['owner'] = $user;
     $data['friendBut'] = $friendButton;

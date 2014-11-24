@@ -7,9 +7,9 @@ class Settings extends \core\controller {
     $this->requireUser('loggedin');
     
     $data['title'] = 'Settings';
-    $data['styles'] = array('settings.css', "/api/profileDisplay/".$GLOBALS['user']->username);
-    $data['scripts'] = array('jquery' => 1, 'semantic' => 1);
-    $data['scripts']['custom'] = array('settings.js');
+    $data['styles'] = ['settings.css', "/api/profileDisplay/".$GLOBALS['user']->username];
+    $data['scripts'] = ['jquery' => 1, 'semantic' => 1];
+    $data['scripts']['custom'] = ['settings.js'];
     
     $data['u'] = $GLOBALS['user']->raw;
     

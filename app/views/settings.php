@@ -1,9 +1,9 @@
 <?php
 
-$fonts = array("Aliquam","Arial","Calibri","Cambria","Comfortaa","Comic Sans MS","Courier",
-"Garamond","Josefin Sans","Leander","Segoe UI","Tahoma","Times New Roman","Trench","Verdana");
-$privacyVals = array('friends', 'users', 'all');
-$privacyOpts = array('Only your friends', 'Registered users' ,'Everyone');
+$fonts = ["Aliquam","Arial","Calibri","Cambria","Comfortaa","Comic Sans MS","Courier",
+"Garamond","Josefin Sans","Leander","Segoe UI","Tahoma","Times New Roman","Trench","Verdana"];
+$privacyVals = ['friends', 'users', 'all'];
+$privacyOpts = ['Only your friends', 'Registered users' ,'Everyone'];
 
 function writeDropdown($name, $values, $strings = null){
   $user = $GLOBALS['user']->raw;

@@ -5,7 +5,7 @@ class Statics extends \core\controller {
   
   public function help(){
     $data['title'] = 'FAQ';
-    $data['styles'] = array('help.css');
+    $data['styles'] = ['help.css'];
     $data['noGeneralCss'] = true;
     
     View::rendertemplate('header', $data);
@@ -15,7 +15,7 @@ class Statics extends \core\controller {
   
   public function terms(){
     $data['title'] = 'Terms and Conditions';
-    $data['styles'] = array('terms.css');
+    $data['styles'] = ['terms.css'];
     $data['noGeneralCss'] = true;
     
     View::rendertemplate('header', $data);
