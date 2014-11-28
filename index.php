@@ -37,6 +37,7 @@ Router::get('api/profileDisplay/(:user)', '\controllers\api@profileDisplay');
 Router::get('api/load/(:user)', '\controllers\api@load');
 Router::post('api/friends', '\controllers\api@friends');
 Router::post('api/ask', '\controllers\api@ask');
+Router::get ('search', '\controllers\search@get');
 Router::get ('pending', '\controllers\pending@get');
 Router::get ('friends', '\controllers\friends@get');
 Router::post('friends', '\controllers\friends@post');
