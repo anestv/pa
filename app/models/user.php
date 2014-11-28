@@ -168,8 +168,11 @@ class User extends \core\model {
     if ($user === self::DELETED_USER or $user === self::ANONYMOUS)
       throw new Exception('Invalid user provided'); // too general?
     
+    if ($this->whosees === 'all')
+      return true;
+    
     if ($user === self::NOT_LOGGED_IN)
-      return $this->whosees === 'all';
+      return false;
     
     if ($this->whosees === 'users')
       return true;
@@ -184,8 +187,11 @@ class User extends \core\model {
     if ($user === self::DELETED_USER or $user === self::ANONYMOUS)
       throw new Exception('Invalid user provided'); // too general?
     
+    if ($this->whoasks === 'all')
+      return true;
+    
     if ($user === self::NOT_LOGGED_IN)
-      return $this->whoasks === 'all';
+      return false;
     
     if ($this->whoasks === 'users')
       return true;
