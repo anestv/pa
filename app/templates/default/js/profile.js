@@ -93,13 +93,7 @@ $('form.ask').submit(function(){
 //handle delete links
 
 function deleteOK(data, status, xhr){
-  
-  if (data.indexOf('<div class="aloneInPage ui success message">') !== -1){
-    //alert('The question was deleted successfully!'); 
-    //is it obvious enough to omit the alert?
-    xhr.question.slideUp();
-  } else
-    alert("Something went wrong, the question was not deleted. That's all we know");
+  xhr.question.slideUp();
 }
 
 if ($('.deleteq').length)

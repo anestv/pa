@@ -87,9 +87,10 @@ class Question extends \core\model {
     if (! empty($this->answer))
       throw new Exception("You have already answered this question; you can't reanswer it", 405);
     
-    $answer = $this->answer = htmlspecialchars($text);
+    $this->answer = htmlspecialchars($text);
+    $answer = $this->_db->real_escape_string($this->answer);
     
-    $query = "UPDATE questions SET answer = '$answer', timeanswered = NOW() WHERE id = $qid;";
+    $query = "UPDATE questions SET answer = '$answer',timeanswered = NOW() WHERE id = $this->qid;";
     $res = $this->_db->query($query);
     
     if (! $res) throw new RuntimeException($this->_db->error);
@@ -133,7 +134,7 @@ class Question extends \core\model {
     
     echo '<tr><td>';
     $showFrom = $this->pubAsk and $this->fromuser->username !== User::DELETED_USER;
-    if ($showFrom) echo 'From: '.$prUser('touser');
+    if ($showFrom) echo 'From: '.$prUser('fromuser');
     
     echo '</td><td>';
     
