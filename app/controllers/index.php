@@ -6,15 +6,19 @@ class index extends \core\controller{
   public function index(){  
       
     $data['noGeneralCss'] = true;
-    $data['styles'][] = 'index.css';
-    View::rendertemplate('header',$data);
     
     if (empty($_SESSION['user'])){
+      $data['styles'] = ['notLoggedIn.css'];
+      
+      View::rendertemplate('header',$data);
       View::render('notLoggedIn',$data);
     } else {
-      $data['unseen'] = $GLOBALS['user']->getUnseen();
-      $data['user'] = $GLOBALS['user'];
+      $data['styles'] = ['topBar.css'];
       
+      $data['unseen'] = $GLOBALS['user']->getUnseen();
+      $data['username'] = $GLOBALS['user']->username;
+      
+      View::rendertemplate('header',$data);
       View::render('index', $data);
     }
     

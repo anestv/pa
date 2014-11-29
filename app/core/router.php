@@ -20,6 +20,8 @@ class Router
 
     public static $error_callback;
 
+    public static $requestedRelPath = '';
+
     /**
      * Defines a route w/ callback and method
      */
@@ -53,7 +55,12 @@ class Router
     public static function dispatch()
     {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $method = $_SERVER['REQUEST_METHOD'];  
+        $method = $_SERVER['REQUEST_METHOD'];
+      
+        if (substr($uri, 0, strlen(BASE_DIR)) === BASE_DIR) // $uri starts with BASE_DIR, i.e. almost always
+          self::$requestedRelPath = substr($uri, strlen(BASE_DIR));
+        else
+          self::$requestedRelPath = $uri;
 
         $searches = array_keys(static::$patterns);
         $replaces = array_values(static::$patterns);

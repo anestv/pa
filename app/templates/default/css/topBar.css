@@ -1,3 +1,6 @@
+/*  Will be merged to general.css once
+the top bar is added to all pages */
+
 #unansweredCount {
     background: #D95C5C;
     padding: 4px 8px;
@@ -21,21 +24,6 @@ nav.ui.menu .item:first-child {
   font-size: 2rem;
 }
 
-#githubribbon {
-  background: black;
-  color: aliceblue;
-  display: inline-block;
-  position: absolute;
-  padding: 4px 70px;
-  transform: translate(-25%, -35%) rotateZ(-30deg);
-}
-
-h1.ui.black.block.huge.header {
-  font-family: segoe ui, trebuchet ms, tahoma, sans-serif;
-  font-weight: 100;
-}
-
-h1.ui.header > object {
-  float:right;
-  margin-top:-0.6em;
+body {
+  padding-top: 2.5em;
 }

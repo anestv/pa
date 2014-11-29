@@ -1,7 +1,7 @@
 <main class="center940">
 <?php
 
-if ($data['requiredLogin'])
+if ($_SESSION['requiredLogin'])
   echo '<div class="ui warning message"><h2 class="header">'.
   '<i class="warning icon"></i> Login required</h2>'.
   'In order to view this page, please log in</div>';

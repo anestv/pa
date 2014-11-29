@@ -10,7 +10,7 @@ class Login extends \core\controller{
     $data['title'] = 'Login';
     
     $data['loggedOut'] = $_SESSION['loggedOut'];
-    $_SESSION['loggedOut'] = false;
+    unset($_SESSION['loggedOut']);
     
     View::rendertemplate('header',$data);
     View::render('login',$data);
@@ -44,9 +44,10 @@ class Login extends \core\controller{
       session_regenerate_id(true);
       $_SESSION['user'] = $this->user->username; //proper case (capitals or small)
       
-      if (isset($_SESSION['requiredLogin'])){
+      if ($goto = $_SESSION['requiredLogin']){
         unset($_SESSION['requiredLogin']);
-        \helpers\Url::redirect($_SESSION['requiredLogin']);
+        
+        \helpers\Url::redirect($goto);
         
       } else \helpers\Url::redirect(''); //redirect to /pa/
       

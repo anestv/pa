@@ -22,11 +22,17 @@ class Controller {
   
   protected function requireUser($state = 'loggedin'){
     if ($state == 'loggedin'){
-      if (! $GLOBALS['user']->isRealUser())
+      if (! $GLOBALS['user']->isRealUser()){
+        $_SESSION['requiredLogin'] = Router::$requestedRelPath;
+        
         \helpers\Url::redirect('login');
+      }
     } else
-      if ($GLOBALS['user']->isRealUser())
+      if ($GLOBALS['user']->isRealUser()){
+        $_SESSION['alreadyLoggedIn'] = true;
+        
         \helpers\Url::redirect('');
+      }
   }
   
   static function handleException($e, $header = ''){
