@@ -9,9 +9,6 @@ class Login extends \core\controller{
     
     $data['title'] = 'Login';
     
-    $data['loggedOut'] = $_SESSION['loggedOut'];
-    unset($_SESSION['loggedOut']);
-    
     View::rendertemplate('header',$data);
     View::render('login',$data);
     View::rendertemplate('footer',$data);
@@ -45,6 +42,8 @@ class Login extends \core\controller{
       $_SESSION['user'] = $this->user->username; //proper case (capitals or small)
       
       if ($goto = $_SESSION['requiredLogin']){
+        
+        // must unset before redirect but after getting value
         unset($_SESSION['requiredLogin']);
         
         \helpers\Url::redirect($goto);

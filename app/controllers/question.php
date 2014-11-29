@@ -63,7 +63,7 @@ class Question extends \core\controller{
       $q = new Quest($qid);
       $q->report($_POST['reason']);
       
-      $_SESSION['reportSuccess'] = true; //TODO print a message 'thank you for letting us know'
+      $_SESSION['reportSuccess'] = true; // print a message 'thank you for letting us know'
       
       \helpers\Url::redirect('user/'. $q->touser->username);
       

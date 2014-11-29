@@ -22,7 +22,8 @@ class DeleteAcc extends \core\controller {
       $GLOBALS['user']->deleteAccount($_POST['user'], $_POST['pass']);
       
       session_unset(); //unset all session variables
-      session_destroy();
+      session_regenerate_id(true);
+      // not session_destroy so that we can set $_SESSION['deleteAccSuccess']
       
       $_SESSION['deleteAccSuccess'] = true;
       \helpers\Url::redirect('');

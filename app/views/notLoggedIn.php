@@ -12,6 +12,14 @@
 <p class="ui floating warning message">Please understand that the site is currently being developed, 
 so bugs may exist and errors may frequently occur.</p>
 
+<?php
+if ($_SESSION['deleteAccSuccess']){
+  unset($_SESSION['deleteAccSuccess']);
+  echo '<div class="ui large floating info message"><i class="info icon"></i>Your '.
+    'account has been deactivated and will be deleted in 7 days unless you log in</div>';
+}
+?>
+
 <div class="ui two column middle aligned relaxed grid segment">
   <div class="column"><h3 class="ui top attached header">Log in</h3>
     <form action="login" method="POST" class="ui bottom attached form segment">

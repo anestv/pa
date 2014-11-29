@@ -9,6 +9,10 @@ var offset = 10;
 
 $('time').age();
 
+$('.ui.message i.close.icon').click(function(){
+  $(this).parent().slideUp();
+});
+
 //handle go to top button
 $(window).scroll(function (){
   if ($(this).scrollTop() > 400) 

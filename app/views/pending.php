@@ -8,23 +8,34 @@ if ($GLOBALS['warnMessage']){
   return;
 }
 
+if (isset($data['questions']) and is_array($data['questions']))
+  $count = count($data['question']);
+else $count = 0;
+
 echo '<div class="ui large info message"><i class="info icon"></i>';
 echo 'Welcome back, '.$GLOBALS['user']->username .'! There ';
 
-if ($data['count'] === 0)
-  echo 'are no more questions for you to answer</div>';
-else {
-  if ($data['count'] === 1)
-    echo 'is 1 question';
-  else if ($data['count'] === 50)
-    echo 'are more than 50 questions';
-  else
-    echo 'are '.$data['count'].' questions';
+if ($count === 0)
+  echo 'are no more questions';
+else if ($count === 1)
+  echo 'is 1 question';
+else if ($count === 50)
+  echo 'are more than 50 questions';
+else
+  echo "are $count questions";
+
+echo ' for you to answer</div>';
+
+if ($_SESSION['answerSuccess']){
+  echo '<div class="ui success message"><i class="checkmark icon"></i>'.
+    'You have answered question #'. $_SESSION['answerSuccess'].'</div>';
   
-  echo ' for you to answer</div>';
-  
+  unset($_SESSION['answerSuccess']);
+}
+
+if ($count)
   foreach($data['questions'] as $q)
     $q->writeOut(false, false);
-}
+
 ?>
 </main>

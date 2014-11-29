@@ -18,7 +18,6 @@ class Pending extends \core\controller {
       
       $data['title'] = 'Pending questions';
       $data['questions'] = $qs->members;
-      $data['count'] = count($qs->members);
       
     } catch (Exception $e) {
       $this->handleException($e);

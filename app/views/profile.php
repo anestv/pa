@@ -20,6 +20,27 @@ if ($GLOBALS['warnMessage']){
   </div>
 </header>
 <?php
+  
+function successMsg($text){
+  echo '<div class="center480 ui success message"><i class="checkmark icon">'.
+    "</i>$text<i class=\"close icon\"></i></div>";
+}
+
+if ($_SESSION['reportSuccess']){
+  unset($_SESSION['reportSuccess']);
+  successMsg('Thank you for reporting this question!');
+}
+
+if ($_SESSION['deleteSuccess']){
+  unset($_SESSION['deleteSuccess']);
+  successMsg('Your question has been deleted');
+}
+
+if ($_SESSION['questionSent']){
+  unset($_SESSION['questionSent']);
+  successMsg('Your question has been submitted');
+}
+
 if (!$data['loggedin'] and $data['owner']->whoasks !== 'all')
   echo '<div class="ui large warning message"><i class="warning icon">'.
     '</i>You must <a href="login">log in</a> to ask a question</div>';

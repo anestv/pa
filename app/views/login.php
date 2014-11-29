@@ -5,11 +5,15 @@ if ($_SESSION['requiredLogin'])
   echo '<div class="ui warning message"><h2 class="header">'.
   '<i class="warning icon"></i> Login required</h2>'.
   'In order to view this page, please log in</div>';
+// do not unset $_SESSION['requiredLogin'] so that
+// we can redirect there in controllers\login@post
 
-if ($data['loggedOut'])
+if ($_SESSION['loggedOut']){
+  unset($_SESSION['loggedOut']);
   echo '<div class="ui info message"><h2 class="header">'.
   '<i class="sign out icon"></i> You have been logged out</h2>'.
   'We hope to see you soon!</div>';
+}
 ?>
 
 <div class="center480">
