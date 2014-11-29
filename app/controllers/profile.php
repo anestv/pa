@@ -26,7 +26,7 @@ class Profile extends \core\controller{
       else
         $friendButton = 'addTo';
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     $data['title'] = $username;

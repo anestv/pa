@@ -17,7 +17,7 @@ class Answer extends \core\controller {
       if ($q->answer)
         throw new Exception('You have already answered this question', 405);
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     $data['title'] = 'Answer a question';
@@ -45,7 +45,7 @@ class Answer extends \core\controller {
       \helpers\Url::redirect('pending');
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
       $this->get($qid);
     }
   }

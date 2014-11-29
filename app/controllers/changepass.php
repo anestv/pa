@@ -35,7 +35,7 @@ class ChangePass extends \core\controller {
       $GLOBALS['changePassSuccess'] = true;
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     $this->get();

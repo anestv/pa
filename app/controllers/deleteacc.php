@@ -29,7 +29,7 @@ class DeleteAcc extends \core\controller {
       \helpers\Url::redirect('');
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
       $this->get();
     }
   }

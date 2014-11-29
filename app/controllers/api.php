@@ -48,7 +48,7 @@ class API extends \core\controller{
         echo '<div data-last="1"></div>';
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
   }
   
@@ -72,7 +72,7 @@ class API extends \core\controller{
       echo 'Success!'; // just a small indicator
       
     } catch (Exception $e){
-      $this->handleException($e);
+      self::handleException($e);
     }
   }
   
@@ -99,7 +99,7 @@ class API extends \core\controller{
       }
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
       echo $e->getMessage();
     }
   }

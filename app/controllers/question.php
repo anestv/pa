@@ -15,7 +15,7 @@ class Question extends \core\controller{
         throw new Exception('This question has not been answered yet.');
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     $data['title'] = 'View a question';
@@ -44,7 +44,7 @@ class Question extends \core\controller{
       $data['suggestDelete'] = $GLOBALS['user']->username === $q->touser->username;
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     View::rendertemplate('header', $data);
@@ -68,7 +68,7 @@ class Question extends \core\controller{
       \helpers\Url::redirect('user/'. $q->touser->username);
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
       //TODO
       $this->getReport($qid);
     }
@@ -89,7 +89,7 @@ class Question extends \core\controller{
       $data['q'] = $q;
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     View::rendertemplate('header', $data);
@@ -115,7 +115,7 @@ class Question extends \core\controller{
         \helpers\Url::redirect('user/'. $q->touser->username);
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
       $this->getDelete($qid);
     }
   }

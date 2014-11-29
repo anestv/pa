@@ -20,7 +20,7 @@ class Pending extends \core\controller {
       $data['questions'] = $qs->members;
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     View::rendertemplate('header', $data);

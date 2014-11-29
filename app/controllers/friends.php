@@ -15,7 +15,7 @@ class Friends extends \core\controller {
       $data['friends'] = $GLOBALS['user']->getFriends();
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     View::rendertemplate('header', $data);
@@ -43,7 +43,7 @@ class Friends extends \core\controller {
       $GLOBALS['friendsSuccess'] = true;
       
     } catch (Exception $e) {
-      $this->handleException($e);
+      self::handleException($e);
     }
     
     $this->get();

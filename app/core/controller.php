@@ -35,7 +35,7 @@ class Controller {
       }
   }
   
-  static function handleException($e, $header = ''){
+  protected static function handleException($e, $header = ''){
     
     if ($e->getCode())
       http_response_code($e->getCode());

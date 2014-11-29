@@ -23,7 +23,7 @@ class Search extends \core\controller {
             throw new Exception('Invalid search terms');
         }
       } catch (Exception $e) {
-        $this->handleException($e);
+        self::handleException($e);
         echo $e->getMessage(); //TODO change
         $data['dosearch'] = false;
       }
