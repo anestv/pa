@@ -47,6 +47,7 @@ Router::get ('changepass', '\controllers\changepass@get');
 Router::post('changepass', '\controllers\changepass@post');
 Router::get ('deleteaccount', '\controllers\deleteacc@get');
 Router::post('deleteaccount', '\controllers\deleteacc@post');
+Router::any ('api/facebooklogin', '\controllers\api@facebooklogin');
 
 //if no route found
 Router::error('\core\error@index');

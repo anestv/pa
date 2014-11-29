@@ -104,5 +104,51 @@ class API extends \core\controller{
     }
   }
   
+  public function facebooklogin(){
+    $this->requireUser('notloggedin');
+    
+    try {
+      $fb = \helpers\MyFB::$facebook;
+      
+      $sess = $fb->getSessionfromRedirect();
+      
+      if (!$sess)
+        throw new Exception('Make sure you allow PrivateAsk to access your basic profile info');
+      
+      $fbuser = \helpers\MyFB::getStuff($sess->getToken());
+      
+      try {
+        $user = new \models\User(strval($fbuser['id']));
+        
+        if (!$user->isRealUser())
+          throw new Exception('Unexcepted user');
+        
+      } catch (Exception $ex) { // if account doesnt exist, register
+        
+        if ($ex->getCode != 404) throw $ex;
+        // if it is something other than user not found (not
+        // registered) deal with it in the outer catch
+        
+        $rand = \helpers\MyFB::$facebook->random(10);
+        
+        // using $rand for pass so that noone can login with a password
+        $user = \models\User::create($fbuser['id'], $rand, $fbuser['name'], $rand);
+        
+        $_SESSION['registerSuccess'] = true;
+      }
+      
+      session_regenerate_id(true);
+      $_SESSION['user'] = $user->username;
+      
+      \helpers\Url::redirect('');
+      
+    } catch (Facebook\FacebookRequestException $e) {
+      $this->handleException($e);
+      //TODO print a message
+    } catch (Exception $e) {
+      $this->handleException($e);
+    }
+  }
+  
 }
 ?>

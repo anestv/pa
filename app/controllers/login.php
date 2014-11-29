@@ -9,6 +9,7 @@ class Login extends \core\controller{
     
     $data['title'] = 'Login';
     
+    $data['fbLoginUrl'] = \helpers\MyFB::$facebook->getLoginUrl();
     $data['loggedOut'] = $_SESSION['loggedOut'];
     $_SESSION['loggedOut'] = false;
     

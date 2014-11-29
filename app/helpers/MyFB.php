@@ -12,7 +12,6 @@ class MyFB {
   }
   
   public static function getLoginUrl(){
-    
     return self::$facebook->getLoginUrl();
   }
   
@@ -21,8 +20,6 @@ class MyFB {
     $session = new \Facebook\FacebookSession($sessid);
     $request = new \Facebook\FacebookRequest($session, 'GET', '/me');
     
-    $res = $request->execute()->getGraphObject()->asArray();
-    
-    return $res;
+    return $request->execute()->getGraphObject()->asArray();
   }
 }
