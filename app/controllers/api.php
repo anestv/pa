@@ -118,23 +118,19 @@ class API extends \core\controller{
       $fbuser = \helpers\MyFB::getStuff($sess->getToken());
       
       try {
-        $user = new \models\User(strval($fbuser['id']));
+        $user = new \models\FbUser(strval($fbuser['id']));
         
         if (!$user->isRealUser())
           throw new Exception('Unexcepted user');
         
       } catch (Exception $ex) { // if account doesnt exist, register
         
-        if ($ex->getCode != 404) throw $ex;
+        if ($ex->getCode() != 404) throw $ex;
         // if it is something other than user not found (not
         // registered) deal with it in the outer catch
         
-        $rand = \helpers\MyFB::$facebook->random(10);
-        
-        // using $rand for pass so that noone can login with a password
-        $user = \models\User::create($fbuser['id'], $rand, $fbuser['name'], $rand);
-        
-        $_SESSION['registerSuccess'] = true;
+        $_SESSION['fbuser'] = $fbuser;
+        \helpers\Url::redirect('register/fb');
       }
       
       session_regenerate_id(true);
@@ -142,9 +138,9 @@ class API extends \core\controller{
       
       \helpers\Url::redirect('');
       
-    } catch (Facebook\FacebookRequestException $e) {
+    /*} catch (Facebook\FacebookRequestException $e) {
       $this->handleException($e);
-      //TODO print a message
+      //TODO print a message*/
     } catch (Exception $e) {
       $this->handleException($e);
     }

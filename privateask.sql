@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(20) CHARACTER SET ascii NOT NULL,
   `hs_pass` varchar(100) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT 'Hashed Salted Password',
   `realname` varchar(40) CHARACTER SET utf8 NOT NULL,
+  `fbid` varchar(20) CHARACTER SET ascii DEFAULT NULL,
   `whosees` set('friends','users','all') CHARACTER SET ascii NOT NULL DEFAULT 'friends',
   `whoasks` set('friends','users','all') CHARACTER SET ascii NOT NULL DEFAULT 'friends',
   `deleteon` date DEFAULT NULL,
@@ -120,7 +121,7 @@ ALTER TABLE `question_reports`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
- ADD PRIMARY KEY (`username`);
+ ADD PRIMARY KEY (`username`), ADD UNIQUE KEY `fbid` (`fbid`);
 
 --
 -- AUTO_INCREMENT for dumped tables
