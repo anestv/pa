@@ -20,15 +20,15 @@ class Config {
     define('BASE_DIR', '/pa/');
     define('DIR','http://'.$_SERVER['HTTP_HOST'].BASE_DIR);
     
-    $db = parse_ini_file('dbConnectConfig.ini');
+    $sec = parse_ini_file('secrets.ini');
     
     //database details ONLY NEEDED IF USING A DATABASE
-    define('DB_TYPE','mysql');
-    define('DB_HOST',$db['address']);
-    define('DB_NAME',$db['database']);
-    define('DB_USER',$db['username']);
-    define('DB_PASS',$db['password']);
-    define('PREFIX','');
+    define('DB_TYPE', 'mysql');
+    define('DB_HOST', $sec['address']);
+    define('DB_NAME', $sec['database']);
+    define('DB_USER', $sec['username']);
+    define('DB_PASS', $sec['password']);
+    define('PREFIX', '');
     
     //set prefix for sessions
     define('SESSION_PREFIX','pa_');
@@ -36,9 +36,13 @@ class Config {
     //optionall create a constant for the name of the site
     define('SITETITLE','PrivateAsk');
     
+    //Facebook app id
+    define('FACEBOOK_APP_ID', $sec['fbAppId']);
+    
     //set the default template
     \helpers\session::set('template','default');
     
+    \helpers\MyFB::init($sec['fbAppSecret']);
   }
   
 }

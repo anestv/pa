@@ -1,2 +1,3 @@
-app/core/dbConnectConfig.ini
+app/core/secrets.ini
 errorlog.html
+vendor/facebook/
