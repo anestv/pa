@@ -189,18 +189,11 @@ class Router
                                     $controller->$segments[1]($matched[0],$matched[1],$matched[2],$matched[3],$matched[4],$matched[5],$matched[6],$matched[7],$matched[8],$matched[9]);
                                     break;
                             }
-
-                            if (self::$halts) return;
-                            
                         } else {
-
-                            new \core\config();
-                            
                             call_user_func_array(self::$callbacks[$pos], $matched);
-                       
-                            if (self::$halts) return;
                         }
-                        
+                      
+                        if (self::$halts) return;
                     }
                 }
             $pos++;

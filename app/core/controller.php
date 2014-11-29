@@ -5,12 +5,9 @@ use core\error as Error;
 
 class Controller {
   
-  public $view;
   protected $byAJAX;
   
   public function __construct(){
-    //initialise the views object
-    $this->view = new view();
     $this->byAJAX = isset(apache_request_headers()['X-Requested-With']) and 
       apache_request_headers()['X-Requested-With'] === "XMLHttpRequest";
   }

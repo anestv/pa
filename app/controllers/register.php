@@ -41,7 +41,7 @@ class Register extends \core\controller {
         $realN = $_POST["real"];
       else throw new Exception("You did not enter your real name");
       
-      $this->user = \models\User::create($user, $pass, $realN, $_POST['rand']);
+      $userObj = \models\User::create($user, $pass, $realN, $_POST['rand']);
       
       session_regenerate_id(true);
       $_SESSION['user'] = $user; // log him in
