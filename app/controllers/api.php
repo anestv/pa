@@ -130,7 +130,15 @@ class API extends \core\controller{
         // registered) deal with it in the outer catch
         
         $_SESSION['fbuser'] = $fbuser;
-        \helpers\Url::redirect('register/fb');
+        $_SESSION['requiredLogin'] = 'api/connectFacebook';
+        // redirect there after log in, variable is unset in c\register@postFb
+        
+        $data = [];
+        
+        View::rendertemplate('header', $data);
+        View::render('preregisterFb', $data);
+        View::rendertemplate('footer', $data);
+        return;
       }
       
       session_regenerate_id(true);

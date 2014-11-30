@@ -81,6 +81,14 @@ class FbUser extends User {
     if ($user instanceof User)
       $user = $user->username;
     
+    try {
+      $testUser = new self($fbid);
+    } catch (Exception $e) {
+      $notExist = $e->getCode() == 404;
+    }
+    if (!$notExist)
+      throw new Exception("A user with the same fbid exists");
+    
     $user = self::$_db->real_escape_string($user);
     $fbid = self::$_db->real_escape_string($fbid);
     

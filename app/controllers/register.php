@@ -88,6 +88,7 @@ class Register extends \core\controller {
       // "Your account has been created and you are logged in"
       $_SESSION['registerSuccess'] = true;
       unset($_SESSION['fbuser']);
+      unset($_SESSION['requiredLogin']); // added at api@facebookLogin
       
       \helpers\Url::redirect('');
       
