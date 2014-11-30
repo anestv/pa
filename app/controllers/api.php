@@ -154,5 +154,41 @@ class API extends \core\controller{
     }
   }
   
+  public function connectFb(){
+    $this->requireUser('loggedin');
+    
+    $fb = \helpers\MyFB::setPath('api/connectFacebook');
+    
+    $sess = $fb->getSessionfromRedirect();
+    
+    if ($sess){
+      
+      try {
+        $fbuser = \helpers\MyFB::getStuff($sess->getToken());
+        
+        try {
+          $user = new \models\FbUser(strval($fbuser['id']));
+        } catch (Exception $e) {
+          $notExist = $e->getCode() == 404;
+        }
+        if (!$notExist)
+          throw new Exception('There is already a PrivateAsk account connected to that Facebook account');
+        
+        \models\FbUser::addFbLogin($GLOBALS['user'], $fbuser['id']);
+        
+        $_SESSION['connectFbSuccess'] = true;
+        \helpers\Url::redirect('');
+        
+      } catch (Exception $e) {
+        $this->handleException($e);
+      }
+      
+    } else {
+      $loginUrl = \helpers\MyFB::getLoginUrl();
+      
+      \helpers\Url::redirect($loginUrl, true); // absoloute path
+    }
+  }
+  //TODO disconnectFb
 }
 ?>

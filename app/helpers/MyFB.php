@@ -8,14 +8,19 @@ class MyFB {
     
     \Facebook\FacebookSession::setDefaultApplication(FACEBOOK_APP_ID, $secret);
     
-    self::$facebook = new \Facebook\FacebookRedirectLoginHelper(DIR .'api/facebooklogin');
+    self::setPath('api/facebooklogin');
+  }
+  
+  public static function setPath($url){
+    self::$facebook = new \Facebook\FacebookRedirectLoginHelper(DIR .$url);
+    return self::$facebook;
   }
   
   public static function getLoginUrl(){
     return self::$facebook->getLoginUrl();
   }
   
-  function getStuff($sessid){
+  public static function getStuff($sessid){
     
     $session = new \Facebook\FacebookSession($sessid);
     $request = new \Facebook\FacebookRequest($session, 'GET', '/me');

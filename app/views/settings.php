@@ -53,7 +53,17 @@ function writeDropdown($name, $values, $strings = null){
       </div>
       <div class="ui vertical fluid menu">
         <a href="friends" class="item"><i class="users icon"></i>Your Friends</a>
-        <a href="changepass" class="item"><i class="lock icon"></i>Change password</a>
+<?php
+// dont use $data['u'] to be able to access connectedFb 
+if ($GLOBALS['user']->hs_pass == '-')
+  echo '<a href="changepass" class="item"><i class="lock icon"></i>Set a password</a>';
+else {
+  echo '<a href="changepass" class="item"><i class="lock icon"></i>Change your password</a>';
+  
+  if ($GLOBALS['user']->connectedFb)
+    echo '<a href="api/disconnectFacebook" class="item"><i class="facebook icon"></i>Disonnect from Facebook</a>';
+  else echo '<a href="api/connectFacebook" class="item"><i class="facebook icon"></i>Connect with Facebook</a>';
+} ?>
         <a href="deleteaccount" class="red item"><i class="off icon"></i>Delete your Account</a>
       </div>
     </div>
