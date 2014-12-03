@@ -130,7 +130,7 @@ class API extends \core\controller{
         // registered) deal with it in the outer catch
         
         $_SESSION['fbuser'] = $fbuser;
-        $_SESSION['requiredLogin'] = 'api/connectFacebook';
+        $_SESSION['requiredLogin'] = 'api/connectFb';
         // redirect there after log in, variable is unset in c\register@postFb
         
         $data = [];
@@ -157,7 +157,7 @@ class API extends \core\controller{
   public function connectFb(){
     $this->requireUser('loggedin');
     
-    $fb = \helpers\MyFB::setPath('api/connectFacebook');
+    $fb = \helpers\MyFB::setPath('api/connectFb');
     
     $sess = $fb->getSessionfromRedirect();
     
@@ -189,6 +189,24 @@ class API extends \core\controller{
       \helpers\Url::redirect($loginUrl, true); // absoloute path
     }
   }
-  //TODO disconnectFb
+  
+  public function disconnectFb(){
+    $this->requireUser('loggedin');
+    
+    try {
+      if ($GLOBALS['user']->hs_pass == '-')
+        throw new Exception('You must set a password before disconnecting from Facebook');
+      
+      \models\FbUser::removeFbLogin($GLOBALS['user']);
+      
+      $_SESSION['removeFbSuccess'] = true;
+      
+      \helpers\Url::redirect('settings');
+      
+    } catch (Exception $e) {
+      $this->handleException($e);
+      echo $e->getMessage(); // TODO STH BETTER
+    }
+  }
 }
 ?>

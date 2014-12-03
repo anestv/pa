@@ -94,6 +94,20 @@ class FbUser extends User {
     
     $query = "UPDATE users SET fbid = '$fbid' WHERE username = '$user';";
     $res = self::$_db->query($query);
+    
+    if (!$res) throw new RuntimeException(self::$_db->error);
+  }
+  
+  public static function removeFbLogin($user){
+    if ($user instanceof User)
+      $user = $user->username;
+    
+    $user = self::$_db->real_escape_string($user);
+    
+    $query = "UPDATE users SET fbid = NULL WHERE username = '$user';";
+    $res = self::$_db->query($query);
+    
+    if (!$res) throw new RuntimeException(self::$_db->error);
   }
 }
 ?>
