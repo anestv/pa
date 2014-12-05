@@ -44,6 +44,11 @@ function writeDropdown($name, $values, $strings = null){
     <ul><?=$GLOBALS['warnMessage']?></ul>
   </div>
   
+<?php if ($_SESSION['removeFbSuccess']){
+  unset($_SESSION['removeFbSuccess']);
+  echo '<div class="ui success message"><i class="checkmark icon"></i>Your account has been disconnected from Facebook</div>';
+} ?>
+
   <div class="ui three column doubling grid">
     <div class="column">
       <h3 class="ui header">Account</h3>
@@ -53,7 +58,17 @@ function writeDropdown($name, $values, $strings = null){
       </div>
       <div class="ui vertical fluid menu">
         <a href="friends" class="item"><i class="users icon"></i>Your Friends</a>
-        <a href="changepass" class="item"><i class="lock icon"></i>Change password</a>
+<?php
+// we dont use $data['u'] to be able to access connectedFb 
+if ($GLOBALS['user']->hs_pass == '-')
+  echo '<a href="changepass" class="item"><i class="lock icon"></i>Set a password</a>';
+else {
+  echo '<a href="changepass" class="item"><i class="lock icon"></i>Change your password</a>';
+  
+  if ($GLOBALS['user']->connectedFb)
+    echo '<a href="api/disconnectFb" class="item"><i class="facebook icon"></i>Disonnect from Facebook</a>';
+  else echo '<a href="api/connectFb" class="item"><i class="facebook icon"></i>Connect with Facebook</a>';
+} ?>
         <a href="deleteaccount" class="red item"><i class="off icon"></i>Delete your Account</a>
       </div>
     </div>

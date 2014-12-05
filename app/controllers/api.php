@@ -1,6 +1,6 @@
 <?php namespace controllers;
 use core\view as View;
-use \Exception, \InvalidArgumentException, \RuntimeException;
+use \Exception, \InvalidArgumentException;
 
 class API extends \core\controller{
   

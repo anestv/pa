@@ -1,13 +1,22 @@
+<?php
+if ($data['noOld']){
+  $action = 'set a password';
+  $input = 'disabled';
+} else {
+  $action = 'change your password';
+  $input = 'required';
+}
+?>
 <main class="center940">
 <h1 class="ui top attached center aligned block orange inverted header">
   <a href="./"><i class="home link icon"></i></a>
-  Change your password
+  <?=ucfirst($action)/* capitalise first letter*/ ?>
 </h1>
 <div class="ui attached info icon message">
   <i class="info icon"></i>
   <div class="content">
     <div class="header">
-      We're glad to see you want to change your password!
+      We're glad to see you want to <?=$action?>!
     </div>
     Reminder: passwords must be 6-100 characters and should be difficult to guess.
   </div>
@@ -21,7 +30,7 @@
   <div class="ui two column stackable grid">
     <div class="column">
       <div class="field">
-        <input type="password" required name="old" placeholder="Old password">
+        <input type="password" <?=$input?> name="old" placeholder="Old password">
       </div>
       <div class="field">
         <input type="text" required name="rand" placeholder="Enter something random" maxlength="20">

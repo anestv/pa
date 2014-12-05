@@ -8,7 +8,8 @@ class User extends \core\model {
   const ANONYMOUS = 'anonymous';
   const CURRENT = 'curr';
   
-  public $username, $hs_pass, $realname, $whosees, $whoasks, $deactivated, $style, $raw;
+  public $username, $hs_pass, $realname, $whosees, $whoasks;
+  public $deactivated, $style, $connectedFb, $raw;
   
   
   // find an existing user by username
@@ -47,6 +48,7 @@ class User extends \core\model {
     $this->whosees = $user['whosees'];
     $this->whoasks = $user['whoasks'];
     $this->deactivated = $user['deleteon'] !== null;
+    $this->connectedFb = $user['fbid'] !== null;
     $this->style = array_intersect_key($user,
         ['headcolor'=>0, 'backcolor'=>0, 'textfont'=>0]); // get the common keys
   }
@@ -111,7 +113,8 @@ class User extends \core\model {
     if (strlen($newPass) > 100)
       throw new Exception('Please enter a password up to 100 characters');
     
-    if (!$this->checkPassword($oldPass))
+    // if he does have a password
+    if ($this->hs_pass != '-' and !$this->checkPassword($oldPass))
       throw new Exception('The old password is incorrect');
     
     if ($oldPass == $newPass)

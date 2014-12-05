@@ -40,6 +40,11 @@ if ($_SESSION['loggedOut']){
       <label for="keep">Keep me logged in</label>
     </div>
   </form>
+  <div class="ui attached segment">
+    <a href="<?=$data['fbLoginUrl']?>" class="ui facebook fluid button">
+      <i class="facebook icon"></i>Login with Facebook
+    </a>
+  </div>
   <div class="ui bottom attached icon message">
     <i class="signup icon"></i><div class="content">
       <div class="header">New to <i>PrivateAsk</i>?</div>

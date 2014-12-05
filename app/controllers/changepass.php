@@ -8,6 +8,7 @@ class ChangePass extends \core\controller {
     $this->requireUser('loggedin');
     
     $data['title'] = 'Change your password';
+    $data['noOld'] = $GLOBALS['user']->hs_pass == '-';
     
     View::rendertemplate('header', $data);
     View::render('changepass', $data);

@@ -8,7 +8,7 @@ class Register extends \core\controller {
     $this->requireUser('notloggedin');
     
     $data['title'] = 'Register';
-    $data['styles'][] = 'register.css';
+    $data['styles'] = ['register.css'];
     
     View::rendertemplate('header', $data);
     View::render('register', $data);
@@ -57,4 +57,60 @@ class Register extends \core\controller {
     }
   }
   
+  public function postFb(){
+    $this->requireUser('notloggedin');
+    
+    if (!($_SESSION['fbuser'] and $_SESSION['fbuser']['name'] and $_SESSION['fbuser']['id']))
+      trigger_error("\$_SESSION['fbuser'] is not as excected");
+    
+    try {
+      if (empty($_POST["ToS"]))
+        throw new Exception('You must agree to the Terms and Conditions to use PrivateAsk');
+      
+      if (isset($_POST["username"]) and trim($_POST["username"]))
+        $user = $_POST["username"];
+      else throw new Exception("A username was not given");
+      
+      if (isset($_POST["password"]) and trim($_POST["password"]))
+        $pass = $_POST["password"];
+      else $pass = null;
+      
+      if (isset($_POST["real"]) and trim($_POST["real"]))
+        $realN = $_POST["real"];
+      else throw new Exception("You did not enter your real name");
+      
+      \models\FbUser::create($user, $_SESSION['fbuser']['id'], $realN, $_POST['rand'], $pass);
+      
+      session_regenerate_id(true);
+      $_SESSION['user'] = $user; // log him in
+      
+      // redirect to / where there will be a message
+      // "Your account has been created and you are logged in"
+      $_SESSION['registerSuccess'] = true;
+      unset($_SESSION['fbuser']);
+      unset($_SESSION['requiredLogin']); // added at fblogin@facebookLogin
+      
+      \helpers\Url::redirect('');
+      
+    } catch (Exception $e) {
+      $this->handleException($e);
+      $this->getFb(); // print form
+    }
+  }
+  
+  public function getFb(){
+    $this->requireUser('notloggedin');
+    
+    if (!($_SESSION['fbuser'] and $_SESSION['fbuser']['name'] and $_SESSION['fbuser']['id']))
+      trigger_error("\$_SESSION['fbuser'] is not as excected");
+    
+    $data['title'] = 'Register';
+    $data['styles'] = ['register.css'];
+    
+    $data['real'] = htmlspecialchars($_SESSION['fbuser']['name']);
+    
+    View::rendertemplate('header', $data);
+    View::render('registerFb', $data);
+    View::rendertemplate('footer', $data);
+  }
 }

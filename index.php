@@ -20,9 +20,11 @@ new \core\config();
 Router::any('', '\controllers\index@index');
 Router::get('login', '\controllers\login@get');
 Router::post('login', '\controllers\login@post');
-Router::any('logout', '\controllers\login@logout');
-Router::get('register', '\controllers\register@get');
+Router::any ('logout', '\controllers\login@logout');
+Router::get ('register', '\controllers\register@get');
 Router::post('register', '\controllers\register@post');
+Router::get ('register/fb', '\controllers\register@getFb');
+Router::post('register/fb', '\controllers\register@postFb');
 Router::get('question/(:num)', '\controllers\question@view');
 Router::get ('question/(:num)/report', '\controllers\question@getReport');
 Router::post('question/(:num)/report', '\controllers\question@postReport');
@@ -47,6 +49,9 @@ Router::get ('changepass', '\controllers\changepass@get');
 Router::post('changepass', '\controllers\changepass@post');
 Router::get ('deleteaccount', '\controllers\deleteacc@get');
 Router::post('deleteaccount', '\controllers\deleteacc@post');
+Router::any ('api/facebooklogin', '\controllers\fblogin@facebookLogin');
+Router::any ('api/connectFb', '\controllers\fblogin@connectFb');
+Router::any ('api/disconnectFb', '\controllers\fblogin@disconnectFb');
 
 //if no route found
 Router::error('\core\error@index');
