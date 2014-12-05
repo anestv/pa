@@ -1,5 +1,29 @@
 {
+  "name": "anestv/PrivateAsk",
+  "description": "A site where people can ask users questions",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Anestis Varsamidis",
+      "homepage": "http://about.me/anestis",
+      "email": "varsamidis7-developer@yahoo.gr",
+      "role": "Owner, Developer"
+    }
+  ],
+  "license": "Artistic-2.0",
+  "support": {
+    "source": "https://github.com/anestv/pa",
+    "issues": "https://github.com/anestv/pa/issues",
+    "wiki": "https://github.com/anestv/pa/wiki"
+  },
+  "minimum-stability": "dev",
   "require": {
+    "php": "~5.5",
     "facebook/php-sdk-v4": "4.0.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "app/"
+    }
   }
 }

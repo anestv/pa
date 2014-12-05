@@ -9,7 +9,7 @@ if ($GLOBALS['warnMessage']){
 }
 
 if (isset($data['questions']) and is_array($data['questions']))
-  $count = count($data['question']);
+  $count = count($data['questions']);
 else $count = 0;
 
 echo '<div class="ui large info message"><i class="info icon"></i>';
