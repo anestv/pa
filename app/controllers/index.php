@@ -4,7 +4,7 @@ use core\view as View;
 class index extends \core\controller{
   
   public function index(){  
-      
+    
     $data['noGeneralCss'] = true;
     
     if (empty($_SESSION['user'])){
@@ -24,5 +24,5 @@ class index extends \core\controller{
     
     View::rendertemplate('footer',$data);
   }
-  
 }
+?>

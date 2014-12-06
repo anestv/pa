@@ -14,9 +14,9 @@ class QuestionSet extends \core\model {
     one and fill the Question's properties from here. A problem is
     we're still making n queries as we call new User */
     
-    $res = $this->_db->query($query);
+    $res = self::$_db->query($query);
     
-    if (!$res) throw new RuntimeException($this->_db->error);
+    if (!$res) throw new RuntimeException(self::$_db->error);
     
     while ($i = $res->fetch_array()){
       

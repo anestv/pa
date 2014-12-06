@@ -19,14 +19,9 @@ class Question extends \core\model {
     else $qid = intval($qid);
     
     $query = "SELECT * FROM questions WHERE id = $qid;";
-    $res = $this->_db->query($query);
-//    self::$stmtInit->bind_param('i', $qid);
-//    self::$stmtInit->execute();
-//    self::$stmtInit->bind_result($TODO);//TODO $this->properties h locals opou xreiazetai px touser, fromuser, deleteon
-//    self::$stmtInit->fetch()
-      
-//    TODO
-    if (! $res) throw new RuntimeException($this->_db->error);
+    $res = self::$_db->query($query);
+    
+    if (! $res) throw new RuntimeException(self::$_db->error);
     if ($res->num_rows < 1) throw new Exception("Question #$qid not found", 404);
     
     $q = $res->fetch_array();
@@ -88,12 +83,12 @@ class Question extends \core\model {
       throw new Exception("You have already answered this question; you can't reanswer it", 405);
     
     $this->answer = htmlspecialchars($text);
-    $answer = $this->_db->real_escape_string($this->answer);
+    $answer = self::$_db->real_escape_string($this->answer);
     
     $query = "UPDATE questions SET answer = '$answer',timeanswered = NOW() WHERE id = $this->qid;";
-    $res = $this->_db->query($query);
+    $res = self::$_db->query($query);
     
-    if (! $res) throw new RuntimeException($this->_db->error);
+    if (! $res) throw new RuntimeException(self::$_db->error);
     
     return $res;
   }
@@ -183,9 +178,9 @@ class Question extends \core\model {
     
     $query = "INSERT INTO question_reports (qid, reporter, reason)" .
         " VALUES ($this->qid, '$user', '$reason');";
-    $res = $this->_db->query($query);
+    $res = self::$_db->query($query);
     if (! $res) 
-      throw new RuntimeException($this->_db->error);
+      throw new RuntimeException(self::$_db->error);
     
     return $res;
   }
@@ -195,9 +190,9 @@ class Question extends \core\model {
     if ($GLOBALS['user']->username != $this->touser->username) 
       throw new Exception('You cannot delete this question');
     
-    $del = $this->_db->query("DELETE FROM questions WHERE id = $this->qid;");
+    $del = self::$_db->query("DELETE FROM questions WHERE id = $this->qid;");
     if (!$del)
-      throw new RuntimeException($this->_db->error);
+      throw new RuntimeException(self::$_db->error);
     
     return $del;
   }

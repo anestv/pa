@@ -6,7 +6,7 @@ if ($data['scripts']['jquery.address'])
 if ($data['scripts']['semantic'])
   echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.19.3/javascript/semantic.min.js"></script>';
 if ($data['scripts']['jquery.age'])
-  echo'<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.age/1.2.4/jquery.age.min.js"></script>';
+  echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.age/1.2.4/jquery.age.min.js"></script>';
 
 if (isset($data['scripts']['custom']))
   foreach ($data['scripts']['custom'] as $script)

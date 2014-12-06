@@ -30,10 +30,10 @@ class User extends \core\model {
         return;
     }
     
-    $username = $this->_db->real_escape_string($username);
-    $res = $this->_db->query("SELECT * FROM users WHERE username = '$username';");
+    $username = self::$_db->real_escape_string($username);
+    $res = self::$_db->query("SELECT * FROM users WHERE username = '$username';");
     
-    if (!$res) throw new RuntimeException($this->_db->error);
+    if (!$res) throw new RuntimeException(self::$_db->error);
     if ($res->num_rows < 1){
       $this->username = self::NOT_LOGGED_IN;
       throw new Exception("No user named $username was found", 404);
@@ -156,10 +156,10 @@ class User extends \core\model {
   function hasFriend($user){ //could be protected
     if ($user instanceof User)
       $user = $user->username;
-    else $user = $this->_db->real_escape_string($user);
+    else $user = self::$_db->real_escape_string($user);
     
     $query = "SELECT friend FROM friends WHERE `user`='$this->username' AND friend='$user';";
-    $res = $this->_db->query($query);
+    $res = self::$_db->query($query);
     
     return (($user === $this->username) or ($res and $res->num_rows > 0));
   }
@@ -205,9 +205,9 @@ class User extends \core\model {
   public function getUnseen(){
     $user = $this->username;
     $query = "SELECT COUNT(*) FROM questions WHERE touser = '$user' AND answer IS NULL;";
-    $res = $this->_db->query($query);
+    $res = self::$_db->query($query);
     
-    if (!$res) throw new RuntimeException($this->_db->error);
+    if (!$res) throw new RuntimeException(self::$_db->error);
     
     $unseen = intval($res->fetch_array()[0]);
     if ($unseen > 99) $unseen = '99+';
@@ -238,7 +238,7 @@ class User extends \core\model {
     if (isset($s['realname'])) {
       if (trim($s['realname'])) {
         $realtmp = htmlspecialchars(substr($s['realname'], 0, 40)); // first 40 chars
-        $s['realname'] = $this->_db->real_escape_string($realtmp);
+        $s['realname'] = self::$_db->real_escape_string($realtmp);
       } else {
         $warn .= '<li>Enter your real name';
         unset($s['realname']);
@@ -273,10 +273,10 @@ class User extends \core\model {
     
     $query = "UPDATE users SET $set WHERE username = '$this->username';";
     
-    $res = $this->_db->query($query);
+    $res = self::$_db->query($query);
     
     if (! $res)
-      $warn .= '<li>Your settings were not changed due to a server error.'.$this->_db->error;
+      $warn .= '<li>Your settings were not changed due to a server error.'.self::$_db->error;
     
     return ($warn ?: false);
   }
@@ -293,8 +293,8 @@ class User extends \core\model {
   }
   
   public function getFriends(){
-    $res = $this->_db->query("SELECT friend FROM friends WHERE `user` = '$this->username';");
-    if (!$res) throw new RuntimeException($this->_db->error);
+    $res = self::$_db->query("SELECT friend FROM friends WHERE `user` = '$this->username';");
+    if (!$res) throw new RuntimeException(self::$_db->error);
     
     $friends = [];
     while ($curr = $res->fetch_array())
@@ -314,14 +314,14 @@ class User extends \core\model {
       throw new Exception('The password you entered is incorrect');
     
     $query = "UPDATE users SET deleteon = CURRENT_DATE + INTERVAL 7 DAY WHERE username = '$username';";
-    $res = $this->_db->query($query);
+    $res = self::$_db->query($query);
     
-    if (!$res) throw new RuntimeException($this->_db->error);
+    if (!$res) throw new RuntimeException(self::$_db->error);
   }
   
   public function preventDeletion(){
-    $this->_db->query("UPDATE users SET deleteon = NULL WHERE username = '$this->username';");
-    return $this->_db->affected_rows > 0; // if anything changed
+    self::$_db->query("UPDATE users SET deleteon = NULL WHERE username = '$this->username';");
+    return self::$_db->affected_rows > 0; // if anything changed
   }
   
   public function __toString(){
