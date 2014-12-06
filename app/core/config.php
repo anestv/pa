@@ -28,7 +28,6 @@ class Config {
     define('DB_NAME', $sec['database']);
     define('DB_USER', $sec['username']);
     define('DB_PASS', $sec['password']);
-    define('PREFIX', '');
     
     //set prefix for sessions
     define('SESSION_PREFIX','pa_');
