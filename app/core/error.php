@@ -13,13 +13,8 @@ class Error extends Controller {
 
 	public function index(){
 		http_response_code(404);
-		$data['title'] = '404';
-		$data['error'] = $this->_error;
 		
-		View::rendertemplate('header',$data);
-		View::render('error/404',$data);
-		View::rendertemplate('footer',$data);
-		
+        self::errorMessage('Page not found');
 	}
 
 }

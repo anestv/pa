@@ -7,26 +7,49 @@ class Logger {
     exit;
   }
   
+  public static function errorMessage($message = ''){
+    $data = ['title' => 'Error', 'noGeneralCss' => 1, 'error' => $message];
+    
+    $images = glob(getcwd() . '/images/error/*.jpg'); // get files matching that pattern
+    
+    $img = $images[array_rand($images)];
+    
+    if ($img and file_exists($img)) // maybe $images is empty
+      $exif = exif_read_data($img);
+    
+    if ($exif){
+      $imgurl = BASE_DIR.'images/error/'.$exif['FileName'];
+      $data['imagedata'] = "Image by {$exif['Artist']}, licensed under {$exif['Copyright']}";
+    }
+    
+    $data['styles'] = ['error.css'];
+    $data['bodyData'] = "style='background-image: url($imgurl);"; // if overlaying backgrounds are not supported
+    $data['bodyData'].= "background-image: radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)), url($imgurl)'";
+    
+    View::rendertemplate('header', $data);
+    View::render('error/error', $data);
+    View::rendertemplate('footer', $data);
+    exit;
+  }
+  
   public static function exception_handler($e){
-    self::newMessage($e);
+    // what about the trace: $e->getTraceAsString()
+    
+    self::log('exception', $e->getMessage(), $e->getFile(), $e->getLine(), $e->getCode());
+    
     self::customErrorMsg();
   }
   
   public static function error_handler($number, $message, $file, $line){
     
+    if ($number === E_NOTICE) return 0;
+    
     self::log('error', $message, $file, $line, $number);
     
-    if ($number !== E_NOTICE && $number < 2048)
+    if ($number < 2048)
        self::customErrorMsg();
     
     return 0;
-  }
-  
-  public static function newMessage(\Exception $e){
-    
-    // what about the trace $e->getTraceAsString()
-    
-    self::log('exception', $e->getMessage(), $e->getFile(), $e->getLine(), $e->getCode());
   }
   
   private static function log($type, $text, $file, $line, $code, $error_file = 'errorlog.html'){

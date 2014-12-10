@@ -35,6 +35,11 @@ class Controller {
       }
   }
   
+  protected static function errorMessage($message = ''){
+    Logger::errorMessage($message);
+    // prints view error/error and exits
+  }
+  
   protected static function handleException($e, $header = ''){
     
     if ($e->getCode())
