@@ -44,7 +44,7 @@ class Controller {
     
     if ($e->getCode())
       http_response_code($e->getCode());
-    else if ($e instanceof RuntimeException)
+    else if ($e instanceof \RuntimeException)
       http_response_code(500);
     else
       http_response_code(400);

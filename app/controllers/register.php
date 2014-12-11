@@ -61,7 +61,7 @@ class Register extends \core\controller {
     $this->requireUser('notloggedin');
     
     if (!($_SESSION['fbuser'] and $_SESSION['fbuser']['name'] and $_SESSION['fbuser']['id']))
-      trigger_error("\$_SESSION['fbuser'] is not as excected");
+      trigger_error("\$_SESSION['fbuser'] is not as expected");
     
     try {
       if (empty($_POST["ToS"]))
@@ -102,7 +102,7 @@ class Register extends \core\controller {
     $this->requireUser('notloggedin');
     
     if (!($_SESSION['fbuser'] and $_SESSION['fbuser']['name'] and $_SESSION['fbuser']['id']))
-      trigger_error("\$_SESSION['fbuser'] is not as excected");
+      trigger_error("\$_SESSION['fbuser'] is not as expected");
     
     $data['title'] = 'Register';
     $data['styles'] = ['register.css'];
