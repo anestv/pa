@@ -19,6 +19,7 @@
    <div class="ui pointing below label">Real Name: Up to 40 characters</div>
    <input type="text" required maxlength="40" name="real" placeholder="Real Name">
   </div>
+  <div class="g-recaptcha" data-sitekey="<?=RECAPTCHA_SITEKEY ?>"></div>
  </div>
  
  <div class="column">
@@ -36,6 +37,10 @@
     <label for="ToScheck">I agree to the <a href="terms">Terms and Conditions</a></label>
    </div>
   </div>
+  <button type="submit" class="ui animated fade positive button">
+   <div class="visible content">Register</div>
+   <div class="hidden content"><i class="signup icon"></i></div>
+  </button>
  </div>
 </div>
 
@@ -43,10 +48,7 @@
  <input type="text" name="datebirth" maxlength="20" placeholder="You shall not  fill this field">
 </div>
 
-<button type="submit" class="ui animated fade centered positive button">
- <div class="visible content">Register</div>
- <div class="hidden content"><i class="signup icon"></i></div>
-</button>
-
 </form>
 </main>
+
+<script src="https://www.google.com/recaptcha/api.js"></script>

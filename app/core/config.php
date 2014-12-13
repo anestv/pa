@@ -38,6 +38,9 @@ class Config {
     //Facebook app id
     define('FACEBOOK_APP_ID', $sec['fbAppId']);
     
+    define("RECAPTCHA_SITEKEY",$sec['recaptchaSitekey']);
+    define("RECAPTCHA_SECRET", $sec['recaptchaSecret']);
+    
     //set the default template
     \helpers\session::set('template','default');
     
