@@ -2,11 +2,6 @@
 
 class Logger {
   
-  public static function customErrorMsg() {
-    echo "<p>An error occured. The error has been reported to the development team and will be addressed asap.</p>";  
-    exit;
-  }
-  
   public static function errorMessage($message = ''){
     $data = ['title' => 'Error', 'noGeneralCss' => 1, 'error' => $message];
     
@@ -37,7 +32,7 @@ class Logger {
     
     self::log('exception', $e->getMessage(), $e->getFile(), $e->getLine(), $e->getCode());
     
-    self::customErrorMsg();
+    self::errorMessage($e->getMessage());
   }
   
   public static function error_handler($number, $message, $file, $line){
@@ -47,7 +42,7 @@ class Logger {
     self::log('error', $message, $file, $line, $number);
     
     if ($number < 2048)
-       self::customErrorMsg();
+       self::errorMessage($message);
     
     return 0;
   }
