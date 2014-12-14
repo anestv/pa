@@ -1,11 +1,4 @@
-<?php
-if ($GLOBALS['warnMessage']){
-  echo '<div class="center480 aloneInPage ui error message">'.$GLOBALS['warnMessage'].'</div>';
-  return; //TODO show a better and bigger message
-}
-?>
-
- <header id="profileHeader">
+<header id="profileHeader">
   <div><i class="user big circular icon"></i><h1><?=$data['owner']->realname?></h1></div>
   <div>
     <?php
@@ -82,6 +75,7 @@ echo '<div id="qContainer">';
 //TODO if notloggedin and see!='all' say 'you should log in'
 if ($data['visible'])
   $qs = \models\LoadQ::main($data['owner']);
+// TODO put LoadQ call in controller
 
 if (http_response_code() === 204){
   echo '<div class="center480 ui info message"><i class="info icon"></i>';

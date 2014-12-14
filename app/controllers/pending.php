@@ -21,6 +21,7 @@ class Pending extends \core\controller {
       
     } catch (Exception $e) {
       self::handleException($e);
+      self::errorMessage($e->getMessage());
     }
     
     View::rendertemplate('header', $data);

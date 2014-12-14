@@ -2,12 +2,6 @@
 
 <?php
 
-if ($GLOBALS['warnMessage']){
-  echo '<div class="aloneInPage center480 ui error message">';
-  echo $GLOBALS['warnMessage'].'</div>';
-  return;
-}
-
 if (isset($data['questions']) and is_array($data['questions']))
   $count = count($data['questions']);
 else $count = 0;

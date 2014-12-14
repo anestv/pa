@@ -49,6 +49,7 @@ class API extends \core\controller{
       
     } catch (Exception $e) {
       self::handleException($e);
+      self::errorMessage($e->getMessage());
     }
   }
   
