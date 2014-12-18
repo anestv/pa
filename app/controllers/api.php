@@ -101,7 +101,11 @@ class API extends \core\controller{
       
     } catch (Exception $e) {
       self::handleException($e);
-      echo $e->getMessage();
+      
+      if ($this->byAJAX)
+        echo $e->getMessage();
+      else
+        self::errorMessage($e->getMessage());
     }
   }
   

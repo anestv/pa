@@ -128,7 +128,7 @@ class Question extends \core\model {
     }
     
     echo '<tr><td>';
-    $showFrom = $this->pubAsk and $this->fromuser->username !== User::DELETED_USER;
+    $showFrom = ($this->pubAsk and $this->fromuser->username != User::DELETED_USER);
     if ($showFrom) echo 'From: '.$prUser('fromuser');
     
     echo '</td><td>';
