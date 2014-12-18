@@ -69,7 +69,6 @@ class Question extends \core\controller{
       
     } catch (Exception $e) {
       self::handleException($e);
-      //TODO
       $this->getReport($qid);
     }
   }

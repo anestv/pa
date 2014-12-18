@@ -55,15 +55,21 @@ function get($prop){
   </form>
 </aside>
 
-<?php if (!$data['dosearch']) return; ?>
-
 <main>
 <?php
+
+if ($GLOBALS['warnMessage'])
+  echo '<div class="center480 ui warning message">'.$GLOBALS['warnMessage'].'</div>';
+  
+if (!$data['dosearch']){
+  echo '</main>';
+  return;
+}
+
 $res = $data['res'];
-//var_dump($data);
+
 if ($data['activeQA']){
-//  var_dump($res);
-//  return;
+  
   echo '<h2>Question search</h2>';
   
   $num = count($res);

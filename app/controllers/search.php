@@ -24,10 +24,10 @@ class Search extends \core\controller {
         }
       } catch (Exception $e) {
         self::handleException($e);
-        echo $e->getMessage(); //TODO change
+        
         $data['dosearch'] = false;
       }
-    } else echo 'foo';
+    }
     
     
     $data['title'] = 'Search';
