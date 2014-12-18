@@ -63,8 +63,7 @@ class Logger {
     </tr>";
     
     if (!file_exists($error_file))
-      file_put_contents($error_file, '');
-    //TODO ok, we create it, but how do we add the html head stuff etc
+      copy('errorlog.template.html', $error_file); // create a copy of the template
     
     $f = file($error_file); // array of the file's lines
     
