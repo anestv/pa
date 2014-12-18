@@ -1,19 +1,21 @@
 <header id="profileHeader">
   <div><i class="user big circular icon"></i><h1><?=$data['owner']->realname?></h1></div>
   <div>
-    <?php
-    if ($data['friendBut'] == 'removeFrom')
-      echo '<a class="ui active toggle labeled right floated left icon button" '.
-        'href="friends"><i class="user icon"></i><span>Friend</span></a>';
-    else if ($data['friendBut'] == 'addTo')
-      echo '<a class="ui toggle labeled right floated left icon button" '.
-        'href="friends"><i class="user icon"></i><span>Add friend</span></a>';
-    ?>
+<?php
+use \controllers\Profile as Profile;
+
+if ($data['friendBut'] == Profile::FRIEND_REMOVE_BUTTON)
+  echo '<a class="ui active toggle labeled right floated left icon button" '.
+    'href="friends"><i class="user icon"></i><span>Friend</span></a>';
+else if ($data['friendBut'] == Profile::FRIEND_ADD_BUTTON)
+  echo '<a class="ui toggle labeled right floated left icon button" '.
+    'href="friends"><i class="user icon"></i><span>Add friend</span></a>';
+?>
     <span>Username: <?=$data['owner']->username?></span>
   </div>
 </header>
 <?php
-  
+
 function successMsg($text){
   echo '<div class="center480 ui success message"><i class="checkmark icon">'.
     "</i>$text<i class=\"close icon\"></i></div>";
@@ -34,10 +36,10 @@ if ($_SESSION['questionSent']){
   successMsg('Your question has been submitted');
 }
 
-if (!$data['loggedin'] and $data['owner']->whoasks !== 'all')
+if ($data['ask'] == Profile::TRY_LOGIN)
   echo '<div class="ui large warning message"><i class="warning icon">'.
     '</i>You must <a href="login">log in</a> to ask a question</div>';
-else if (!$data['askable'])
+else if ($data['ask'] != Profile::ABLE)
   echo '<div class="ui large warning message"><i class="warning icon">'.
     '</i>Sorry, you do not have the right to ask a question</div>';
 else {
@@ -55,11 +57,10 @@ else {
   <input type="hidden" name="to" value="<?=$data['owner']->username?>">
   <textarea name="question" placeholder="Ask a question" required maxlength="200"></textarea>
   <div id="askControls">
-<?php 
-  //TODO! more checks should be done in controler and less in views
-  if ($data['owner']->username === $GLOBALS['user']->username)
+<?php
+  if ($data['pubask'] == Profile::PUBASK_ALWAYS)
     echo "<i>Others will <u>see that you asked</u> this question</i>";
-  else if ($data['loggedin'])
+  else if ($data['pubask'] == Profile::PUBASK_CHOOSE)
     echo '<label for="publicaskcheckbox"><input type="checkbox" name="pubAsk"
     id="publicaskcheckbox">Show that I asked this question</label>';
 ?>
@@ -72,8 +73,10 @@ else {
 <?php }
 echo '<div id="qContainer">';
 
-//TODO if notloggedin and see!='all' say 'you should log in'
-if ($data['visible'])
+if ($data['see'] == Profile::TRY_LOGIN)
+  echo '<div class="ui large warning message"><i class="warning icon">'.
+    '</i><a href="login">Log in</a> to view this user\'s questions</div>';
+else if ($data['see'] == Profile::ABLE)
   $qs = \models\LoadQ::main($data['owner']);
 // TODO put LoadQ call in controller
 

@@ -5,6 +5,10 @@ use \models\User as User;
 
 class Profile extends \core\controller{
   
+  const UNABLE = 0, ABLE = 1, TRY_LOGIN = 2;
+  const FRIEND_NO_BUTTON = 0, FRIEND_ADD_BUTTON = 1, FRIEND_REMOVE_BUTTON = 2;
+  const PUBASK_NEVER = 0, PUBASK_CHOOSE = 1, PUBASK_ALWAYS = 2;
+  
   public function profile($username){
     try {
       $user = new User($username);
@@ -16,29 +20,54 @@ class Profile extends \core\controller{
       if ($user->deactivated)
         throw new Exception('This user has deactivated their account.');
       
-      $data['askable'] = $user->askableBy($GLOBALS['user']);
-      $data['visible'] = $user->profileVisibleBy($GLOBALS['user']);
-      
-      if (!$GLOBALS['user']->isRealUser() or $GLOBALS['user']->username == $username)
-        $friendButton = 'none';
-      else if ($GLOBALS['user']->hasFriend($user))
-        $friendButton = 'removeFrom';
-      else
-        $friendButton = 'addTo';
     } catch (Exception $e) {
       self::handleException($e);
       self::errorMessage($e->getMessage());
+      // execution is stopped, no need to return
     }
     
-    $data['title'] = $username;
-    $data['styles'] = ['profile.css', "/api/profileDisplay/$username"];
-    $data['bodyData'] = 'data-owner="' . $username . '"';
-    $data['scripts'] = ['jquery' => 1, 'semantic' => 1, 'jquery.age' => 1];
-    $data['scripts']['custom'] = ['profile.js'];
+    $loggedin = $GLOBALS['user']->isRealUser();
     
-    $data['owner'] = $user;
-    $data['friendBut'] = $friendButton;
-    $data['loggedin'] = $GLOBALS['user']->isRealUser();
+    $data = [
+      'title' => $username,
+      'styles' => [
+        'profile.css',
+        "/api/profileDisplay/$username"
+      ],
+      'bodyData' => 'data-owner="' . $username . '"',
+      'scripts' => [
+        'jquery' => 1,
+        'semantic' => 1,
+        'jquery.age' => 1,
+        'custom' => ['profile.js']
+      ],
+      'owner' => $user
+    ];
+    
+    
+    if (!$loggedin or $GLOBALS['user']->username == $username)
+      $data['friendBut'] = self::FRIEND_NO_BUTTON;
+    else if ($GLOBALS['user']->hasFriend($user))
+      $data['friendBut'] = self::FRIEND_REMOVE_BUTTON;
+    else
+      $data['friendBut'] = self::FRIEND_ADD_BUTTON;
+    
+    if ($user->askableBy($GLOBALS['user']))
+      $data['ask'] = self::ABLE;
+    else
+      $data['ask'] = $loggedin ? self::UNABLE : self::TRY_LOGIN;
+    
+    if ($user->profileVisibleBy($GLOBALS['user']))
+      $data['see'] = self::ABLE;
+    else
+      $data['see'] = $loggedin ? self::UNABLE : self::TRY_LOGIN;
+    
+    if (!$loggedin)
+      $data['pubask'] = self::PUBASK_NEVER;
+    else if ($GLOBALS['user']->username == $username)
+      $data['pubask'] = self::PUBASK_ALWAYS;
+    else
+      $data['pubask'] = self::PUBASK_CHOOSE;
     
     
     View::rendertemplate('header', $data);
