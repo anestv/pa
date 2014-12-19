@@ -83,7 +83,7 @@ if ($data['activeQA']){
     echo '<div id="qContainer">';
     
     foreach ($res as $q)
-      $q->writeOut(true, false);
+      $q->writeOut(['extended', 'partial']);
     
     echo '</div>';
   }

@@ -7,7 +7,7 @@ if ($GLOBALS['warnMessage']){
   return;
 }
 
-$data['q']->writeOut(true, true);
+$data['q']->writeOut(['extended', 'partial']);
 ?>
   <form method="post" class="answer ui bottom attached stacked form segment">
     <textarea name="answer" placeholder="Your answer" required autofocus maxlength="200"></textarea>

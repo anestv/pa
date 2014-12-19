@@ -98,7 +98,9 @@ class Question extends \core\model {
       throw new Exception('Sorry, you do not have the right to see this question');
   }
   
-  public function writeOut($extended = false, $partial = false){
+  public function writeOut($options = []){
+    $extended = in_array('extended', $options);
+    $partial = in_array('partial', $options);
     
     // an example of extended use is in viewq
     

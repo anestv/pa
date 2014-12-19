@@ -37,12 +37,11 @@ class LoadQ extends \core\model {
       while(($row = $res->fetch_array()) and $i++ !== 11){
         $q = new Question($row['id']);
         
-        $q->writeOut(false);
+        $q->writeOut();
       }
       
       return $res;
     }
   }
-  
 }
 ?>

@@ -29,7 +29,7 @@ if ($_SESSION['answerSuccess']){
 
 if ($count)
   foreach($data['questions'] as $q)
-    $q->writeOut(false, false);
+    $q->writeOut();
 
 ?>
 </main>

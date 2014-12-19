@@ -11,7 +11,7 @@ if ($GLOBALS['warnMessage']){
   return; //done with this file
 }
 
-$data['q']->writeOut(true, true);
+$data['q']->writeOut(['extended', 'partial']);
 ?>
 
   <form method="post" class="ui bottom attached segment">
