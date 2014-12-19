@@ -42,10 +42,19 @@ class API extends \core\controller{
         throw new InvalidArgumentException('The offset is not of correct type.');
       $offset = intval($_GET['offset']);
       
-      $result = \models\LoadQ::main($owner, $offset); //prints question after checks and returns $res
+      $questions = \models\LoadQ::main($owner, $offset);
+      // returns an array of m\Questions, i.e. QuestionSet->members
       
-      if ($result->num_rows < 11)
+      if (count($questions) === 0)
+        http_response_code(204); // no content
+      
+      if (count($questions) < 11)
         echo '<div data-last="1"></div>';
+      else
+        array_pop($questions); // remove last (eleventh) element
+      
+      foreach ($questions as $q)
+        $q->writeOut();
       
     } catch (Exception $e) {
       self::handleException($e);

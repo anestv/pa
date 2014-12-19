@@ -76,22 +76,26 @@ echo '<div id="qContainer">';
 if ($data['see'] == Profile::TRY_LOGIN)
   echo '<div class="ui large warning message"><i class="warning icon">'.
     '</i><a href="login">Log in</a> to view this user\'s questions</div>';
-else if ($data['see'] == Profile::ABLE)
-  $qs = \models\LoadQ::main($data['owner']);
-// TODO put LoadQ call in controller
-
-if (http_response_code() === 204){
-  echo '<div class="center480 ui info message"><i class="info icon"></i>';
-  echo 'There are no questions to show</div>';
+else if ($data['see'] == Profile::ABLE) {
+  $num = count($data['questions']);
+  
+  if ($num == 0){
+    echo '<div class="center480 ui info message"><i class="info icon"></i>';
+    echo 'There are no questions to show</div>';
+  } else if ($num > 10)
+    array_pop($data['questions']); // remove last element
+  
+  foreach ($data['questions'] as $q)
+    $q->writeOut();
 }
-http_response_code(200);
+
 echo '</div>';
-if (isset($qs->num_rows)){
-  $results = $qs->num_rows;
-  if ($results > 10)
+
+if (isset($num)){
+  
+  if ($num > 10)
     echo '<button id="showMore" class="ui button">Show More</button>';
   
-  if ($results > 4)
+  if ($num > 4)
     echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';
 }
-?>

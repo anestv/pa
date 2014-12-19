@@ -20,6 +20,8 @@ class Profile extends \core\controller{
       if ($user->deactivated)
         throw new Exception('This user has deactivated their account.');
       
+      $questions = \models\LoadQ::main($user, 0);
+      
     } catch (Exception $e) {
       self::handleException($e);
       self::errorMessage($e->getMessage());
@@ -41,7 +43,8 @@ class Profile extends \core\controller{
         'jquery.age' => 1,
         'custom' => ['profile.js']
       ],
-      'owner' => $user
+      'owner' => $user,
+      'questions' => $questions
     ];
     
     
