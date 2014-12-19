@@ -46,11 +46,9 @@ class FbLogin extends \core\controller{
       
       \helpers\Url::redirect('');
       
-    /*} catch (Facebook\FacebookRequestException $e) {
-      self::handleException($e);
-      //TODO print a message*/
     } catch (Exception $e) {
       self::handleException($e);
+      self::errorMessage($e->getMessage());
     }
   }
   
@@ -101,12 +99,13 @@ class FbLogin extends \core\controller{
       
       $_SESSION['removeFbSuccess'] = true;
       
-      \helpers\Url::redirect('settings');
-      
     } catch (Exception $e) {
       self::handleException($e);
-      echo $e->getMessage(); // TODO STH BETTER
+      
+      $_SESSION['mustAddPassword'] = true;
     }
+    
+    \helpers\Url::redirect('settings');
   }
 }
 ?>

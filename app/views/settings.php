@@ -44,10 +44,18 @@ function writeDropdown($name, $values, $strings = null){
     <ul><?=$GLOBALS['warnMessage']?></ul>
   </div>
   
-<?php if ($_SESSION['removeFbSuccess']){
+<?php
+if ($_SESSION['removeFbSuccess']){
   unset($_SESSION['removeFbSuccess']);
   echo '<div class="ui success message"><i class="checkmark icon"></i>Your account has been disconnected from Facebook</div>';
-} ?>
+} 
+
+if ($_SESSION['mustAddPassword']){
+  unset($_SESSION['mustAddPassword']);
+  echo '<div class="ui visible warning message"><i class="warning icon"></i>'.
+    'You must first add a PrivateAsk password in order to do that</div>';
+}
+?>
 
   <div class="ui three column doubling grid">
     <div class="column">
