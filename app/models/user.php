@@ -16,6 +16,9 @@ class User extends \core\model {
   public function __construct($username){
     parent::__construct();
     
+    if ($username == null) // or any null-ish value
+      throw new Exception('Null given at user constructor');
+    
     if ($username == self::CURRENT){
       if ($_SESSION['user'])
         $username = $_SESSION['user'];
@@ -93,7 +96,8 @@ class User extends \core\model {
     $passDB = self::$_db->real_escape_string($hspass);
     
     // insert data into database
-    $query = "INSERT INTO users(username, hs_pass, realname) VALUES ('$username', '$passDB', '$realname');";
+    $query = "INSERT INTO users(username, hs_pass, realname) ".
+      "VALUES ('$username', '$passDB', '$realname');";
     $result = self::$_db->query($query);
     
     if (!$result) throw new RuntimeException(self::$_db->error);
@@ -164,42 +168,33 @@ class User extends \core\model {
     return (($user === $this->username) or ($res and $res->num_rows > 0));
   }
   
-  public function profileVisibleBy($user){
+  // to be used in profileVisibleBy(), askableBy()
+  //TODO (kinda) I should think of a better name
+  private function influencedBy($user, $action){
     if ($user instanceof User)
       $user = $user->username;
     
     if ($user === self::DELETED_USER or $user === self::ANONYMOUS)
       throw new Exception('Invalid user provided'); // too general?
     
-    if ($this->whosees === 'all')
+    if ($this->$action === 'all')
       return true;
     
     if ($user === self::NOT_LOGGED_IN)
       return false;
     
-    if ($this->whosees === 'users')
+    if ($this->$action === 'users')
       return true;
     
     return $this->hasFriend($user);
   }
   
+  public function profileVisibleBy($user){
+    return $this->influencedBy($user, 'whosees');
+  }
+  
   public function askableBy($user){
-    if ($user instanceof User)
-      $user = $user->username;
-    
-    if ($user === self::DELETED_USER or $user === self::ANONYMOUS)
-      throw new Exception('Invalid user provided'); // too general?
-    
-    if ($this->whoasks === 'all')
-      return true;
-    
-    if ($user === self::NOT_LOGGED_IN)
-      return false;
-    
-    if ($this->whoasks === 'users')
-      return true;
-    
-    return $this->hasFriend($user);
+    return $this->influencedBy($user, 'whoasks');
   }
   
   public function getUnseen(){

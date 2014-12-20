@@ -10,7 +10,6 @@ if (file_exists('vendor/autoload.php')){
 
 //create alias for Router
 use \core\router as Router;
-use \helpers\url as Url;
 
 // initialise the config object
 // originally was on \core\Controller::__contruct()

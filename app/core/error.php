@@ -1,6 +1,4 @@
-<?php namespace Core;
-use core\controller as Controller;
-use core\view as View;
+<?php namespace core;
 
 class Error extends Controller {
 

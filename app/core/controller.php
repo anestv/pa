@@ -1,7 +1,4 @@
 <?php namespace core;
-use core\config as Config;
-use core\view as View;
-use core\error as Error;
 
 class Controller {
   
