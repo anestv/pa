@@ -3,6 +3,8 @@ PrivateAsk Source
 
 This project is currently in development.
 Bugs and errors may occur frequently
+It is based on [simple-mvc-framework v2.1](https://github.com/simple-mvc-framework/v2),
+which is licensed under the MIT License.
 
 - **Looking for where to start?**
 Why not go to [index.php](index.php)
