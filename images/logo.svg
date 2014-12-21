@@ -1,0 +1,9 @@
+<?xml-stylesheet type="text/css" href="http://fonts.googleapis.com/css?family=Comfortaa:700|Damion" ?>
+<svg width="270" height="130" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <title>PrivateAsk</title>
+    <rect fill="#ffb100" id="canvas_background" height="132" width="272" y="-1" x="-1"/>
+    <text font-size="50" y="60" x="20" fill="#fff" font-family="Damion, cursive">PrivateAsk</text>
+    <text font-size="25" y="110" x="12" fill="#4682b4" font-family="Comfortaa, sans-serif" font-weight="bold">like ask, but private!</text>
+  </g>
+</svg>

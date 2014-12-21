@@ -1,0 +1,10 @@
+header#profileHeader {
+  border-radius: 2em;
+}
+#profileHeader > div {
+  margin: 0 1.3em;
+  min-height: 2.5em;
+}
+#profileHeader > div:last-child > a {
+  transform: translateY(-30%);
+}

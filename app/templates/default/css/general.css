@@ -1,0 +1,145 @@
+html {height:100%;}
+
+body {background: radial-gradient(#e0f5fd, #5099e9) fixed;}
+
+.aloneInPage{margin-top:5em !important;}
+
+form {
+  text-align:center;
+  margin:auto;
+}
+input:invalid, textarea:invalid {outline-color: red;}
+form.ask.ui.form {
+  max-width: 420px;
+  margin: 0.6em auto;
+}
+form.ask #askControls {
+  overflow: hidden;
+  padding: 0.6em 0.2em 0;
+}
+#askControls label {float: left;}
+#askControls button {float: right;}
+
+div.ui.large.warning.message {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.question:not(.icon) {
+  margin: 1em;
+  max-width: 920px;
+}
+
+div.question>.ui.header,.orangeBg {
+  background-color: #F8981F;
+  background-image: linear-gradient(to bottom, #F8A11F, #EE911D);
+  color: #FFF;
+}
+div.question>.ui.header {
+  padding-bottom: 0.4em;
+}
+div.question>.ui.header table {width: 100%;}
+div.question>.ui.header table td:nth-child(2){text-align: right;}
+div.question>.ui.header table a {color: #EEE;}
+div.question>.ui.header table a:hover {color:#FFF;}
+div.question>.ui.header table td:nth-child(2) a{
+  font-size: 0.8em;
+}
+div.question div.links {float: right;}
+div.question div.links a {
+  text-decoration: none;
+  padding: 1px;
+}
+div.question .ui.segment > h3.header { margin-top: 0;}
+
+/*space for the floated div.links*/
+div.question .ui.segment {min-height: 4em;}
+
+#qContainer,.center940 {
+  max-width: 940px;
+  margin: auto;
+}
+button#showMore {
+  min-width: 160px;
+  margin: auto;
+  display: block;
+  max-width: 260px;
+}
+
+#scrollTop {
+  display: none;
+  position: fixed;
+  right: 5em;
+  bottom: 2em;
+}
+
+form#friendForm {
+  max-width: 400px;
+  margin: auto;
+  text-align: left;
+}
+form#friendForm > * {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+form#friendForm > .ui.link.list.segment > .item {
+  margin-left: 1em;
+}
+
+/*name to add significance*/
+form.answer textarea[name="answer"] {
+  height: 8em;
+  margin-bottom: 1em;
+}
+
+header#profileHeader {
+  min-width:700px;
+  max-width:900px;
+  display:table;
+  margin:auto;
+  border-radius:3em;
+}
+header#profileHeader h1 {
+  display:inline-block;
+  margin:0.7em;
+}
+header#profileHeader i.user.icon {vertical-align: initial;}
+
+.ui.button {font-family: sans-serif}
+
+.ui.segment,.ui.message {
+  text-align: justify;
+}
+
+.ui.centered.buttons,.ui.centered.button {
+/* MUST NOT be used with margin: auto !! */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.center480 {
+  max-width: 480px;
+  margin-left: auto!important;
+  margin-right: auto!important;
+}
+
+.scriptOnly {display: none !important;}
+/* to hide removeClass('scriptOnly')*/
+
+h1.ui.orange.inverted.block.header {
+  background-color: #F8981F;
+  background-image: linear-gradient(to bottom, #F79E2E, #F39826);
+  font-family: 'Segoe UI', 'Trebuchet MS', 'Tahoma', sans-serif;
+  font-weight: 100;
+}
+
+h1.ui.orange.inverted.block.header i.home.icon {
+  float: left;
+  margin-left: 1em;
+  margin-right: -1em;
+  color: #FFF;
+  text-decoration: none;
+}
