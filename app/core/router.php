@@ -48,6 +48,38 @@ class Router
     {
         self::$halts = $flag;
     }
+    
+    private static function callCallback($callback)
+    {
+        if (!is_object($callback)){
+
+            $parts = explode('@',$callback);
+            $file = strtolower('app/controllers/'.$parts[0].'.php');
+
+            //try to load and instantiate model
+            if (file_exists($file))
+                require $file;
+
+            //grab all parts based on a / separator
+            $parts = explode('/',$callback);
+
+            //collect the last index of the array
+            $last = end($parts);
+
+            //grab the controller name and method call
+            $segments = explode('@',$last);
+
+            //instanitate controller
+            $controller = new $segments[0]();
+
+            //call method
+            $controller->$segments[1]();
+
+        } else {
+            //call closure
+            call_user_func($callback);
+        }
+    }
 
     /**
      * Runs the callback for the given request
@@ -78,36 +110,7 @@ class Router
                 if (self::$methods[$route] == $method || self::$methods[$route] == 'ANY') {
                     $found_route = true;
 
-                    //if route is not an object
-                    if(!is_object(self::$callbacks[$route])){
-                        
-                        $parts = explode('@',self::$callbacks[$route]);
-                        $file = strtolower('app/controllers/'.$parts[0].'.php');
-                        
-                        //try to load and instantiate model
-                        if(file_exists($file)){
-                            require $file;
-                        }
-
-                        //grab all parts based on a / separator
-                        $parts = explode('/',self::$callbacks[$route]);
-
-                        //collect the last index of the array
-                        $last = end($parts);
-
-                        //grab the controller name and method call
-                        $segments = explode('@',$last);
-
-                        //instanitate controller
-                        $controller = new $segments[0]();
-
-                        //call method
-                        $controller->$segments[1]();
-                        
-                    } else {
-                        //call closure
-                        call_user_func(self::$callbacks[$route]);
-                    }
+                    self::callCallback(self::$callbacks[$route]);
                     
                     if (self::$halts) return;
                 }
@@ -155,6 +158,7 @@ class Router
 
                             $params = count($matched);
 
+                            //TODO PHP 5.6 supports argument unpacking from array
                             //call method and pass any extra parameters to the method
                             switch ($params) {
                                 case '0':
@@ -212,35 +216,7 @@ class Router
                 };
             } 
 
-
-            if(!is_object(self::$error_callback)){
-
-                $parts = explode('@',self::$error_callback);
-                $file = strtolower('app/controllers/'.$parts[0].'.php'); 
-
-                //try to load and instantiate model
-                if(file_exists($file)){
-                    require $file;
-                }
-                
-                //grab all parts based on a / separator
-                $parts = explode('/',self::$error_callback); 
-
-                //collect the last index of the array
-                $last = end($parts);
-
-                //grab the controller name and method call
-                $segments = explode('@',$last);
-
-                //instanitate controller
-                $controller = new $segments[0]('No routes found.');
-
-                //call method
-                $controller->$segments[1]();
-                
-            } else {
-               call_user_func(self::$error_callback);
-            }
+            self::callCallback(self::$error_callback);
             
             if (self::$halts) return;
         }
