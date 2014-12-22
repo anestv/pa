@@ -55,7 +55,7 @@ Router::any ('api/disconnectFb', '\controllers\fblogin@disconnectFb');
 //if no route found
 Router::error('\core\error@index');
 
-$GLOBALS['user'] = new \models\User(\models\User::CURRENT);
+$GLOBALS['user'] = \models\User::getUserFromSession();
 
 //execute matched routes
 Router::dispatch();

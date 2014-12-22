@@ -59,7 +59,10 @@ class Login extends \core\controller{
   
   public function logout(){
     $_SESSION['user'] = '';
+    session_unset(); // unset all session vars
+    
     $_SESSION['loggedOut'] = true;
+    
     \helpers\Url::redirect('login');
   }
 }

@@ -14,6 +14,13 @@ if ($_SESSION['loggedOut']){
   '<i class="sign out icon"></i> You have been logged out</h2>'.
   'We hope to see you soon!</div>';
 }
+
+if ($_SESSION['userNotFound']){
+  echo '<div class="ui warning message"><h2 class="header">'.
+  '<i class="warning icon"></i>Please log in again</h2>'.
+  $_SESSION['userNotFound'].'</div>';
+  unset($_SESSION['userNotFound']);
+}
 ?>
 
 <div class="center480">

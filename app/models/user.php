@@ -57,6 +57,32 @@ class User extends \core\model {
   }
   
   
+  public static function getUserFromSession(){
+    
+    try {
+      $user = new self(self::CURRENT);
+      
+      if ($user->deactivated)
+        throw new Exception('This account has been deactivated', 404);
+      
+    } catch (Exception $e) {
+      
+      if ($e->getCode() == 404){
+        
+        $_SESSION['user'] = '';
+        session_unset();
+        
+        $_SESSION['userNotFound'] = $e->getMessage();
+        
+        \helpers\Url::redirect('login');
+      } else
+        throw $e; // most likely db error, catch it later
+    }
+    // if all is good, account exists (or is not logged in), and not deactivated
+    return $user;
+  }
+  
+  
   public static function create($username, $password, $realname, $rand){
     
     // validate user pass real (regexps and length)
