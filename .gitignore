@@ -1,3 +1,5 @@
 app/core/secrets.ini
 errorlog.html
 vendor/facebook/
+dev-semantic/dist/
+dev-semantic/node_modules/
