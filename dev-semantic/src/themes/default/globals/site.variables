@@ -6,14 +6,14 @@
        Fonts
 --------------------*/
 
-@headerFont        : 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-@pageFont          : 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@headerFont        : 'Comfortaa', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@pageFont          : 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
 @fontSmoothing     : antialiased;
 
 @importGoogleFonts : true;
-@googleFontName    : 'Lato';
-@googleFontSizes   : '400,700,400italic,700italic';
-@googleSubset      : 'latin';
+@googleFontName    : 'Open+Sans|Damion|Comfortaa';
+@googleFontSizes   : '400,700'; // only apply to last font i.e. Comfortaa. This is intentional
+@googleSubset      : 'latin,greek';
 
 @googleProtocol    : 'https://';
 @googleFontRequest : '@{googleFontName}:@{googleFontSizes}&subset=@{googleSubset}';
@@ -44,10 +44,10 @@
 
 /*---  Colors  ---*/
 @black            : #1B1C1D;
-@blue             : #3B83C0;
+@blue             : #178BD4;
 @green            : #5BBD72;
 @grey             : #CCCCCC;
-@orange           : #E07B53;
+@orange           : #F89A17;
 @pink             : #D9499A;
 @purple           : #564F8A;
 @red              : #D95C5C;
@@ -58,7 +58,7 @@
 @lightBlack       : #333333;
 @lightBlue        : #54C8FF;
 @lightGreen       : #2ECC40;
-@lightOrange      : #FF851B;
+@lightOrange      : #F2A944;
 @lightPink        : #FF8EDF;
 @lightPurple      : #CDC6FF;
 @lightRed         : #FF695E;
@@ -77,11 +77,11 @@
     Brand Colors
 --------------------*/
 
-@primaryColor        : @blue;
-@secondaryColor      : @black;
+@primaryColor        : @orange;
+@secondaryColor      : @blue;
 
-@lightPrimaryColor   : @lightBlue;
-@lightSecondaryColor : @lightBlack;
+@lightPrimaryColor   : @lightOrange;
+@lightSecondaryColor : @lightBlue;
 
 /*-------------------
         Sizes
@@ -100,7 +100,7 @@
         Page
 --------------------*/
 
-@pageBackground      : #F7F7F7;
+@pageBackground      : linear-gradient(to bottom, @secondaryColor, darken(@secondaryColor, 10)) fixed;
 @pageOverflowX       : hidden;
 
 @lineHeight          : 1.33;
