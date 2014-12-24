@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="<?=helpers\url::get_template_path()?>css/terms.css">
-  <title>PrivateAsk - Terms and Conditions</title>
-</head>
-<body>
         <u><em><h2>This is a non-valid draft of the Terms and Conditions -18/10/2014</h2></em></u>
 
 <h1>Terms and Conditions</h1>
@@ -68,6 +60,3 @@
 
 <h2>8. Changes to these Terms and Conditions</h2>
 <p>We can change these Terms and Conditions whenever we want. When we change them, we will inform you by putting a notice on the website.</p>
-
-</body>
-</html>

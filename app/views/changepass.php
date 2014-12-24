@@ -16,7 +16,7 @@ if ($data['noOld']){
   <i class="info icon"></i>
   <div class="content">
     <div class="header">
-      We're glad to see you want to <?=$action?>!
+      We're glad you want to <?=$action?>!
     </div>
     Reminder: passwords must be 6-100 characters and should be difficult to guess.
   </div>
