@@ -8,33 +8,18 @@ $privacyOpts = ['Only your friends', 'Registered users' ,'Everyone'];
 function writeDropdown($name, $values, $strings = null){
   $user = $GLOBALS['user']->raw;
   if ($strings === null) $strings = $values;
-  ?>
-  <div class="ui selection dropdown scriptOnly">
-    <!-- dropdown initialized from hidden input's value-->
-    <input type="hidden" name="<?=$name?>" value="<?=$user[$name]?>">
-    <div class="text"> </div>
-    <i class="dropdown icon"></i>
-    <div class="menu">
-      <?php
-      for ($i = 0; $i < count($values); $i++){
-        $state = ($user[$name] === $values[$i])? 'active ':'';
-        echo '<div class="'. $state .'item" data-value="';
-        echo $values[$i] .'">'. $strings[$i] .'</div>';
-      }
-  echo '</div></div>';
   
-  // noscript MUST be after the hidden input
-  // so that the hidden input's value is overwritten
-  echo '<noscript><select required name="'.$name.'">';
-  echo '<option value="">Select one</option>'; //required for valid html5
+  echo '<select required name="'.$name.'" class="ui dropdown">';
+  echo '<option value="">Select one</option>'; //placeholder, required for valid html5
+  
   for ($i = 0; $i < count($values); $i++){
     $state = ($user[$name] === $values[$i])? ' selected' :'';
     echo '<option value="'.$values[$i]."\"$state>".$strings[$i].'</option>';
   }
-  echo '</select></noscript>';
+  echo '</select>';
 }
 ?>
-
+<main>
 <h1 class="ui top attached center aligned orange inverted block header">
   <a href="."><i class="home link icon"></i></a>Settings
 </h1>
@@ -127,3 +112,4 @@ else {
   </button>
   
 </form>
+</main>

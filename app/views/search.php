@@ -8,7 +8,7 @@ function get($prop){
     echo ' value="'.$_GET[$prop].'"';
 }
 ?>
-<aside>
+<aside class="ui segment">
   <div class="ui tabular menu">
     <a class="item <?=$activeU?>" data-tab="users">Users</a>
     <a class="item <?=$activeQA?>" data-tab="qa">Questions</a>
@@ -70,8 +70,6 @@ $res = $data['res'];
 
 if ($data['activeQA']){
   
-  echo '<h2>Question search</h2>';
-  
   $num = count($res);
   
   if ($num === 0){
@@ -83,26 +81,24 @@ if ($data['activeQA']){
     echo '<div id="qContainer">';
     
     foreach ($res as $q)
-      $q->writeOut(['extended', 'partial']);
+      $q->writeOut(['extended']);
     
     echo '</div>';
   }
 } else { ?>
 
-<h2>User search</h2>
-
-<table id="userList" class="ui collapsing padded table segment">
+<table id="userList" class="ui striped padded table segment">
 <thead><tr>
-  <th>Username</th>
-  <th>Real Name</th>
-  <th>Link</th>
+  <th class="six wide">Username</th>
+  <th class="eight wide">Real Name</th>
+  <th class="two wide">Link</th>
 </tr></thead>
 <tbody>
   
   <?php
   while ($row = $res->fetch_array()){
     echo '<tr><td>'.$row['username'].'</a><td>'.$row['realname'];
-    echo '<td><a href="user/'.$row['username'].'"><i class="url teal link icon"></i></a>';
+    echo '<td><a href="user/'.$row['username'].'"><i class="linkify blue link icon"></i></a>';
   }?>
   
 </tbody>

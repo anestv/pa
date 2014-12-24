@@ -32,7 +32,7 @@ class Search extends \core\controller {
     
     $data['title'] = 'Search';
     $data['styles'] = ['search.css'];
-    $data['scripts'] = ['jquery' => 1, 'jquery.age' => 1, 'jquery.address' => 1, 'semantic' => 1];
+    $data['scripts'] = ['jquery' => 1, 'jquery.age' => 1, 'semantic' => 1];
     $data['scripts']['custom'] = ['search.js'];
     
     $data['activeQA'] = (isset($_GET['lookfor']) and $_GET['lookfor'] === 'qa');

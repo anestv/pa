@@ -124,9 +124,6 @@ header#profileHeader i.user.icon {vertical-align: initial;}
   margin-right: auto!important;
 }
 
-.scriptOnly {display: none !important;}
-/* to hide removeClass('scriptOnly')*/
-
 h1.ui.orange.inverted.block.header {
   background-color: #F8981F;
   background-image: linear-gradient(to bottom, #F79E2E, #F39826);
