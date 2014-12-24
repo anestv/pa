@@ -9,21 +9,12 @@ the top bar is added to all pages */
     color: #FFF;
     font-family: sans-serif;
 }
-nav.ui.fluid.menu {
-  margin: 0;
-  background-color: #F89D2A;
+nav.ui.menu {
   border-radius: 0;
-  font-family: segoe ui, sans-serif;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
-nav.ui.menu .item:first-child {
+nav.ui.menu >.item:first-child {
   font-family: Damion, cursive;
-  padding: 0;
+  padding-top: 0;
+  padding-bottom: 0;
   font-size: 2rem;
-}
-
-body {
-  padding-top: 2.5em;
 }

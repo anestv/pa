@@ -24,3 +24,5 @@ http://github.com/anestv/pa - Open source: Artistic License 2.0 -->
 ?>
 </head>
 <body <?=$data['bodyData']?>>
+
+<?php require 'topbar.php'; ?>

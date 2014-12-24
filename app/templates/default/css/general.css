@@ -107,8 +107,6 @@ header#profileHeader h1 {
 }
 header#profileHeader i.user.icon {vertical-align: initial;}
 
-.ui.button {font-family: sans-serif}
-
 .ui.segment,.ui.message {
   text-align: justify;
 }
