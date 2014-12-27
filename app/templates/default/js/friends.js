@@ -9,15 +9,21 @@ var friends = orig.sort().slice(0);
 
 var user = $('body').data('user');
 
-$('.ui.link.list').on('click', '.ui.icon.button', removeFriend);
+$('form .ui.list').on('click', '.item>i.remove.icon', removeFriend);
 
 $('#addFriend').click(addFriend);
 
 $('form').keydown(function(e){
   if (e.which === 13) {
     
-    // for #32: Chrome submits the form if addFriend alerts
-    setTimeout(addFriend, 5);
+    // setTimeout() for #32: Chrome submits the form if addFriend alerts
+    setTimeout(function(){
+      try {
+        addFriend();
+      } catch (e) {
+        alert(e);
+      }
+    }, 5);
     
     return false;
   }
@@ -35,20 +41,18 @@ function addFriend(){
   $('#friendInput').val('');
   
   if (friendName.trim() == '')
-    return alert("Enter a friend name");
+    throw "Enter a friend name";
   if (friends.indexOf(friendName) !== -1)
-    return alert("You have already entered this friend");
+    throw "You have already entered this friend";
   if (friendName === user)
-    return alert('We know you are friends with yourself, but please, be more social');
+    throw 'We know you are friends with yourself, but please, be more social';
   
   friends.push(friendName);
   
-  var curr = '<div class="item"><div class="ui right floated circular icon button">';
-  curr += '<i class="red remove icon"></i></div><a class="header" href="user/';
-  curr += friendName + '">' + friendName + '</a></div>';
+  var curr = '<div class="item"><i class="right floated remove red link icon"></i>';
+  curr +=  '<a class="header" href="user/'+ friendName +'">'+ friendName +'</a></div>';
   
-  $('.ui.link.list').append(curr);
-  return 'OK';
+  $('form .ui.list').append(curr);
 }
 
 function removeFriend(){
@@ -58,9 +62,6 @@ function removeFriend(){
   this.parentElement.remove();
 }
 
-$('.ui.message > i.close.icon').click(function(){
-  $(this).parent().slideUp();
-});
 
 //Prevent user from leaving with unsaved changes
 

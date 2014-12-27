@@ -4,10 +4,6 @@ body {background: radial-gradient(#e0f5fd, #5099e9) fixed;}
 
 .aloneInPage{margin-top:5em !important;}
 
-form {
-  text-align:center;
-  margin:auto;
-}
 input:invalid, textarea:invalid {outline-color: red;}
 form.ask.ui.form {
   max-width: 420px;
@@ -72,20 +68,6 @@ button#showMore {
   position: fixed;
   right: 5em;
   bottom: 2em;
-}
-
-form#friendForm {
-  max-width: 400px;
-  margin: auto;
-  text-align: left;
-}
-form#friendForm > * {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-form#friendForm > .ui.link.list.segment > .item {
-  margin-left: 1em;
 }
 
 /*name to add significance*/
