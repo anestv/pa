@@ -33,7 +33,7 @@ class Controller {
   }
   
   protected static function errorMessage($message = ''){
-    Logger::errorMessage($message);
+    logger::errorMessage($message);
     // prints view error/error and exits
   }
   

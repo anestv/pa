@@ -16,7 +16,6 @@ class Url {
   }
   
   public static function get_template_path(){
-      //return DIR.'app/templates/'.Session::get('template').'/';
-      return '/pa/app/templates/'.Session::get('template').'/';
+      return BASE_DIR .'app/templates/'.Session::get('template').'/';
   } 
 }
