@@ -5,24 +5,28 @@ class index extends \core\controller{
   
   public function index(){  
     
-    $data['noGeneralCss'] = true;
-    
     if (empty($_SESSION['user'])){
-      $data['styles'] = ['notLoggedIn.css'];
-      
-      View::rendertemplate('header',$data);
-      View::render('notLoggedIn',$data);
-    } else {
-      $data['styles'] = ['topBar.css'];
-      
-      $data['unseen'] = $GLOBALS['user']->getUnseen();
-      $data['username'] = $GLOBALS['user']->username;
-      
-      View::rendertemplate('header',$data);
-      View::render('index', $data);
+      $this->notLoggedIn();
+      return;
     }
     
+    $data['noGeneralCss'] = true;
+    
+    View::rendertemplate('header',$data);
+    View::render('index', $data);
     View::rendertemplate('footer',$data);
+  }
+  
+  private function notLoggedIn(){
+    
+    $data['noGeneralCss'] = true;
+    $data['styles'] = ['notLoggedIn.css'];
+    
+    $data['fbLoginUrl'] = \helpers\MyFB::$facebook->getLoginUrl();
+    
+    View::rendertemplate('header', $data);
+    View::render('notLoggedIn', $data);
+    View::rendertemplate('footer', $data);
   }
 }
 ?>

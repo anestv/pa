@@ -1,50 +1,65 @@
-<a id="githubribbon" href="https://github.com/anestv/pa">Find me on GitHub</a>
+<div class="ui one column page grid"><div class="centered column"><div class="ui padded grid">
 
-<h1 class="ui black huge block header">
-<object type="image/svg+xml" data="images/logo.svg" class="logo">
-  PrivateAsk logo
-</object>
-<div class="content">Welcome to PrivateAsk!
-<h3 class="sub header">Like Ask, but private!</h3></div></h1>
-
-
-<p class="ui floating info message">You control who can ask you and who can see what you answer!</p>
-<p class="ui floating warning message">Please understand that the site is currently being developed, 
-so bugs may exist and errors may frequently occur.</p>
+<div class="row">
+  <h1 class="ui inverted header">
+    Welcome to PrivateAsk!
+  </h1>
+  
+  <img src="images/unstable.png" alt="Unstable version" id="unstable" title="This site is under development">
+  
+  <a href="https://github.com/anestv/pa" class="ribbon">
+    <div class="stitches-top"></div>
+    <strong class="content"><h1>Find us on GitHub</h1></strong>
+    <div class="stitches-bottom"></div>
+  </a>
+  
+  <h5 class="ui inverted header">You control who can ask you and who can see what you answer!</h5>
+  
+</div>
 
 <?php
 if ($_SESSION['deleteAccSuccess']){
   unset($_SESSION['deleteAccSuccess']);
-  echo '<div class="ui large floating info message"><i class="info icon"></i>Your '.
-    'account has been deactivated and will be deleted in 7 days unless you log in</div>';
+  echo '<div class="row">
+  <div class="ui large hidden info message">
+    <i class="info icon"></i>
+    Your account has been deactivated and will be deleted in 7 days unless you log in
+  </div></div>';
 }
 ?>
 
-<div class="ui two column middle aligned relaxed grid segment">
-  <div class="column"><h3 class="ui top attached header">Log in</h3>
+<div class="row">
+
+<div class="ui middle aligned relaxed stackable grid">
+  <div class="eight wide column">
+    <h3 class="ui top attached block header">Log in</h3>
     <form action="login" method="POST" class="ui bottom attached form segment">
-      <div class="ui left labeled field icon input">
-        <input name="user" required type="text" placeholder="Username" tabindex="1" autofocus>
+      <div class="ui left icon input field">
         <i class="user icon"></i>
-        <div class="ui corner label"><i class="red asterisk icon"></i></div>
+        <input name="user" required type="text" placeholder="Username" autofocus>
       </div>
-      <div class="ui left labeled field icon input">
-        <input name="pass" required type="password" placeholder="Password" tabindex="2">
+      <div class="ui left icon input field">
         <i class="lock icon"></i>
-        <div class="ui corner label"><i class="red asterisk icon"></i></div>
+        <input name="pass" required type="password" placeholder="Password">
       </div>
-      <button type="submit" class="ui right floated labeled icon positive button" tabindex="4">
-        <i class="sign in icon"></i>Log in
-      </button>
       <div class="ui toggle checkbox">
-        <input type="checkbox" name="keep" id="keep" tabindex="3">
+        <input type="checkbox" name="keep" id="keep">
         <label for="keep">Keep me logged in</label>
       </div>
-  </form></div>
-  <div class="center aligned column">
-    <a class="huge green ui labeled icon button" href="register" tabindex="5">
-      <i class="signup icon"></i>Register
-    </a>
+      <button type="submit" class="ui large right floated right labeled icon primary button">
+        Log in
+        <i class="sign in icon"></i>
+      </button>
+    </form>
   </div>
-  <div class="ui vertical divider">Or</div>
+  <div class="ui inverted vertical divider">Or</div>
+  <div class="eight wide center aligned column">
+    <a href="register" class="ui big primary button">Register</a>
+    <div class="ui hidden divider"></div>
+    <a href="<?=$data['fbLoginUrl']?>" class="ui big facebook button">Login with Facebook</a>
+  </div>
 </div>
+
+</div>
+
+</div></div></div>
