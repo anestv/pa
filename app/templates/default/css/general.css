@@ -1,7 +1,3 @@
-html {height:100%;}
-
-body {background: radial-gradient(#e0f5fd, #5099e9) fixed;}
-
 .aloneInPage{margin-top:5em !important;}
 
 input:invalid, textarea:invalid {outline-color: red;}

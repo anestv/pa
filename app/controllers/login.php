@@ -27,7 +27,7 @@ class Login extends \core\controller{
         $pass = $_POST['pass'];
       else throw new Exception('You did not enter a password');
       
-      $this->user = new \models\user($user);
+      $this->user = new \models\User($user);
       
       if (!$this->user->isRealUser())
         throw new Exception('This user doesn\'t exist. Do you want to <a href="register">register</a>?');

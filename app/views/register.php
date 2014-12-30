@@ -28,7 +28,7 @@
     </div>
     <div class="field">
       <div class="ui blue pointing below label">Enter something random</div>
-      <input type="text" maxlength="50" name="rand" placeholder="randomness" required>
+      <input type="text" maxlength="50" name="rand" placeholder="randomness" required autocomplete="off">
     </div>
     <div class="inline field">
       <div class="ui checkbox">

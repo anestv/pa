@@ -8,7 +8,7 @@ if ($data['scripts']['jquery.age'])
 
 if (isset($data['scripts']['custom']))
   foreach ($data['scripts']['custom'] as $script)
-    echo '<script src="'. helpers\url::get_template_path() ."js/$script\"></script>\n";
+    echo '<script src="'. helpers\Url::get_template_path() ."js/$script\"></script>\n";
 ?>
 </body>
 </html>
