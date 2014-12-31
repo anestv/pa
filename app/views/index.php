@@ -23,4 +23,10 @@ if ($_SESSION['registerSuccess']){
   echo '<div class="ui success message"><i class="checkmark icon">'.
     '</i>Your account has been created and you are logged in!</div>';
 }
+
+if ($_SESSION['preventDelete']){
+  unset($_SESSION['preventDelete']);
+  echo '<div class="ui success message"><i class="checkmark icon"></i>'.
+    'Welcome back! Your account has been restored from hibernation</div>';
+}
 ?>

@@ -35,7 +35,7 @@ class Login extends \core\controller{
       if (!$this->user->checkPassword($pass))
         throw new Exception('The password you entered is incorrect');
       
-      $recovered = $this->user->preventDeletion();
+      $_SESSION['preventDelete'] = $this->user->preventDeletion();
       
       if (!empty($_POST["keep"]))
         session_set_cookie_params(60*60*24*7); //1 evdomada
