@@ -9,21 +9,21 @@ function writeDropdown($name, $values, $strings = null){
   $user = $GLOBALS['user']->raw;
   if ($strings === null) $strings = $values;
   
-  echo '<select required name="'.$name.'" class="ui dropdown">';
+  echo "<select required name='$name' class='ui dropdown'>";
   echo '<option value="">Select one</option>'; //placeholder, required for valid html5
   
   for ($i = 0; $i < count($values); $i++){
-    $state = ($user[$name] === $values[$i])? ' selected' :'';
-    echo '<option value="'.$values[$i]."\"$state>".$strings[$i].'</option>';
+    $state = ($user[$name] === $values[$i])? 'selected' :'';
+    echo "<option value='$values[$i]' $state>$strings[$i]</option>";
   }
   echo '</select>';
 }
 ?>
-<main>
-<h1 class="ui top attached center aligned orange inverted block header">
-  <a href="."><i class="home link icon"></i></a>Settings
+<div class="ui page grid"><main class="centered column">
+<h1 class="ui top attached center aligned purple block header">
+  Settings
 </h1>
-<form method="post" class="ui bottom attached form segment<?php if ($GLOBALS['warnMessage']) echo ' warning'?>">
+<form method="post" class="ui bottom attached form segment <?php if ($GLOBALS['warnMessage']) echo 'warning'?>">
   <div class="ui warning message">
     Hmm, there were some problems:
     <ul><?=$GLOBALS['warnMessage']?></ul>
@@ -32,7 +32,8 @@ function writeDropdown($name, $values, $strings = null){
 <?php
 if ($_SESSION['removeFbSuccess']){
   unset($_SESSION['removeFbSuccess']);
-  echo '<div class="ui success message"><i class="checkmark icon"></i>Your account has been disconnected from Facebook</div>';
+  echo '<div class="ui success message"><i class="checkmark icon"></i>'.
+    'Your account has been disconnected from Facebook</div>';
 } 
 
 if ($_SESSION['mustAddPassword']){
@@ -42,7 +43,7 @@ if ($_SESSION['mustAddPassword']){
 }
 ?>
 
-  <div class="ui three column doubling grid">
+  <div class="ui three column stackable grid">
     <div class="column">
       <h3 class="ui header">Account</h3>
       <div class="field">
@@ -50,19 +51,19 @@ if ($_SESSION['mustAddPassword']){
         <input type="text" name="realname" required value="<?=$data['u']['realname']?>" placeholder="Your real name" maxlength="40">
       </div>
       <div class="ui vertical fluid menu">
-        <a href="friends" class="item"><i class="users icon"></i>Your Friends</a>
+        <a href="friends" class="item">Your Friends<i class="users icon"></i></a>
 <?php
 // we dont use $data['u'] to be able to access connectedFb 
 if ($GLOBALS['user']->hs_pass == '-')
-  echo '<a href="changepass" class="item"><i class="lock icon"></i>Set a password</a>';
+  echo '<a href="changepass" class="item">Set a password<i class="lock icon"></i></a>';
 else {
-  echo '<a href="changepass" class="item"><i class="lock icon"></i>Change your password</a>';
+  echo '<a href="changepass" class="item">Change your password<i class="lock icon"></i></a>';
   
   if ($GLOBALS['user']->connectedFb)
-    echo '<a href="api/disconnectFb" class="item"><i class="facebook icon"></i>Disonnect from Facebook</a>';
-  else echo '<a href="api/connectFb" class="item"><i class="facebook icon"></i>Connect with Facebook</a>';
+    echo '<a href="api/disconnectFb" class="item">Disonnect from Facebook<i class="facebook icon"></i></a>';
+  else echo '<a href="api/connectFb" class="item">Connect with Facebook<i class="facebook icon"></i></a>';
 } ?>
-        <a href="deleteaccount" class="red item"><i class="off icon"></i>Delete your Account</a>
+        <a href="deleteaccount" class="red item">Delete your Account<i class="power icon"></i></a>
       </div>
     </div>
     <div class="column">
@@ -105,11 +106,11 @@ else {
       
     </div>
   </div>
-  
+  <br>
   <button type="submit" class="ui animated positive centered button">
     <div class="visible content">Save</div>
     <div class="hidden content"><i class="save icon"></i></div>
   </button>
   
 </form>
-</main>
+</main></div>
