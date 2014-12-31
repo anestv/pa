@@ -10,9 +10,6 @@ h1.ui.header > object {
 
 img#unstable {
   height: 8rem;
-  position: absolute;
-  right: 17rem;
-  top: 0;
 }
 
 .ribbon {
@@ -23,8 +20,6 @@ img#unstable {
   background: linear-gradient(to bottom, #CCC, #888);
   box-shadow: rgba(0,0,0,0.3) 0 1px 1px;
   font-family: 'Helvetica Neue',Helvetica, sans-serif;
-  right: 0;
-  top: 0;
 }
 .ribbon h1 {
   font-size: 1.5em!important;

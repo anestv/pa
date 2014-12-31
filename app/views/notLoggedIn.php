@@ -1,27 +1,31 @@
-<div class="ui one column page grid"><div class="centered column"><div class="ui padded grid">
+<div class="ui page grid"><div class="centered column"><div class="ui padded grid">
 
-<div class="row">
+<header class="row">
+
+<div class="eight wide computer eight wide tablet sixteen wide mobile column">
   <h1 class="ui inverted header">
     Welcome to PrivateAsk!
   </h1>
-  
+  <h5 class="ui inverted header">You control who can ask you and who can see what you answer!</h5>
+</div>
+<div class="four wide computer four wide tablet eight wide mobile center aligned column">
   <img src="images/unstable.png" alt="Unstable version" id="unstable" title="This site is under development">
-  
+</div>
+<div class="four wide computer four wide tablet eight wide mobile column">
   <a href="https://github.com/anestv/pa" class="ribbon">
     <div class="stitches-top"></div>
     <strong class="content"><h1>Find us on GitHub</h1></strong>
     <div class="stitches-bottom"></div>
   </a>
-  
-  <h5 class="ui inverted header">You control who can ask you and who can see what you answer!</h5>
-  
 </div>
+
+</header>
 
 <?php
 if ($_SESSION['deleteAccSuccess']){
   unset($_SESSION['deleteAccSuccess']);
-  echo '<div class="row">
-  <div class="ui large hidden info message">
+  echo '<div class="sixteen wide column">
+  <div class="ui large info message">
     <i class="info icon"></i>
     Your account has been deactivated and will be deleted in 7 days unless you log in
   </div></div>';
