@@ -29,4 +29,3 @@ class Settings extends \core\controller {
     $this->get();
   }
 }
-?>

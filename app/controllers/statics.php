@@ -23,4 +23,3 @@ class Statics extends \core\controller {
     View::rendertemplate('footer', $data);
   }
 }
-?>

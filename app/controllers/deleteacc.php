@@ -34,4 +34,3 @@ class DeleteAcc extends \core\controller {
     }
   }
 }
-?>

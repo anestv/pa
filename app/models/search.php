@@ -110,4 +110,3 @@ class Search extends \core\model {
   }
   
 }
-?>

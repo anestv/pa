@@ -120,4 +120,3 @@ class Question extends \core\controller{
   }
   
 }
-?>

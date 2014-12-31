@@ -351,4 +351,3 @@ class User extends \core\model {
   
 }
  
-?>

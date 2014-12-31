@@ -108,4 +108,3 @@ class FbLogin extends \core\controller{
     \helpers\Url::redirect('settings');
   }
 }
-?>

@@ -28,4 +28,3 @@ class LoadQ extends \core\model {
     return $qset->members; // array of \model\Questions
   }
 }
-?>

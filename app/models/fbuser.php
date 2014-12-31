@@ -110,4 +110,3 @@ class FbUser extends User {
     if (!$res) throw new RuntimeException(self::$_db->error);
   }
 }
-?>

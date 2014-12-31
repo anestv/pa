@@ -119,4 +119,3 @@ class API extends \core\controller{
   }
   
 }
-?>

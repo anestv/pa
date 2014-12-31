@@ -50,4 +50,3 @@ class Friend extends \core\model {
   }
   
 }
-?>

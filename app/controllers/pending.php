@@ -29,4 +29,3 @@ class Pending extends \core\controller {
     View::rendertemplate('footer', $data);
   }
 }
-?>

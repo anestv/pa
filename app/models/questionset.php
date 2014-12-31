@@ -35,4 +35,3 @@ class QuestionSet extends \core\model {
     }
   }
 }
-?>

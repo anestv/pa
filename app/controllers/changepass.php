@@ -42,4 +42,3 @@ class ChangePass extends \core\controller {
     $this->get();
   }
 }
-?>

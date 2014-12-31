@@ -25,4 +25,3 @@ class index extends \core\controller{
     View::rendertemplate('footer',$data);
   }
 }
-?>
