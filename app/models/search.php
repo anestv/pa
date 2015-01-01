@@ -74,7 +74,12 @@ class Search extends \core\model {
     
     if ($_GET['timeanswered']){
       if (preg_match("/^(1|2)\\d{3}-(0[1-9]|10|11|12)$/", $_GET['timeanswered']) === 1){
+        
         $date = $_GET['timeanswered'] . '-01';
+        
+        if (new DateTime($date) > new DateTime()) // if it is a future date
+          throw new Exception('Enter a month in the past');
+        
         $query .= " AND timeanswered BETWEEN '$date' AND '$date' + INTERVAL 1 MONTH - INTERVAL 1 DAY";
       } else throw new InvalidArgumentException('Enter the month in the format yyyy-mm');
     }
@@ -103,10 +108,8 @@ class Search extends \core\model {
     }
     $query .= "whosees = 'all') $sortq LIMIT 50;"; //maybe do something about the limit in the future
     
-    // brand new shiny way! do it with a questionset! all the cool kids use it!
     $qs = new QuestionSet($query);
     
     return $qs->members;
   }
-  
 }
