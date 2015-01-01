@@ -7,7 +7,6 @@ class Search extends \core\controller {
   
   public function get(){
     
-    
     $data['dosearch'] = MSearch::searchQueriesExist();
     
     if ($data['dosearch']){
@@ -29,9 +28,7 @@ class Search extends \core\controller {
       }
     }
     
-    
     $data['title'] = 'Search';
-    $data['styles'] = ['search.css'];
     $data['scripts'] = ['jquery' => 1, 'jquery.age' => 1, 'semantic' => 1];
     $data['scripts']['custom'] = ['search.js'];
     
