@@ -15,6 +15,9 @@ use \core\router as Router;
 // originally was on \core\Controller::__contruct()
 new \core\config();
 
+// initialise db if needed
+require 'install.php';
+
 //define routes
 Router::any('', '\controllers\index@index');
 Router::get('login', '\controllers\login@get');
