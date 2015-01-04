@@ -5,6 +5,6 @@ header#profileHeader {
   margin: 0 1.3em;
   min-height: 2.5em;
 }
-#profileHeader > div:last-child > a {
-  transform: translateY(-30%);
+#profileHeader > div:first-child > a.toggle.button {
+  top: 2em;
 }

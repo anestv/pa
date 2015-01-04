@@ -19,30 +19,22 @@ div.ui.large.warning.message {
 }
 
 div.question:not(.icon) {
-  margin: 1em;
+  margin: 1.2em 1em;
   max-width: 920px;
 }
 
-div.question>.ui.header,.orangeBg {
+div.question>.ui.header {
   background-color: #F8981F;
   background-image: linear-gradient(to bottom, #F8A11F, #EE911D);
   color: #FFF;
-}
-div.question>.ui.header {
   padding-bottom: 0.4em;
 }
 div.question>.ui.header table {width: 100%;}
 div.question>.ui.header table td:nth-child(2){text-align: right;}
-div.question>.ui.header table a {color: #EEE;}
+div.question>.ui.header table a {color: #EEF;}
 div.question>.ui.header table a:hover {color:#FFF;}
-div.question>.ui.header table td:nth-child(2) a{
-  font-size: 0.8em;
-}
+div.question>.ui.header table td:nth-child(2) a { font-size: 0.9em;}
 div.question div.links {float: right;}
-div.question div.links a {
-  text-decoration: none;
-  padding: 1px;
-}
 div.question .ui.segment > h3.header { margin-top: 0;}
 
 /*space for the floated div.links*/
@@ -100,19 +92,4 @@ header#profileHeader i.user.icon {vertical-align: initial;}
   max-width: 480px;
   margin-left: auto!important;
   margin-right: auto!important;
-}
-
-h1.ui.orange.inverted.block.header {
-  background-color: #F8981F;
-  background-image: linear-gradient(to bottom, #F79E2E, #F39826);
-  font-family: 'Segoe UI', 'Trebuchet MS', 'Tahoma', sans-serif;
-  font-weight: 100;
-}
-
-h1.ui.orange.inverted.block.header i.home.icon {
-  float: left;
-  margin-left: 1em;
-  margin-right: -1em;
-  color: #FFF;
-  text-decoration: none;
 }

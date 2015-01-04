@@ -1,16 +1,13 @@
-/*  Will be merged to general.css once
+/* TODO Will be merged to general.css once
 the top bar is added to all pages */
 
 #unansweredCount {
-    background: #D95C5C;
-    padding: 4px 8px;
-    border-radius: 0.5em;
-    font-weight: bold;
-    color: #FFF;
-    font-family: sans-serif;
+  padding: 4px 8px;
+  border-radius: 0.5em;
 }
 nav.ui.menu {
   border-radius: 0;
+  font-family: 'Open Sans'; /* TODO @pageFont from Semantic site theme */
 }
 nav.ui.menu >.item:first-child {
   font-family: Damion, cursive;

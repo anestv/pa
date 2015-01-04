@@ -63,7 +63,7 @@ class FbUser extends User {
       $thirand = base_convert($hexrand, 16, 30);
       $alataki = $thirand. $rand. $thirand; // in case $rand is too small
       $cr_arr = ['salt'=> $alataki, 'cost'=> 10];
-      $hspass = password_hash($pass, PASSWORD_DEFAULT, $cr_arr);
+      $hspass = password_hash($password, PASSWORD_DEFAULT, $cr_arr);
       $passDB = self::$_db->real_escape_string($hspass);
       
     } else $passDB = '-';

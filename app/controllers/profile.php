@@ -20,7 +20,9 @@ class Profile extends \core\controller{
       if ($user->deactivated)
         throw new Exception('This user has deactivated their account.');
       
-      $questions = \models\LoadQ::main($user, 0);
+      try {
+        $questions = \models\LoadQ::main($user, 0);
+      } catch (Exception $e) {}
       
     } catch (Exception $e) {
       self::handleException($e);
@@ -36,7 +38,7 @@ class Profile extends \core\controller{
         'profile.css',
         "/api/profileDisplay/$username"
       ],
-      'bodyData' => 'data-owner="' . $username . '"',
+      'bodyData' => "data-owner='$username'",
       'scripts' => [
         'jquery' => 1,
         'semantic' => 1,
