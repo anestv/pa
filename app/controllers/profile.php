@@ -20,7 +20,9 @@ class Profile extends \core\controller{
       if ($user->deactivated)
         throw new Exception('This user has deactivated their account.');
       
-      $questions = \models\LoadQ::main($user, 0);
+      try {
+        $questions = \models\LoadQ::main($user, 0);
+      } catch (Exception $e) {} // throws exception if user cannot view questions
       
     } catch (Exception $e) {
       self::handleException($e);
