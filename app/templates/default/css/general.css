@@ -36,6 +36,7 @@ div.question>.ui.header table a:hover {color:#FFF;}
 div.question>.ui.header table td:nth-child(2) a { font-size: 0.9em;}
 div.question div.links {float: right;}
 div.question .ui.segment > h3.header { margin-top: 0;}
+body:not([data-owner]) div.question .ui.segment > h3.header { font-family: inherit;}
 
 /*space for the floated div.links*/
 div.question .ui.segment {min-height: 4em;}

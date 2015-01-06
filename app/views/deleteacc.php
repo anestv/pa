@@ -1,7 +1,7 @@
 <main class="center940">
 
-<h1 class="ui red inverted block top attached header">
-  <i class="trash icon"></i> Delete your account
+<h1 class="ui red block center aligned top attached header">
+  Delete your account
 </h1>
 <div class="ui attached segment">
   <p class="ui vertical segment">You are about to delete your account. Your profile and
@@ -21,20 +21,14 @@
     <?=$GLOBALS['warnMessage']?>
   </div>
   <div class="ui two fields">
-    <div class="field"><div class="ui left labeled icon input">
+    <div class="field ui left icon input">
       <i class="user icon"></i>
       <input type="text" placeholder="Username" name="user" required>
-      <div class="ui corner label">
-        <i class="red asterisk icon"></i>
-      </div>
-    </div></div>
-    <div class="field"><div class="ui left labeled icon input">
+    </div>
+    <div class="field ui left icon input">
       <i class="lock icon"></i>
       <input type="password" placeholder="Password" name="pass" required>
-      <div class="ui corner label">
-        <i class="red asterisk icon"></i>
-      </div>
-    </div></div>
+    </div>
   </div>
   <div class="ui centered buttons">
     <a class="ui labeled icon button" id="butCancel" href="." onclick="history.back();return history.length<2;">
