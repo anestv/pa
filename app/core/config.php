@@ -15,15 +15,13 @@ class Config {
   
     //set timezone
     date_default_timezone_set('Europe/Athens');
-  
-    //site address
-    define('BASE_DIR', '/pa/');
-    define('DIR','http://'.$_SERVER['HTTP_HOST'].BASE_DIR);
     
     $sec = parse_ini_file('secrets.ini');
+  
+    //site address
+    define('BASE_DIR', $sec['baseDir']);
+    define('DIR','http://'.$_SERVER['HTTP_HOST'].BASE_DIR);
     
-    //database details ONLY NEEDED IF USING A DATABASE
-    define('DB_TYPE', 'mysql');
     define('DB_HOST', $sec['address']);
     define('DB_NAME', $sec['database']);
     define('DB_USER', $sec['username']);
@@ -40,6 +38,8 @@ class Config {
     
     define("RECAPTCHA_SITEKEY",$sec['recaptchaSitekey']);
     define("RECAPTCHA_SECRET", $sec['recaptchaSecret']);
+    
+    define('CONTACT_URL', $sec['contactUrl']);
     
     //set the default template
     \helpers\session::set('template','default');

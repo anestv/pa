@@ -5,7 +5,7 @@ the top bar is added to all pages */
   padding: 4px 8px;
   border-radius: 0.5em;
 }
-nav.ui.menu {
+nav.ui.menu, footer.ui.menu {
   border-radius: 0;
   font-family: 'Open Sans'; /* TODO @pageFont from Semantic site theme */
 }
@@ -14,4 +14,15 @@ nav.ui.menu >.item:first-child {
   padding-top: 0;
   padding-bottom: 0;
   font-size: 2rem;
+}
+
+#outWrapper {
+  min-height: 100%;
+  margin-bottom: -3.2em; /* 3.2em is the height+margin-top of footer */
+}
+#outWrapper::after {
+  height: 3.2em;
+  width: 100%;
+  display: block;
+  content: '';
 }
