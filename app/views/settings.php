@@ -32,7 +32,7 @@ function writeDropdown($name, $values, $strings = null){
 <?php
 if ($_SESSION['removeFbSuccess']){
   unset($_SESSION['removeFbSuccess']);
-  echo '<div class="ui success message"><i class="checkmark icon"></i>'.
+  echo '<div class="ui visible success message"><i class="checkmark icon"></i>'.
     'Your account has been disconnected from Facebook</div>';
 } 
 
