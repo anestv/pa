@@ -3,7 +3,7 @@
 class Logger {
   
   public static function errorMessage($message = ''){
-    $data = ['title' => 'Error', 'noGeneralCss' => 1, 'error' => $message];
+    $data = ['title' => 'Error', 'error' => $message];
     
     $images = glob(getcwd() . '/images/error/*.jpg'); // get files matching that pattern
     

@@ -10,8 +10,6 @@ class index extends \core\controller{
       return;
     }
     
-    $data['noGeneralCss'] = true;
-    
     View::rendertemplate('header',$data);
     View::render('index', $data);
     View::rendertemplate('footer',$data);
@@ -19,7 +17,6 @@ class index extends \core\controller{
   
   private function notLoggedIn(){
     
-    $data['noGeneralCss'] = true;
     $data['styles'] = ['notLoggedIn.css'];
     
     $data['fbLoginUrl'] = \helpers\MyFB::$facebook->getLoginUrl();

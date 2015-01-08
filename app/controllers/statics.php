@@ -6,7 +6,6 @@ class Statics extends \core\controller {
   public function help(){
     $data['title'] = 'FAQ';
     $data['styles'] = ['help.css'];
-    $data['noGeneralCss'] = true;
     
     View::rendertemplate('header', $data);
     View::render('help', $data);

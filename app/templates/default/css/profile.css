@@ -1,5 +1,9 @@
 header#profileHeader {
   border-radius: 2em;
+  min-width:700px;
+  max-width:900px;
+  display:table;
+  margin:auto;
 }
 #profileHeader > div {
   margin: 0 1.3em;
@@ -7,4 +11,32 @@ header#profileHeader {
 }
 #profileHeader > div:first-child > a.toggle.button {
   top: 2em;
+}
+header#profileHeader h1 {
+  display:inline-block;
+  margin:0.7em;
+}
+header#profileHeader i.user.icon {
+  vertical-align: initial;
+}
+
+form.ask.ui.form {
+  max-width: 420px;
+  margin: 0.6em auto;
+}
+form.ask #askControls {
+  overflow: hidden;
+  padding: 0.6em 0.2em 0;
+}
+
+button#showMore {
+  min-width: 160px;
+  max-width: 260px;
+}
+
+#scrollTop {
+  display: none;
+  position: fixed;
+  right: 5em;
+  bottom: 2em;
 }

@@ -68,7 +68,7 @@ else {
     echo '<div class="ui checkbox"><input type="checkbox" name="pubAsk" id="pubAsk">
       <label for="pubAsk">Show that I asked this question</label></div>';
 ?>
-  <button type="submit" class="ui secondary small animated button">
+  <button type="submit" class="ui secondary small animated right floated button">
     <div class="hidden content"><i class="question icon"></i></div>
     <div class="visible content">Ask</div>
   </button>
@@ -98,7 +98,7 @@ echo '</div>';
 if (isset($num)){
   
   if ($num > 10)
-    echo '<button id="showMore" class="ui button">Show More</button>';
+    echo '<button id="showMore" class="centered ui button">Show More</button>';
   
   if ($num > 4)
     echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';
