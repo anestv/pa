@@ -4,8 +4,3 @@
   left: -100em;
   position: absolute;
 }
-
-.ui.pointing.below.label, .ui.pointing.below.label:before {
-  background-color: #4bf;
-  color: #FFF;
-}

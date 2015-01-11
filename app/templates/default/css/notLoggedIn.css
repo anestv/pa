@@ -1,12 +1,3 @@
-#githubribbon {
-  background: black;
-  color: aliceblue;
-  display: inline-block;
-  position: absolute;
-  padding: 4px 70px;
-  transform: translate(-25%, -35%) rotateZ(-30deg);
-}
-
 h1.ui.black.block.huge.header {
   font-family: segoe ui, trebuchet ms, tahoma, sans-serif;
   font-weight: 100;
@@ -15,4 +6,71 @@ h1.ui.black.block.huge.header {
 h1.ui.header > object {
   float:right;
   margin-top:-0.6em;
+}
+
+img#unstable {
+  height: 8rem;
+}
+
+.ribbon {
+  position: absolute;
+  text-align: center;
+  font-size: .8rem!important;
+  background: darkgray;
+  background: linear-gradient(to bottom, #CCC, #888);
+  box-shadow: rgba(0,0,0,0.3) 0 1px 1px;
+  font-family: 'Helvetica Neue',Helvetica, sans-serif;
+}
+.ribbon h1 {
+  font-size: 1.5em!important;
+  color: white;
+  text-shadow: black 0 1px 0;
+  margin: 0;
+  padding: 0.8em 2em;
+}
+.ribbon:before, .ribbon:after {
+  content: '';
+  position: absolute;
+  display: block;
+  bottom: -1em;
+  border: 1.5em solid #A9A9A9;
+  z-index: -1;
+}
+.ribbon:before {
+  left: -2em;
+  border-right-width: 1.5em;
+  border-left-color: transparent;
+  box-shadow: rgba(0,0,0,0.4) 1px 1px 1px;
+}
+.ribbon:after {
+  right: -2em;
+  border-left-width: 1.5em;
+  border-right-color: transparent;
+  box-shadow: rgba(0,0,0,0.4) -1px 1px 1px;
+}
+.ribbon .content:before, .ribbon .content:after {
+  border-color: #444 transparent transparent;
+  position: absolute;
+  display: block;
+  border-style: solid;
+  bottom: -1em;
+  content: '';
+}
+.ribbon .content:before {
+  left: 0;
+  border-width: 1em 0 0 1em;
+}
+.ribbon .content:after {
+  right: 0;
+  border-width: 1em 1em 0 0;
+}
+.ribbon .stitches-top, .ribbon .stitches-bottom {
+  border-top: 1px dashed rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+}
+.ribbon .stitches-top {
+  margin-top:2px;
+}
+.ribbon .stitches-bottom {
+  margin-bottom:2px;
 }

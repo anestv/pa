@@ -30,13 +30,13 @@ class Register extends \core\controller {
         throw new Exception('You must agree to the Terms and Conditions to use PrivateAsk');
       
       $url = "https://www.google.com/recaptcha/api/siteverify?secret=". RECAPTCHA_SECRET;
-      $url .= "&response=".$_POST['g-recaptcha-response'];
+      $url.= "&response=".$_POST['g-recaptcha-response'];
       
-	  $captcha = json_decode(file_get_contents($url));
+      $captcha = json_decode(file_get_contents($url));
       
-	  if ($captcha and !$captcha->success)
+      if ($captcha and !$captcha->success)
         throw new Exception("You did not pass the captcha");
-	  
+      
       if (isset($_POST["username"]) and trim($_POST["username"]))
         $user = $_POST["username"];
       else throw new Exception("A username was not given");
@@ -74,6 +74,15 @@ class Register extends \core\controller {
     try {
       if (empty($_POST["ToS"]))
         throw new Exception('You must agree to the Terms and Conditions to use PrivateAsk');
+      
+      $url = "https://www.google.com/recaptcha/api/siteverify?secret=". RECAPTCHA_SECRET;
+      $url.= "&response=".$_POST['g-recaptcha-response'];
+      
+      $captcha = json_decode(file_get_contents($url));
+      
+      if ($captcha and !$captcha->success)
+        throw new Exception("You did not pass the captcha");
+      
       
       if (isset($_POST["username"]) and trim($_POST["username"]))
         $user = $_POST["username"];

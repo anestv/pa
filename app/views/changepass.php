@@ -8,15 +8,14 @@ if ($data['noOld']){
 }
 ?>
 <main class="center940">
-<h1 class="ui top attached center aligned block orange inverted header">
-  <a href="./"><i class="home link icon"></i></a>
+<h1 class="ui top attached center aligned block purple header">
   <?=ucfirst($action)/* capitalise first letter*/ ?>
 </h1>
 <div class="ui attached info icon message">
   <i class="info icon"></i>
   <div class="content">
     <div class="header">
-      We're glad to see you want to <?=$action?>!
+      We're glad you want to <?=$action?>!
     </div>
     Reminder: passwords must be 6-100 characters and should be difficult to guess.
   </div>
@@ -45,7 +44,8 @@ if ($data['noOld']){
       </div>
     </div>
   </div>
-  <button type="submit" class="ui centered positive animated fade button">
+  <br>
+  <button type="submit" class="ui centered positive animated button">
     <div class="hidden content"><i class="save icon"></i></div>
     <div class="visible content">Save</div>
   </button>

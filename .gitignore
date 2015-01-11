@@ -1,3 +1,9 @@
 app/core/secrets.ini
 errorlog.html
 vendor/facebook/
+node_modules/semantic-ui/dist/components
+node_modules/semantic-ui/examples
+node_modules/semantic-ui/node_modules
+node_modules/semantic-ui/src/_site
+node_modules/semantic-ui/test
+.c9/

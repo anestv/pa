@@ -38,7 +38,7 @@ class Profile extends \core\controller{
         'profile.css',
         "/api/profileDisplay/$username"
       ],
-      'bodyData' => 'data-owner="' . $username . '"',
+      'bodyData' => "data-owner='$username'",
       'scripts' => [
         'jquery' => 1,
         'semantic' => 1,

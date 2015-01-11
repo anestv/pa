@@ -20,7 +20,7 @@ $data['q']->writeOut(['extended', 'partial']);
       What is wrong with this question / answer?
     </div>
     <div class="ui two column stackable grid">
-      <div class="grouped inline fields column">
+      <div class="grouped fields column">
         <div class="field"><div class="ui radio checkbox">
           <input type="radio" id="ri1" name="reason" value="illegal" required><!--one of all is required-->
           <label for="ri1">It contains illegal stuff</label>
@@ -34,7 +34,7 @@ $data['q']->writeOut(['extended', 'partial']);
           <label for="ri3">It violates the site's <a href="terms">Terms of Service</a></label>
         </div></div>
       </div>
-      <div class="grouped inline fields column">
+      <div class="grouped fields column">
         <div class="field"><div class="ui radio checkbox">
           <input type="radio" id="ri4" name="reason" value="porn">
           <label for="ri4">It contains or links to porn</label>

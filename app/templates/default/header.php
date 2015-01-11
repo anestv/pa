@@ -5,19 +5,58 @@ http://github.com/anestv/pa - Open source: Artistic License 2.0 -->
 <head>
   <meta charset="utf-8">
   <title><?php if (isset($data['title']))echo $data['title'].' - '; echo SITETITLE; //SITETITLE defined in config.php?></title>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.19.3/css/semantic.min.css">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa:700|Damion">
+  
   <?php
   echo '<base href="'. BASE_DIR .'">';
-  if (empty($data['noGeneralCss']))
-    echo '<link href="'.helpers\url::get_template_path().'css/general.css" rel="stylesheet">';
+  
+  echo '<link rel="stylesheet" type="text/css" href="'.helpers\Url::get_template_path().'css/general.css">';
+  
+  //TODO replace with our build
+  echo '<link rel="stylesheet" href="https://pa-anestv-1.c9.io/node_modules/semantic-ui/dist/semantic.min.css">';
   
   if (isset($data['styles']) and is_array($data['styles']))
     foreach($data['styles'] as $style)
       if ($style[0] == '/')
-        echo '<link rel="stylesheet" type="text/css" href="'.substr($style, 1).'">';
+        echo '<link rel="stylesheet" type="text/css" href="'.substr($style, 1).'">'; // remove first slash
       else
-        echo '<link rel="stylesheet" type="text/css" href="'.helpers\url::get_template_path()."css/$style\">";
+        echo '<link rel="stylesheet" type="text/css" href="'.helpers\Url::get_template_path()."css/$style\">";
 ?>
 </head>
 <body <?=$data['bodyData']?>>
+
+<div id="outWrapper">
+<!-- wrapper required for sticky footer bar -->
+
+<?php // TOP BAR
+
+$page = \core\Router::$requestedRelPath;
+$profileUrl = 'user/' . $GLOBALS['user']->username;
+
+if ($GLOBALS['user']->isRealUser()): ?>
+
+<nav class="ui orange inverted fluid menu">
+  <a class="item <?=$page == ''?'active':''?>" href=".">PrivateAsk</a>
+  <a class="item <?=$page == $profileUrl?'active':''?>" href="<?=$profileUrl?>"><i class="user icon"></i>Your profile</a>
+  <a class="item <?=$page == 'search'?'active':''?>" href="search" rel="search"><i class="search icon"></i> Search</a>
+  <a class="item <?=$page == 'pending'?'active':''?>" href="pending"><i class="question icon"></i>
+    Pending Qs <?php
+    $unseen = $GLOBALS['user']->getUnseen();
+    if ($unseen) echo "<div class='ui red label' id='unansweredCount'>$unseen</div>";
+  ?></a>
+  <span class="right menu">
+    <a class="item <?=$page == 'settings'?'active':''?>" href="settings"><i class="setting icon"></i>Settings</a>
+    <a class="item <?=$page == 'help'?'active':''?>" href="help" rel="help"><i class="help icon"></i>Help - FAQ</a>
+    <a class="item" href="logout"><i class="sign out icon"></i>Log out</a>
+  </span>
+</nav>
+<?php else: ?>
+
+<nav class="ui orange inverted fluid menu">
+  <a class="item <?=$page == ''?'active':''?>" href=".">PrivateAsk</a>
+  <a class="item <?=$page == 'search'?'active':''?>" href="search" rel="search"><i class="search icon"></i> Search</a>
+  <span class="right menu">
+    <a class="item <?=$page == 'help'?'active':''?>" href="help" rel="help"><i class="help icon"></i>Help - FAQ</a>
+    <a class="item <?=$page == 'login'?'active':''?>" href="login"><i class="sign out icon"></i>Log in</a>
+  </span>
+</nav>
+<?php endif ?>

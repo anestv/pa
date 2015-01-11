@@ -1,16 +1,19 @@
 <header id="profileHeader">
-  <div><i class="user big circular icon"></i><h1><?=$data['owner']->realname?></h1></div>
   <div>
+    <i class="user big circular icon"></i>
+    <h1 class="header"><?=$data['owner']->realname?></h1>
 <?php
 use \controllers\Profile as Profile;
 
 if ($data['friendBut'] == Profile::FRIEND_REMOVE_BUTTON)
-  echo '<a class="ui active toggle labeled right floated left icon button" '.
+  echo '<a class="ui active toggle right floated labeled icon button" '.
     'href="friends"><i class="user icon"></i><span>Friend</span></a>';
 else if ($data['friendBut'] == Profile::FRIEND_ADD_BUTTON)
-  echo '<a class="ui toggle labeled right floated left icon button" '.
+  echo '<a class="ui toggle right floated labeled icon button" '.
     'href="friends"><i class="user icon"></i><span>Add friend</span></a>';
 ?>
+  </div>
+  <div>
     <span>Username: <?=$data['owner']->username?></span>
   </div>
 </header>
@@ -59,12 +62,13 @@ else {
   <div id="askControls">
 <?php
   if ($data['pubask'] == Profile::PUBASK_ALWAYS)
-    echo "<i>Others will <u>see that you asked</u> this question</i>";
+    echo '<span class="ui purple pointing right label">
+      Others will <u>see that you asked</u> this question</span>';
   else if ($data['pubask'] == Profile::PUBASK_CHOOSE)
-    echo '<label for="publicaskcheckbox"><input type="checkbox" name="pubAsk"
-    id="publicaskcheckbox">Show that I asked this question</label>';
+    echo '<div class="ui checkbox"><input type="checkbox" name="pubAsk" id="pubAsk">
+      <label for="pubAsk">Show that I asked this question</label></div>';
 ?>
-  <button type="submit" class="ui blue small icon animated button">
+  <button type="submit" class="ui secondary small animated right floated button">
     <div class="hidden content"><i class="question icon"></i></div>
     <div class="visible content">Ask</div>
   </button>
@@ -94,7 +98,7 @@ echo '</div>';
 if (isset($num)){
   
   if ($num > 10)
-    echo '<button id="showMore" class="ui button">Show More</button>';
+    echo '<button id="showMore" class="centered ui button">Show More</button>';
   
   if ($num > 4)
     echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';

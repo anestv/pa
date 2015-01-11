@@ -1,6 +1,6 @@
 <?php namespace core;
 
-class Error extends Controller {
+class Error extends controller {
 
 	public function index(){
 		http_response_code(404);

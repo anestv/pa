@@ -6,7 +6,9 @@ if ($GLOBALS['warnMessage'])
   echo '<div class="ui warning message">'.$GLOBALS['warnMessage'].'</div>';
 
 if ($GLOBALS['friendsSuccess'])
-  echo '<div class="center480 ui success message">Your friends have been changed!</div>';
+  echo '<div class="center480 ui success message">
+  <i class="checkmark icon"></i>
+  Your friends have been changed!</div>';
 ?>
 <noscript>
   <div class="ui warning message">
@@ -21,9 +23,10 @@ if ($GLOBALS['friendsSuccess'])
   </form>
 </noscript>
 
-<div class="ui info message">
-  <i class="close icon"></i>
-  <div class="header"><i class="info icon"></i> Here you can edit your friends</div>
+
+<main class="center940">
+<div class="ui top attached info message">
+  <div class="header"><i class="info icon"></i> Edit your friends</div>
   <ul class="list">
     <li>To add a friend, enter the exact username in the field, press
       Enter and click the Save button when done. If you don't know the
@@ -31,27 +34,36 @@ if ($GLOBALS['friendsSuccess'])
     <li>To remove a friend, click the (x) button next to the username.
     <li>You can click at any username to view that profile.
       Please save your friends before doing so.
+    <li>You can also add someone to your friends from their profile.
   </ul>
 </div>
-
-<form method="post" id="friendForm">
-
-<input type="hidden" name="friends" value="<?=$friends_json_html?>">
-<div class="ui action input">
-  <input type="text" id="friendInput" name="friendInput" placeholder="Friend's username" autocomplete="off">
-  <div id="addFriend" class="ui icon button"><i class="add icon"></i></div>
-</div>
-
-<div class="ui divided relaxed animated link list raised segment">
-  <?php 
-  foreach ($data['friends'] as $curr) {
-    echo '<div class="item"><div class="ui right floated circular icon button">';
-    echo '<i class="red remove icon"></i></div><a class="header" href="user/';
-    echo $curr .'">'. "$curr</a></div>";
-  } ?>
-</div>
-
-<button type="submit" class="ui positive centered labeled icon button">
-  <i class="save icon"></i>Save friends
-</button>
+<div class="ui bottom attached segment">
+<form method="post" class="center480">
+  
+  <input type="hidden" name="friends" value="<?=$friends_json_html?>">
+  <div class="ui fluid left icon right action input">
+    <input type="text" id="friendInput" name="friendInput" placeholder="Friend's username" autocomplete="off">
+    <i class="users icon"></i>
+    <div id="addFriend" class="ui black button" tabindex="0">
+      <!-- We should use a button[type=button] so it's focusable,
+        but it doesn't display correctly. See github/SemanticUI#793, #1506-->
+      Add
+    </div>
+  </div>
+  
+  <div class="ui relaxed divided animated list">
+    
+    <?php
+    foreach ($data['friends'] as $curr) {
+      echo '<div class="item"><i class="right floated remove red link icon"></i>';
+      echo "<a class='header' href='user/$curr'>$curr</a></div>\n";
+    } ?>
+  </div>
+  
+  <button type="submit" class="ui centered positive labeled icon button">
+    <i class="save icon"></i>Save friends
+  </button>
+  
 </form>
+</div>
+</main>

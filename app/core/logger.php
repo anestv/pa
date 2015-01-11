@@ -3,7 +3,7 @@
 class Logger {
   
   public static function errorMessage($message = ''){
-    $data = ['title' => 'Error', 'noGeneralCss' => 1, 'error' => $message];
+    $data = ['title' => 'Error', 'error' => $message];
     
     $images = glob(getcwd() . '/images/error/*.jpg'); // get files matching that pattern
     
@@ -21,9 +21,9 @@ class Logger {
     $data['bodyData'] = "style='background-image: url($imgurl);"; // if overlaying backgrounds are not supported
     $data['bodyData'].= "background-image: radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)), url($imgurl)'";
     
-    View::rendertemplate('header', $data);
-    View::render('error/error', $data);
-    View::rendertemplate('footer', $data);
+    view::rendertemplate('header', $data);
+    view::render('error/error', $data);
+    view::rendertemplate('footer', $data);
     exit;
   }
   

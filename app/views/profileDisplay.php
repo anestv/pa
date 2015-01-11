@@ -6,8 +6,11 @@ header#profileHeader,#displayPreview span {
 }
 
 body[data-owner],#displayPreview {
-  font-family: '<?=$data['textfont']?>', Calibri, Arial, sans-serif;
   background-color: <?=$data['backcolor']?>;
   background-image: linear-gradient(to bottom,
-    rgba(0, 0, 0, 0), rgba(60, 60, 60, 0.2));
+    transparent, rgba(60, 60, 60, 0.2));
+}
+
+body[data-owner], body[data-owner] .header, #displayPreview {
+  font-family: '<?=$data['textfont']?>', Calibri, Arial, sans-serif;
 }

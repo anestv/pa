@@ -1,30 +1,21 @@
-body {
-    max-width: 900px;
-    background: aliceblue;
-    margin: auto;
-    padding: .5em;
-}
-
 h1 {
-    font-family: Bookman Old Style, Garamond, serif;
-    text-align: center;
-    color: #092437;
+  font-family: 'Bookman Old Style', Garamond, serif;
+  text-align: center;
 }
 
 h2 {
-    font: bold 1.6em calibri, tahoma, sans-serif;
-    color: #510;
+  font-family: Calibri, Tahoma, sans-serif;
+  color: #510;
 }
 
 h3 {
-    color: #444044;
-    font: bold 1.3em Candara, Tahoma, sans-serif;
+  font-family: Candara, Tahoma, sans-serif;
+  color: #5C365C;
 }
 
-h4 {
-    font-size: 1.1em;
+dfn::before {
+  content: "”";
 }
-
-p {
-    text-align: justify;
+dfn::after {
+  content: "”";
 }
