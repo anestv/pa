@@ -1,4 +1,4 @@
-<?php namespace helpers\links;
+<?php namespace helpers;
 
 /*
 *

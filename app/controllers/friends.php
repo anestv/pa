@@ -49,4 +49,3 @@ class Friends extends \core\controller {
     $this->get();
   }
 }
-?>

@@ -40,4 +40,3 @@ class Search extends \core\controller {
     
   }
 }
-?>
