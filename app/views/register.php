@@ -18,7 +18,9 @@
       <div class="ui blue pointing below label">Real Name: Up to 40 characters</div>
       <input type="text" required maxlength="40" name="real" placeholder="Real Name">
     </div>
+    <?php if (ENABLE_CAPTCHA): ?>
     <div class="g-recaptcha" data-sitekey="<?=RECAPTCHA_SITEKEY ?>"></div>
+    <?php endif; ?>
   </div>
   
   <div class="column">
@@ -51,4 +53,6 @@
 </main>
 
 <!--TODO move the script somewhere else-->
+<?php if (ENABLE_CAPTCHA): ?>
 <script src="https://www.google.com/recaptcha/api.js"></script>
+<?php endif; ?>

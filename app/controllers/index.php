@@ -19,7 +19,10 @@ class index extends \core\controller{
     
     $data['styles'] = ['notLoggedIn.css'];
     
-    $data['fbLoginUrl'] = \helpers\MyFB::$facebook->getLoginUrl();
+    if (ENABLE_FACEBOOK){
+      \helpers\MyFB::setPath('api/facebooklogin');
+      $data['fbLoginUrl'] = \helpers\MyFB::$facebook->getLoginUrl();
+    }
     
     View::rendertemplate('header', $data);
     View::render('notLoggedIn', $data);

@@ -8,7 +8,11 @@ class Login extends \core\controller{
     $this->requireUser('notloggedin');
     
     $data['title'] = 'Login';
-    $data['fbLoginUrl'] = \helpers\MyFB::$facebook->getLoginUrl();
+    
+    if (ENABLE_FACEBOOK){
+      \helpers\MyFB::setPath('api/facebooklogin');
+      $data['fbLoginUrl'] = \helpers\MyFB::$facebook->getLoginUrl();
+    }
     
     View::rendertemplate('header',$data);
     View::render('login',$data);

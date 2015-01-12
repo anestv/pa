@@ -29,13 +29,7 @@ class Register extends \core\controller {
       if (empty($_POST["ToS"]))
         throw new Exception('You must agree to the Terms and Conditions to use PrivateAsk');
       
-      $url = "https://www.google.com/recaptcha/api/siteverify?secret=". RECAPTCHA_SECRET;
-      $url.= "&response=".$_POST['g-recaptcha-response'];
-      
-      $captcha = json_decode(file_get_contents($url));
-      
-      if ($captcha and !$captcha->success)
-        throw new Exception("You did not pass the captcha");
+      self::checkCaptcha();
       
       if (isset($_POST["username"]) and trim($_POST["username"]))
         $user = $_POST["username"];
@@ -75,14 +69,7 @@ class Register extends \core\controller {
       if (empty($_POST["ToS"]))
         throw new Exception('You must agree to the Terms and Conditions to use PrivateAsk');
       
-      $url = "https://www.google.com/recaptcha/api/siteverify?secret=". RECAPTCHA_SECRET;
-      $url.= "&response=".$_POST['g-recaptcha-response'];
-      
-      $captcha = json_decode(file_get_contents($url));
-      
-      if ($captcha and !$captcha->success)
-        throw new Exception("You did not pass the captcha");
-      
+      self::checkCaptcha();
       
       if (isset($_POST["username"]) and trim($_POST["username"]))
         $user = $_POST["username"];
@@ -129,5 +116,17 @@ class Register extends \core\controller {
     View::rendertemplate('header', $data);
     View::render('registerFb', $data);
     View::rendertemplate('footer', $data);
+  }
+  
+  private static function checkCaptcha(){
+    if (! ENABLE_CAPTCHA) return;
+    
+    $url = "https://www.google.com/recaptcha/api/siteverify?secret=". RECAPTCHA_SECRET;
+    $url.= "&response=".$_POST['g-recaptcha-response'];
+    
+    $captcha = json_decode(file_get_contents($url));
+    
+    if ($captcha and !$captcha->success)
+      throw new Exception("You did not pass the captcha");
   }
 }

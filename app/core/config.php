@@ -12,12 +12,11 @@ class Config {
   
     set_exception_handler('core\logger::exception_handler');
     set_error_handler('core\logger::error_handler');
-  
-    //set timezone
-    date_default_timezone_set('Europe/Athens');
     
     $sec = parse_ini_file('secrets.ini');
-  
+    
+    date_default_timezone_set($sec['timezone']);
+    
     //site address
     define('BASE_DIR', $sec['baseDir']);
     define('DIR','http://'.$_SERVER['HTTP_HOST'].BASE_DIR);
@@ -30,21 +29,24 @@ class Config {
     //set prefix for sessions
     define('SESSION_PREFIX','pa_');
     
-    //optionall create a constant for the name of the site
     define('SITETITLE','PrivateAsk');
     
-    //Facebook app id
-    define('FACEBOOK_APP_ID', $sec['fbAppId']);
+    if ($sec['fbAppId'] || $sec['fbAppSecret']){ // at least one is defined
+      define('ENABLE_FACEBOOK', true);
+      \Facebook\FacebookSession::setDefaultApplication($sec['fbAppId'], $sec['fbAppSecret']);
+    } else
+      define('ENABLE_FACEBOOK', false);
     
-    define("RECAPTCHA_SITEKEY",$sec['recaptchaSitekey']);
-    define("RECAPTCHA_SECRET", $sec['recaptchaSecret']);
+    if ($sec['recaptchaSitekey'] || $sec['recaptchaSecret']){
+      define('ENABLE_CAPTCHA', true);
+      define('RECAPTCHA_SITEKEY',$sec['recaptchaSitekey']);
+      define('RECAPTCHA_SECRET', $sec['recaptchaSecret']);
+    } else
+      define('ENABLE_CAPTCHA', false);
     
     define('CONTACT_URL', $sec['contactUrl']);
     
     //set the default template
     \helpers\session::set('template','default');
-    
-    \helpers\MyFB::init($sec['fbAppSecret']);
   }
-  
 }

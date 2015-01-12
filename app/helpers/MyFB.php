@@ -4,13 +4,6 @@ class MyFB {
   
   static $facebook;
   
-  public static function init($secret){
-    
-    \Facebook\FacebookSession::setDefaultApplication(FACEBOOK_APP_ID, $secret);
-    
-    self::setPath('api/facebooklogin');
-  }
-  
   public static function setPath($url){
     self::$facebook = new \Facebook\FacebookRedirectLoginHelper(DIR .$url);
     return self::$facebook;

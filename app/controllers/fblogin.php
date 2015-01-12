@@ -8,7 +8,7 @@ class FbLogin extends \core\controller{
     $this->requireUser('notloggedin');
     
     try {
-      $fb = \helpers\MyFB::$facebook;
+      $fb = \helpers\MyFB::setPath('api/facebooklogin');
       
       $sess = $fb->getSessionfromRedirect();
       

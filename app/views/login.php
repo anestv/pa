@@ -45,11 +45,13 @@ if ($_SESSION['userNotFound']){
       Log in<i class="sign in icon"></i>
     </button>
   </form>
+  <?php if (ENABLE_FACEBOOK): ?>
   <div class="ui attached segment">
     <a href="<?=$data['fbLoginUrl']?>" class="ui facebook fluid button">
       <i class="facebook icon"></i>Login with Facebook
     </a>
   </div>
+  <?php endif; ?>
   <div class="ui bottom attached icon message">
     <i class="signup icon"></i>
     <div class="content">

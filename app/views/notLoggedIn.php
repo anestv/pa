@@ -59,8 +59,10 @@ if ($_SESSION['deleteAccSuccess']){
   <div class="ui inverted vertical divider">Or</div>
   <div class="eight wide center aligned column">
     <a href="register" class="ui big primary button">Register</a>
+    <?php if (ENABLE_FACEBOOK): ?>
     <div class="ui hidden divider"></div>
     <a href="<?=$data['fbLoginUrl']?>" class="ui big facebook button">Login with Facebook</a>
+    <?php endif; ?>
   </div>
 </div>
 
