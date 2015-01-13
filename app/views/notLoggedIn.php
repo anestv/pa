@@ -9,7 +9,7 @@
   <h5 class="ui inverted header">You control who can ask you and who can see what you answer!</h5>
 </div>
 <div class="four wide computer four wide tablet eight wide mobile center aligned column">
-  <img src="images/unstable.png" alt="Unstable version" id="unstable" title="This site is under development">
+  <img src="resources/images/unstable.png" alt="Unstable version" id="unstable" title="This site is under development">
 </div>
 <div class="four wide computer four wide tablet eight wide mobile column">
   <a href="https://github.com/anestv/pa" class="ribbon">

@@ -9,7 +9,7 @@ http://github.com/anestv/pa - Open source: Artistic License 2.0 -->
   <?php
   echo '<base href="'. BASE_DIR .'">';
   
-  echo '<link rel="stylesheet" type="text/css" href="'.helpers\Url::get_template_path().'css/general.css">';
+  echo '<link rel="stylesheet" type="text/css" href="resources/css/general.css">';
   
   //TODO replace with our build
   echo '<link rel="stylesheet" href="https://pa-anestv-1.c9.io/node_modules/semantic-ui/dist/semantic.min.css">';
@@ -19,7 +19,7 @@ http://github.com/anestv/pa - Open source: Artistic License 2.0 -->
       if ($style[0] == '/')
         echo '<link rel="stylesheet" type="text/css" href="'.substr($style, 1).'">'; // remove first slash
       else
-        echo '<link rel="stylesheet" type="text/css" href="'.helpers\Url::get_template_path()."css/$style\">";
+        echo "<link rel='stylesheet' type='text/css' href='resources/css/$style'>";
 ?>
 </head>
 <body <?=$data['bodyData']?>>

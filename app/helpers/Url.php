@@ -14,8 +14,4 @@ class Url {
     
     die;
   }
-  
-  public static function get_template_path(){
-      return BASE_DIR .'app/templates/'.Session::get('template').'/';
-  } 
 }

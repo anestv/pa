@@ -5,7 +5,7 @@ class Logger {
   public static function errorMessage($message = ''){
     $data = ['title' => 'Error', 'error' => $message];
     
-    $images = glob(getcwd() . '/images/error/*.jpg'); // get files matching that pattern
+    $images = glob(getcwd() . '/resources/images/error/*.jpg'); // get files matching that pattern
     
     $img = $images[array_rand($images)];
     
@@ -13,7 +13,7 @@ class Logger {
       $exif = exif_read_data($img);
     
     if ($exif){
-      $imgurl = BASE_DIR.'images/error/'.$exif['FileName'];
+      $imgurl = 'resources/images/error/'.$exif['FileName'];
       $data['imagedata'] = "Image by {$exif['Artist']}, licensed under {$exif['Copyright']}";
     }
     
