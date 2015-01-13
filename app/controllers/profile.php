@@ -36,6 +36,7 @@ class Profile extends \core\controller{
       'title' => $username,
       'styles' => [
         'profile.css',
+        'fonts/customFonts.css',
         "/api/profileDisplay/$username"
       ],
       'bodyData' => "data-owner='$username'",

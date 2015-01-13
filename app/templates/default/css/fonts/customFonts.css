@@ -1,0 +1,16 @@
+/* Copyright notices are located in the same directory as this file */
+@font-face {
+  font-family: Aliquam;
+  src: url('Aliquam.ttf');
+}
+@font-face {
+  font-family: Leander;
+  src: url('Leander.ttf');
+}
+@font-face {
+  font-family: Trench;
+  src: url('trench.otf');
+}
+@import url('http://fonts.googleapis.com/css?family=Josefin+Sans:400,700');
+/* Get Josefin Sans from Google Fonts
+   Comfortaa is included from Google Fonts from semantic.css */
