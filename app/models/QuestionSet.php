@@ -5,9 +5,11 @@ use \RuntimeException;
 class QuestionSet extends \core\model {
   
   public $members = [];
+  protected $query; // could be used for debugging
   
   public function __construct($query){
     parent::__construct();
+    $this->query = $query;
     
     /* Instead of calling new Question($qid) n times thus making 3n
     queries to the database (we also call new User), we can just make

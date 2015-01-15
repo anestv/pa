@@ -33,10 +33,3 @@ button#showMore {
   min-width: 160px;
   max-width: 260px;
 }
-
-#scrollTop {
-  display: none;
-  position: fixed;
-  right: 5em;
-  bottom: 2em;
-}

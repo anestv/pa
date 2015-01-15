@@ -9,7 +9,7 @@ if ($data['scripts']['jquery.age'])
 
 if (isset($data['scripts']['custom']))
   foreach ($data['scripts']['custom'] as $script)
-    echo "<script src='resoucres/js/$script'></script>\n";
+    echo "<script src='resources/js/$script'></script>\n";
 ?>
 <footer class="ui small borderless menu">
   <span class="item">&copy; PrivateAsk 2015</span>
