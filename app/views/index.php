@@ -15,4 +15,15 @@ if ($_SESSION['preventDelete']){
   echo '<div class="ui success message"><i class="checkmark icon"></i>'.
     'Welcome back! Your account has been restored from hibernation</div>';
 }
+
+echo '<div id="qContainer">';
+
+foreach($data['questions'] as $q)
+  $q->writeOut(['extended']); // use extended to show who it was asked to
+
+echo '</div>';
+
+if (count($data['questions']) > 4)
+  echo '<i id="scrollTop" class="up arrow circular inverted large link icon"></i>';
+
 ?>
