@@ -32,7 +32,7 @@ for opt in $*; do
 done
 
 
-# Args: 1: (string) Promt / question to user
+# Args: 1: (string) Prompt / question to user
 #  2: (int) 1 to run $3 if user said yes, 0 to run $3 if user didn't say yes
 #  3: (string) commands to execute
 # Example: ask_user_yes_no "Build Semantic?" 1 "echo Building"

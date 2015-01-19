@@ -1,7 +1,7 @@
 Options -Indexes
 
 RewriteEngine On
-RewriteBase /pa/
+RewriteBase /
 
 #comment out to keep trailing slashes
 RewriteRule ^(.+)/$ $1 [R=301,L]

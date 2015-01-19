@@ -40,10 +40,10 @@ if ($_SESSION['questionSent']){
 }
 
 if ($data['ask'] == Profile::TRY_LOGIN)
-  echo '<div class="ui large warning message"><i class="warning icon">'.
+  echo '<div class="center480 ui large warning message"><i class="warning icon">'.
     '</i>You must <a href="login">log in</a> to ask a question</div>';
 else if ($data['ask'] != Profile::ABLE)
-  echo '<div class="ui large warning message"><i class="warning icon">'.
+  echo '<div class="center480 ui large warning message"><i class="warning icon">'.
     '</i>Sorry, you do not have the right to ask a question</div>';
 else {
 ?>
@@ -78,7 +78,7 @@ else {
 echo '<div id="qContainer">';
 
 if ($data['see'] == Profile::TRY_LOGIN)
-  echo '<div class="ui large warning message"><i class="warning icon">'.
+  echo '<div class="center480 ui large warning message"><i class="warning icon">'.
     '</i><a href="login">Log in</a> to view this user\'s questions</div>';
 else if ($data['see'] == Profile::ABLE) {
   $num = count($data['questions']);
