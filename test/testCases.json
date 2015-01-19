@@ -1,0 +1,176 @@
+[
+  {
+    "page": ""
+  },
+  {
+    "page": "nowhere",
+    "expect": {
+      "status": 404
+    }
+  },
+  {
+    "page": "login",
+    "post": {
+      "user": "foo",
+      "pass": "bar"
+    },
+    "expect": {
+      "status": 404,
+      "x-error-descr": "No user named foo was found"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "username": "potato"
+    },
+    "expect": {
+      "status": 400,
+      "x-error-descr": "You must agree to the Terms and Conditions to use PrivateAsk"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "ToS": "1",
+      "password": "123456",
+      "real": "A noob",
+      "username": "noob"
+    },
+    "expect": {
+      "status": 400,
+      "x-error-descr": "Enter 5-20 English letters and numbers as username"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "ToS": 1,
+      "rand": "zzgtfjer",
+      "password": "123456",
+      "real": "Real",
+      "username": "sql' AND injection; --"
+    },
+    "expect": {
+      "status": 400,
+      "x-error-descr": "Enter 5-20 English letters and numbers as username"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "ToS": "1",
+      "username": "potato"
+    },
+    "expect": {
+      "status": 400,
+      "x-error-descr": "A password was not given"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "ToS": 1,
+      "username": "potato",
+      "real": "A potato",
+      "rand": "zzgtfjer",
+      "password": "12345"
+    },
+    "expect": {
+      "status": 400,
+      "x-error-descr": "Please enter a password of more than 6 characters"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "ToS": 1,
+      "username": "potato",
+      "rand": "zzgtfjer",
+      "password": "123456"
+    },
+    "expect": {
+      "status": 400,
+      "x-error-descr": "You did not enter your real name"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "ToS": 1,
+      "rand": "zzgtfjer",
+      "password": "123456",
+      "real": "Real",
+      "username": "DeLetedusEr"
+    },
+    "expect": {
+      "status": 400,
+      "x-error-descr": "Do not use 'DeLetedusEr' as a username, as it has a special meaning for the server"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "ToS": 1,
+      "rand": "zzgtfjer",
+      "password": "123456",
+      "real": "Real",
+      "username": "anOnYMouS"
+    },
+    "expect": {
+      "status": 400,
+      "x-error-descr": "Do not use 'anOnYMouS' as a username, as it has a special meaning for the server"
+    }
+  },
+  {
+    "page": "register",
+    "post": {
+      "ToS": 1,
+      "username": "gooduser",
+      "rand": "zzgtfjer",
+      "password": "goodpass",
+      "real": "A real test user!"
+    }
+  },
+  {
+    "page": "user/gooduser"
+  },
+  {
+    "page": "api/ask",
+    "expect": {
+      "status": 404
+    }
+  },
+  {
+    "page": "api/ask",
+    "post": {
+      "to": "gooduser",
+      "question": "Are we logged in?"
+    }
+  },
+  {
+    "page": "question/1/report",
+    "expect": {
+      "status": 400,
+      "x-error-descr": "This question has not been answered yet."
+    }
+  },
+  {
+    "page": "question/5"
+  },
+  {
+    "page": "question/5/delete"
+  },
+  {
+    "page": "question/1/answer",
+    "post": {
+      "answer": "We should be"
+    }
+  },
+  {
+    "page": "question/5/report"
+  },
+  {
+    "page": "logout"
+  }
+]
