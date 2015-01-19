@@ -5,18 +5,17 @@ language: php
 php:
   - 5.5
   - 5.6
-install:
-  - "./install.sh"
 
-before_script:
-  - "mysql-ctl start"
-  - "apache2 -k restart"
+install: ./install.sh
+
+before_script: sudo service apache2 restart
 
 script:
-  - "cd test"
-  - "python3 main.py"
+  - cd test
+  - python3 main.py
 
 after_script:
-  - "cd .."
-  - "apache2 -k stop"
-  - "mysql-ctl stop"
+  - cd ..
+  - mysql -u root -e "DROP DATABASE privateask;"
+  - apache2 -k stop
+  - sudo service mysql stop

@@ -28,8 +28,9 @@ for opt in $*; do
   esac
 done
 
+sudo apt-get update -q
 
-sudo apt-get install apache2
+sudo apt-get install apache2 -q
 sudo a2enmod actions
 sudo a2enmod rewrite
 echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
@@ -47,7 +48,8 @@ mysql -u root -e "SOURCE privateask.sql"
 composer install --no-interaction
 
 
-sudo apt-get install python3
+sudo apt-get install python3 -q
+sudo apt-get autoremove
 
 /bin/cat <<SECRETS > "app/core/secrets.ini"
 
@@ -62,4 +64,4 @@ baseDir = "/"
 
 SECRETS
 
-
+echo "PrivateAsk installation script is complete!"
