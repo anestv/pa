@@ -17,5 +17,5 @@ script:
 after_script:
   - cd ..
   - mysql -u root -e "DROP DATABASE privateask;"
-  - apache2 -k stop
+  - sudo service apache2 stop
   - sudo service mysql stop

@@ -1,4 +1,4 @@
-import external.requests as reqs
+from external import requests as reqs
 
 class request:
   
