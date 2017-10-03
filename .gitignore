@@ -7,6 +7,7 @@ node_modules/semantic-ui/node_modules
 node_modules/semantic-ui/src/_site
 node_modules/semantic-ui/test
 .c9/
+.already_installed
 
 # For testing, we're using server-test which is in Python
 __pycache__/

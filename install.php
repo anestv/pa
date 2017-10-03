@@ -1,6 +1,6 @@
 <?php
 
-$needInstall = true;
+define('INSTALLATION_FLAG_FILE', __DIR__. '/.already_installed');
 
 class Install extends \core\model {
   
@@ -18,14 +18,12 @@ class Install extends \core\model {
     if ($res){
       echo "Successfully ran the db initialisation file($filename)";
       
-      // change this file so it does not run again
-      $thisFile = file(__FILE__);
-      $thisFile[2] = '$needInstall = false;'. PHP_EOL;
-      file_put_contents(__FILE__, $thisFile);
+      // create this file so it does not run again
+      touch(INSTALLATION_FLAG_FILE);
       
     } else
       echo "There was an error initialising the db. ". self::$_db->error;
   }
 }
 
-if ($needInstall) new Install();
+if (!file_exists(INSTALLATION_FLAG_FILE)) new Install();
